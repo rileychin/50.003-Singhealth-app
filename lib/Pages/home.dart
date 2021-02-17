@@ -9,7 +9,7 @@ class Home extends StatefulWidget{
     Key key,
     this.user}) : super(key: key);
 
-  final FirebaseUser user;
+  final User user;
   @override
   _HomeState createState() => _HomeState();
 }
@@ -20,6 +20,8 @@ class _HomeState extends State<Home>{
     return Scaffold(
       appBar: AppBar(
         title:Text('Home ${widget.user.email}'),
+      ),
+      body: StreamBuilder(
       ),
     );
   }

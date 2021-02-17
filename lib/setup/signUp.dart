@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:singhealth_app/Pages/home.dart';
 import 'package:singhealth_app/setup/signIn.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context){
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign in'),
+          title: Text('Sign Up'),
         ),
         body: Form(
             key: _formKey,
@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   obscureText: true,
                 ),
-                ElevatedButton(onPressed: signIn,
+                ElevatedButton(onPressed: signUp,
                   child: Text('Sign Up'),
                 )
               ],
@@ -55,18 +55,20 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void signIn() async{
+  void signUp() async{
     final formState = _formKey.currentState;
     if (formState.validate()){
       formState.save();
       try{
-        AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-        FirebaseUser user = result.user;
+        UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+        User user = result.user;
+        // FirebaseUser user = result.user;
+        // user.sendEmailVerification();
         //Display for the user that we sent an email
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));
       }catch(e){
-        print(e.message);
+        print(e.toString());
 
       }
     }

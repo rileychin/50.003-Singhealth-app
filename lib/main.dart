@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:singhealth_app/setup/signIn.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 void main() {

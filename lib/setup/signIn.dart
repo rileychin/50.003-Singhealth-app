@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:singhealth_app/Pages/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -60,11 +61,14 @@ class _LoginPageState extends State<LoginPage>{
     if (formState.validate()){
       formState.save();
       try{
-        AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        FirebaseUser user = result.user;
+        Firebase.initializeApp();
+        UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        print(_email + _password);
+        User user = result.user;
+        //authentication works but Home not implemented
         Navigator.push(context,MaterialPageRoute(builder:(context) => Home(user:user)));
       }catch(e){
-        print(e.message);
+        print("hello");
 
       }
     }
