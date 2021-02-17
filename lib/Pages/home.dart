@@ -1,28 +1,37 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget{
-
-
+class Home extends StatelessWidget{
   //constructor
-  const Home({
+  Home({
     Key key,
     this.user}) : super(key: key);
 
   final User user;
-  @override
-  _HomeState createState() => _HomeState();
-}
+  final firestoreInstance = FirebaseFirestore.instance;
 
-class _HomeState extends State<Home>{
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title:Text('Home ${widget.user.email}'),
+        title: Text('Home ${user.email}'),
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: firestoreInstance.collection("users").doc(user.uid).snapshots(),
+        builder: (context, snapshot){
+          if (snapshot.hasError){
+            return Text('Error: ${snapshot.error}');
+          }
+          switch (snapshot.connectionState){
+            case ConnectionState.waiting: return Text("loading ...");
+            default:
+              return Text("Welcome ${snapshot.data['name']} you are logged in as ${snapshot.data['type']}");
+          }
+        },
       ),
     );
   }
+
 }

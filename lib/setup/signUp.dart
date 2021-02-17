@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,10 +64,13 @@ class _SignUpState extends State<SignUp> {
         Firebase.initializeApp();
         UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
         User user = result.user;
-        // FirebaseUser user = result.user;
-        // user.sendEmailVerification();
-        //Display for the user that we sent an email
-        //Navigator.of(context).pop();
+
+        FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+          "name" : "riley",
+          "type" : "admin",
+          "email" : _email,
+        });
+
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));
       }catch(e){
         print(e.toString());

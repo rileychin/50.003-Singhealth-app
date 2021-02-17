@@ -63,7 +63,6 @@ class _LoginPageState extends State<LoginPage>{
       try{
         Firebase.initializeApp();
         UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        print(_email + _password);
         User user = result.user;
         //authentication works but Home not implemented
         Navigator.push(context,MaterialPageRoute(builder:(context) => Home(user:user)));
