@@ -12,6 +12,8 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   String _email, _password;
+  String _role = "Staff";
+  int id = 1;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context){
@@ -47,6 +49,48 @@ class _SignUpState extends State<SignUp> {
                   ),
                   obscureText: true,
                 ),
+                Text(
+                  'I am signing up as a: ',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Radio(
+                      value: 1,
+                      groupValue: id,
+                      onChanged: (val) {
+                        setState(() {
+                          _role = 'Staff';
+                          id = 1;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Staff',
+                      style: new TextStyle(fontSize: 17.0),
+                    ),
+
+                    Radio(
+                      value: 2,
+                      groupValue: id,
+                      onChanged: (val) {
+                        setState(() {
+                          _role = 'Tenant';
+                          id = 2;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Tenant',
+                      style: new TextStyle(
+                        fontSize: 17.0,
+                      ),
+                    ),
+                  ]
+                ),
                 ElevatedButton(onPressed: signUp,
                   child: Text('Sign Up'),
                 )
@@ -67,8 +111,9 @@ class _SignUpState extends State<SignUp> {
 
         FirebaseFirestore.instance.collection("users").doc(user.uid).set({
           "name" : "riley",
-          "type" : "admin",
+          "role" : _role,
           "email" : _email,
+
         });
 
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));
