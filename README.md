@@ -19,5 +19,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Features implemented
 
 basic register login template
+
 web support for app development
+
 basic firebase add and retrieval and display
