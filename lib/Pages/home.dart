@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:singhealth_app/classes/firebase.dart';
+import 'package:singhealth_app/classes/camerascreen.dart';
 
 class Home extends StatelessWidget{
   //constructor
@@ -29,10 +30,13 @@ class Home extends StatelessWidget{
             case ConnectionState.waiting: return Text("loading ...");
             default:
               return Text("Welcome ${snapshot.data['name']} you are logged in as ${snapshot.data['role']}");
-          }
-        },
-      ),
-    );
+            }
+      }
+
+      ));
+
+
+
   }
 
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/setup/signIn.dart';
 import 'package:singhealth_app/setup/signUp.dart';
+import 'package:singhealth_app/classes/camerascreen.dart';
 
 
 class WelcomePage extends StatefulWidget {
@@ -30,7 +31,11 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ]
       ),
-    );
+      floatingActionButton: FloatingActionButton.extended(
+          label: Text("camera"),
+          onPressed: () {
+            Navigator.push(context,MaterialPageRoute(builder: (context) => CameraScreen()));
+}   ));
   }
 
   void navigateToSignIn(){
