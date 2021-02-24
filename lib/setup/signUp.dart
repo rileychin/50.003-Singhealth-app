@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:singhealth_app/classes/staff.dart';
+import 'package:singhealth_app/classes/firebase.dart';
+import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/setup/signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -11,7 +15,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  String _email, _password;
+  String _email, _password, _name;
   String _role = "Staff";
   int id = 1;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -26,6 +30,17 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               children: <Widget>[
                 //TODO: Implement fields
+                TextFormField(
+                  validator:(input){
+                    if (input.isEmpty){
+                      return 'Please enter a name';
+                    }
+                  },
+                  onSaved: (input) => _name = input,
+                  decoration: InputDecoration(
+                      labelText: 'Name'
+                  ),
+                ),
                 TextFormField(
                   validator:(input){
                     if (input.isEmpty){
@@ -72,7 +87,6 @@ class _SignUpState extends State<SignUp> {
                       'Staff',
                       style: new TextStyle(fontSize: 17.0),
                     ),
-
                     Radio(
                       value: 2,
                       groupValue: id,
@@ -105,16 +119,19 @@ class _SignUpState extends State<SignUp> {
     if (formState.validate()){
       formState.save();
       try{
-        Firebase.initializeApp();
-        UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-        User user = result.user;
+        User user = await FirebaseFunctions.createUser(_email,_password);
 
-        FirebaseFirestore.instance.collection("users").doc(user.uid).set({
-          "name" : "riley",
-          "role" : _role,
-          "email" : _email,
+        //staff signup
+        if (id == 1){
+          Staff newStaff = new Staff(_name,_email,user.uid,"Singapore General Hospital");
+          FirebaseFunctions.createStaffWithEmailPassword(_name,_email,newStaff);
+        }
 
-        });
+        //tenant signup
+        else if(id == 2){
+          Tenant newTenant = new Tenant(_name,_email,user.uid,"Manager","Singapore General Hospital");
+          FirebaseFunctions.createTenantWithEmailPassword(_email, _password, newTenant);
+        }
 
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));
       }catch(e){
@@ -123,4 +140,6 @@ class _SignUpState extends State<SignUp> {
       }
     }
   }
+
+
 }
