@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'package:singhealth_app/classes/uploadphoto.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
+      home: UploadPhoto(),
     );
   }
 }
