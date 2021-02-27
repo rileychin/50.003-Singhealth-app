@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage>{
   String _email, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Sign in'),
@@ -25,8 +25,8 @@ class _LoginPageState extends State<LoginPage>{
             children: <Widget>[
               //TODO: Implement fields
               TextFormField(
-                validator:(input){
-                  if (input.isEmpty){
+                validator: (input) {
+                  if (input.isEmpty) {
                     return 'Please type an email';
                   }
                 },
@@ -36,8 +36,8 @@ class _LoginPageState extends State<LoginPage>{
                 ),
               ),
               TextFormField(
-                validator:(input){
-                  if (input.length < 6){
+                validator: (input) {
+                  if (input.length < 6) {
                     return 'Your password needs to be at least 6 characters';
                   }
                 },
