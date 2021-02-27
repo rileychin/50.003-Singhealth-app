@@ -23,3 +23,7 @@ basic register login template
 web support for app development
 
 basic firebase add and retrieval and display
+
+institution & corresponding tenants
+
+navigation to tenant home page for now 
