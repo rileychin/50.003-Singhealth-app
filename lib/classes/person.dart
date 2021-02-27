@@ -1,5 +1,6 @@
 class Person {
 
+  //basic features and functions for classes
   String name,email,id;
 
   Person(name,email,id){
