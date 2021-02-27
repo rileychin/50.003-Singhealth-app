@@ -16,11 +16,7 @@ class FirebaseFunctions{
   }
 
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 398a1bdd4877d8d28e6e3aa4456b5a446ef3a687
   static void createStaffWithEmailPassword(String email, String password,Staff newStaff){
 
     FirebaseFirestore.instance.collection("staff").doc(newStaff.id).set({
@@ -29,6 +25,13 @@ class FirebaseFunctions{
       "id" : newStaff.id,
       "institution" : newStaff.institution,
     });
+
+    //add to general users in database, to check for role easily
+    FirebaseFirestore.instance.collection("users").doc(newStaff.id).set({
+      "id" : newStaff.id,
+      "role" : "staff",
+    });
+
   }
 
 
@@ -40,7 +43,18 @@ class FirebaseFunctions{
     "id" : newTenant.id,
     "position" : newTenant.position,
     "institution" : newTenant.institution,
+    "shopName" : newTenant.shopName,
     });
+
+    //add to general users in database, to check for role easily
+    FirebaseFirestore.instance.collection("users").doc(newTenant.id).set({
+      "id" : newTenant.id,
+      "role" : "tenant",
+    });
+
+    //now add new tenant to institution
   }
+
+
 
 }

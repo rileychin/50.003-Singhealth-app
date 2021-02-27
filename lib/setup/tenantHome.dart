@@ -1,10 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/setup/welcome.dart';
 
 
 class TenantHome extends StatefulWidget {
   @override
+
+  final User user;
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  TenantHome({
+    Key key,
+    this.user}) : super(key: key);
+
   _TenantHomeState createState() => _TenantHomeState();
 }
 
@@ -153,22 +165,17 @@ class _TenantHomeState extends State<TenantHome> {
                 label: Text("Sign Out"),
                 textColor: Colors.white,
                 color: Colors.blue[300],
-                onPressed: () {},
+                onPressed: signOut,
             ),
           ]
         ),
       ),
     );
   }
-}
 
-  /*
-  void navigateToSignIn(){
-    Navigator.push(context,MaterialPageRoute(builder: (context) => LoginPage(), fullscreenDialog:true));
-  }
-
-  void navigateToSignUp(){
-    Navigator.push(context,MaterialPageRoute(builder: (context) => SignUp(),fullscreenDialog:true));
+  Future<void> signOut() async{
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 }
-   */
+

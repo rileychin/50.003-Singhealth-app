@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:singhealth_app/Pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:singhealth_app/setup/tenantHome.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage>{
         UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         User user = result.user;
         //authentication works but Home not implemented
-        Navigator.push(context,MaterialPageRoute(builder:(context) => Home(user:user)));
+        Navigator.push(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
       }catch(e){
         print("hello");
 

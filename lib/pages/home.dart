@@ -17,7 +17,7 @@ class Home extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-<<<<<<< HEAD
+
         appBar: AppBar(
           title: Text('Home ${user.email}'),
         ),
@@ -34,25 +34,6 @@ class Home extends StatelessWidget{
               }
             }
         ));
-=======
-      appBar: AppBar(
-        title: Text('Home ${user.email}'),
-      ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: firestoreInstance.collection("users").doc(user.uid).snapshots(),
-        builder: (context, snapshot){
-          if (snapshot.hasError){
-            return Text('Error: ${snapshot.error}');
-          }
-          switch (snapshot.connectionState){
-            case ConnectionState.waiting: return Text("loading ...");
-            default:
-              return Text("Welcome ${snapshot.data['name']} you are logged in as ${snapshot.data['role']}");
-            }
-      }
-
-      ));
->>>>>>> 398a1bdd4877d8d28e6e3aa4456b5a446ef3a687
 
 
 
