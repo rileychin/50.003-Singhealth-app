@@ -16,8 +16,11 @@ class FirebaseFunctions{
   }
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 398a1bdd4877d8d28e6e3aa4456b5a446ef3a687
   static void createStaffWithEmailPassword(String email, String password,Staff newStaff){
 
     FirebaseFirestore.instance.collection("staff").doc(newStaff.id).set({
