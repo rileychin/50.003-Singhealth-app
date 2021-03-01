@@ -85,13 +85,6 @@ class _LoginPageState extends State<LoginPage>{
             Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
           }
         }
-        //
-        // firestoreInstance.collection("users").doc(user.uid).get().then((snapshot) =>
-        // {
-        //   if (snapshot.exists){
-        //    if (snapshot.data['role'] == )
-        //   }
-        // });
 
 
       }catch(e){
