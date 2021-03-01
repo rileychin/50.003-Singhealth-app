@@ -20,7 +20,9 @@ class _SignUpState extends State<SignUp> {
   String _institution = 'CGH';
   //FOR TENANT ONLY
   String _position,_shopName;
-  bool _isFnB = true;
+  //bool _isFnB = true;
+  DateTime contractExpiryDate;
+
   //1 == staff, 2 == tenant
   int id = 1;
 
@@ -169,6 +171,34 @@ class _SignUpState extends State<SignUp> {
                     }).toList(),
                   ),
                 ),
+                //TODO: ADD CONTRACT EXPIRY DATE when the time comes
+                // Visibility(
+                //     visible: checkTenant(),
+                //     child:
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: <Widget>[
+                //             Text(contractExpiryDate.toString()),
+                //             ElevatedButton(
+                //               child:Text("Contract Expiry Date"),
+                //               onPressed: (){
+                //                 showDatePicker(
+                //                   context: context,
+                //                   initialDate: DateTime.now(),
+                //                   firstDate: DateTime.now(),
+                //                   lastDate: DateTime(2030),
+                //                 ).then((date){
+                //                   setState(() {
+                //                     contractExpiryDate = date;
+                //                     Text(contractExpiryDate.toString());
+                //                   });
+                //                 });
+                //               },
+                //             )
+                //           ],
+                //         )
+                //
+                // ),
 
                 ElevatedButton(onPressed: signUp,
                   child: Text('Sign Up'),
