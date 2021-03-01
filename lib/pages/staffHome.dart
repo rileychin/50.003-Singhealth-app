@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/staffTenantDetails.dart';
+import 'package:singhealth_app/Pages/staffUploadPhoto.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 
 class StaffHome extends StatefulWidget {
   @override
-
-
   StaffHome({
     Key key,
     this.user}) : super(key: key);
@@ -36,8 +36,7 @@ class _StaffHomeState extends State<StaffHome> {
 
   Future<dynamic> staffInformation() async {
 
-    final DocumentReference document =   firestoreInstance.collection("staff").doc(user.uid);
-    print(user.uid);
+    final DocumentReference document = firestoreInstance.collection("staff").doc(user.uid);
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data =snapshot.data();
@@ -53,6 +52,8 @@ class _StaffHomeState extends State<StaffHome> {
 
   @override
   Widget build(BuildContext context) {
+    if (data == null) return Center(child: CircularProgressIndicator());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
@@ -128,7 +129,7 @@ class _StaffHomeState extends State<StaffHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToStaffTenantDetails),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                             child: Text("Tenant Details"),
@@ -162,7 +163,7 @@ class _StaffHomeState extends State<StaffHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToStaffUploadPhoto),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                             child: Text("Upload Incident"),
@@ -202,5 +203,13 @@ class _StaffHomeState extends State<StaffHome> {
   }
 
 
+  void navigateToStaffUploadPhoto() async{
+    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user)));
+  }
+
+
+  void navigateToStaffTenantDetails() {
+    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffTenantDetails(user:user,staff:data)));
+  }
 }
 

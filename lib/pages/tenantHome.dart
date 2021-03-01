@@ -54,6 +54,8 @@ class _TenantHomeState extends State<TenantHome> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (data == null) return Center(child: CircularProgressIndicator());
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome ${data["name"]}, you are logged in as tenant'),
