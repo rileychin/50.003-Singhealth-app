@@ -31,11 +31,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ]
         ),
-        floatingActionButton: FloatingActionButton.extended(
-            label: Text("camera"),
-            onPressed: () {
-              Navigator.push(context,MaterialPageRoute(builder: (context) => LoginPage()));
-            }   ));
+    );
   }
 
   void navigateToSignIn(){

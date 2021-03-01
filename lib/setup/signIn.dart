@@ -1,10 +1,14 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:singhealth_app/Pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:singhealth_app/setup/tenantHome.dart';
+import 'package:singhealth_app/Pages/staffHome.dart';
+import 'package:singhealth_app/Pages/tenantHome.dart';
+
+
 
 class LoginPage extends StatefulWidget{
   @override
@@ -66,7 +70,23 @@ class _LoginPageState extends State<LoginPage>{
         UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         User user = result.user;
         //authentication works but Home not implemented
-        Navigator.push(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
+
+        final firestoreInstance = FirebaseFirestore.instance;
+        DocumentSnapshot snapshot = await firestoreInstance.collection("users").doc(user.uid).get();
+
+        if (snapshot.exists) {
+          String role = snapshot.data()['role'];
+
+          if (role == 'tenant'){
+            Navigator.push(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
+          }
+          else{
+            //TODO: change to StaffHome
+            Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
+          }
+        }
+
+
       }catch(e){
         print("hello");
 
