@@ -8,6 +8,7 @@ import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'package:singhealth_app/pages/tenantNoncomplianceReport.dart';
 
 
 class TenantHome extends StatefulWidget {
@@ -141,7 +142,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToTenantAuditChecklist),
+                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: null),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                           child: Text("Audit Checklist"),
@@ -212,6 +213,11 @@ class _TenantHomeState extends State<TenantHome> {
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
+  }
+
+  void navigateToTenantNoncomplianceReport() {
+
+    Navigator.push(context,MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user:user)));
   }
 
   void navigateToTenantAuditChecklist() {
