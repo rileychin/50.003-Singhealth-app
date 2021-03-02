@@ -34,6 +34,7 @@ dependencies:
   camera:
   path_provider:
   path:
+  file_picker:
 
 dev_dependencies:
   flutter_test:

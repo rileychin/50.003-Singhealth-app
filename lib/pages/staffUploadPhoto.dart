@@ -1,5 +1,7 @@
 import 'dart:html';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,13 +29,14 @@ class StaffUploadPhoto extends StatefulWidget {
 class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
 
   String tenantName,location,incidentName,summary,additionalNotes;
-
+  Uint8List data;
   User user;
   FirebaseFirestore firestoreInstance;
   String _institution;
   //used for data snapshots
   dynamic staffData,institutionData;
   DocumentSnapshot staffSnapshot;
+  Image image;
 
 
   //global form key used to validate forms
@@ -89,6 +92,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                     tenantName = newValue;
                   });
                 },
+                //todo: add validator for dropdown button
                 items: Institution.fullTenantList(staffData['institution']).map((shopName) {
                   return DropdownMenuItem(
                     child: new Text(shopName),
@@ -129,12 +133,13 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                     labelText: 'Summary'
                 ),
               ),
+              Container(child:image != null ? image : Text('No photo uploaded')),
               ElevatedButton(onPressed: uploadPhoto,
                 child: Text('Upload Photo'),
               ),
               SizedBox(height: 10),
               ElevatedButton(onPressed: addIncident,
-                child: Text('Sign Up'),
+                child: Text('Confirm'),
               )
             ],
           )
@@ -145,26 +150,43 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   }
 
   //TODO: add upload photo function
-  void uploadPhoto() {
+  Future<void> uploadPhoto() async {
+    FilePickerResult picked = await FilePicker.platform.pickFiles();
+    this.data = picked.files.single.bytes;
+    setState(() {
+      this.image = Image.memory(this.data);
+    });
   }
 
   //TODO: navigate to confirmation page
-  void addIncident() {
+  Future<void> addIncident() async {
     print(staffData['institution']);
     print(tenantName);
     final formState = _formKey.currentState;
     if (formState.validate()){
       formState.save();
+      CollectionReference incidentCollectionRef = FirebaseFirestore.instance.collection("institution").doc(staffData['institution']).collection("tenant").doc(tenantName)
+          .collection("nonComplianceReport");
+      while(true) {
+        DocumentSnapshot docSnap = await incidentCollectionRef.doc(incidentName).get();
+        if (docSnap.exists) {
+          incidentName += ' 2';
+        } else {
+          break;
+        }
+      }
 
-
-      FirebaseFirestore.instance.collection("institution").doc(staffData['institution']).collection("tenant").doc(tenantName)
-          .collection("nonComplianceReport").doc(incidentName).set({
-        "incidentName" : incidentName,
-        "location" : location,
-        "summary" : summary,
-        "status" : "incomplete",
-      });
-
+      if (incidentName != null && location != null && summary != null && data != null) {
+        FirebaseFirestore.instance.collection("institution").doc(
+            staffData['institution']).collection("tenant").doc(tenantName)
+            .collection("nonComplianceReport").doc(incidentName).set({
+          "incidentName": incidentName,
+          "location": location,
+          "summary": summary,
+          "status": "incomplete",
+          "data": data
+        });
+      }
     }
   }
 }
