@@ -11,6 +11,7 @@ import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'package:toast/toast.dart';
 
 class StaffUploadPhoto extends StatefulWidget {
 
@@ -154,14 +155,12 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
     FilePickerResult picked = await FilePicker.platform.pickFiles();
     this.data = picked.files.single.bytes;
     setState(() {
-      this.image = Image.memory(this.data);
+      this.image = Image.memory(this.data,width: 400,height: 400,);
     });
   }
 
   //TODO: navigate to confirmation page
   Future<void> addIncident() async {
-    print(staffData['institution']);
-    print(tenantName);
     final formState = _formKey.currentState;
     if (formState.validate()){
       formState.save();
@@ -187,6 +186,11 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
           "data": data
         });
       }
+      else{
+        Toast.show("Empty fields", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+      }
     }
+    //confirmation and navigation
+    Toast.show("Photo uploaded", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
   }
 }
