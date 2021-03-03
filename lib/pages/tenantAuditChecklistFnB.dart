@@ -4,28 +4,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:singhealth_app/Pages/tenantAuditChecklistFnBTwo.dart';
 
-class TenantAuditChecklistFnB extends StatefulWidget {
 
+class TenantAuditChecklistFnB extends StatefulWidget {
   final User user;
   final dynamic tenant;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  TenantAuditChecklistFnB(
-      {Key key,
-        this.user,
-        this.tenant}) : super(key: key);
+  TenantAuditChecklistFnB({
+    Key key,
+    this.user,
+    this.tenant}) : super(key: key);
 
   @override
-  _TenantAuditChecklistFnBState createState() => _TenantAuditChecklistFnBState(user,tenant);
+  _TenantAuditChecklistFnBState createState() => _TenantAuditChecklistFnBState(user, tenant);
 }
 
 class _TenantAuditChecklistFnBState extends State<TenantAuditChecklistFnB> {
-
   User user;
   dynamic tenant;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  _TenantAuditChecklistFnBState(user,tenant){
+  _TenantAuditChecklistFnBState(user, tenant){
     this.user = user;
     this.tenant = tenant;
   }
@@ -39,8 +38,7 @@ class _TenantAuditChecklistFnBState extends State<TenantAuditChecklistFnB> {
         ),
         body: StreamBuilder(
           stream:
-          firestoreInstance.collection('institution').doc(tenant['institution']).collection('tenant').doc(tenant['shopName'])
-              .collection('auditChecklist').snapshots(),
+          firestoreInstance.collection('institution').doc(tenant['institution']).collection('tenant').doc(tenant['shopName']).collection('auditChecklist').snapshots(),
           builder: buildUserList,
         )
     );
@@ -72,6 +70,5 @@ class _TenantAuditChecklistFnBState extends State<TenantAuditChecklistFnB> {
     else{
       return CircularProgressIndicator();
     }
-
   }
 }

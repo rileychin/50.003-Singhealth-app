@@ -97,27 +97,21 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
   }
 
   void navigateToSubmitAuditChecklist() {
-
     //to allow for navigation to different types of audit checklist
-
     if (nonFnBList.contains(tenantName)){
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
     else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
-
-
   }
 
   void navigateToAuditDetails() {
-
     if (nonFnBList.contains(tenantName)){
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
     else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
-
   }
 }

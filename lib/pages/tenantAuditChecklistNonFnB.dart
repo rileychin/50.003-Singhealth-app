@@ -39,8 +39,7 @@ class _TenantAuditChecklistNonFnBState extends State<TenantAuditChecklistNonFnB>
         ),
         body: StreamBuilder(
           stream:
-          firestoreInstance.collection('institution').doc(tenant['institution']).collection('tenant').doc(tenant['shopName'])
-              .collection('auditChecklist').snapshots(),
+          firestoreInstance.collection('institution').doc(tenant['institution']).collection('tenant').doc(tenant['shopName']).collection('auditChecklist').snapshots(),
           builder: buildUserList,
         )
     );

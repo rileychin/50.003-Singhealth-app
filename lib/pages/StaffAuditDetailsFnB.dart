@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:singhealth_app/Pages/staffAuditDetailsFnBTwo.dart';
 
-class StaffAuditDetailsFnB extends StatefulWidget {
 
+class StaffAuditDetailsFnB extends StatefulWidget {
   final User user;
   final dynamic staff;
   final firestoreInstance = FirebaseFirestore.instance;
@@ -25,8 +25,6 @@ class StaffAuditDetailsFnB extends StatefulWidget {
 }
 
 class _StaffAuditDetailsFnBState extends State<StaffAuditDetailsFnB> {
-
-
   User user;
   dynamic staff;
   final firestoreInstance = FirebaseFirestore.instance;

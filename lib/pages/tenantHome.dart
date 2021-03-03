@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
-import 'package:singhealth_app/pages/tenantViewChecklist.dart';
+import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
+import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/pages/tenantViewPhoto.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
@@ -17,7 +19,6 @@ class TenantHome extends StatefulWidget {
 
   final User user;
   final firestoreInstance = FirebaseFirestore.instance;
-
 
   _TenantHomeState createState() => _TenantHomeState(user,firestoreInstance);
 }
@@ -205,16 +206,20 @@ class _TenantHomeState extends State<TenantHome> {
 
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 
 
   void navigateToTenantViewChecklist() async{
-    Navigator.push(context,MaterialPageRoute(builder:(context) => TenantViewChecklist(user:user)));
+    if (Institution.nonFnBTenantList.contains(data['shopName'])){
+      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistNonFnB(user:user, tenant: data)));
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user:user, tenant: data)));
+    }
   }
 
 
   void navigateToTenantViewPhoto() async{
-    Navigator.push(context,MaterialPageRoute(builder:(context) => TenantViewPhoto(user:user)));
+    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantViewPhoto(user:user)));
   }
 }
