@@ -42,7 +42,7 @@ class _TenantHomeState extends State<TenantHome> {
   Future<dynamic> tenantInformation() async {
 
     final DocumentReference document =   firestoreInstance.collection("tenant").doc(user.uid);
-    print(user.uid);
+
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data =snapshot.data();
@@ -58,6 +58,7 @@ class _TenantHomeState extends State<TenantHome> {
 
   @override
   Widget build(BuildContext context) {
+
 
     if (data == null) return Center(child: CircularProgressIndicator());
     return Scaffold(
@@ -176,11 +177,8 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: null),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          child: Text("Unresolved Incident(s)"),
-                        ),
+                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantNoncomplianceReport),
+                        Text('View non-compliance incidents')
                       ],
                     ),
 
