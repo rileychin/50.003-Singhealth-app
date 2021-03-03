@@ -13,8 +13,8 @@ import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 import 'package:toast/toast.dart';
 
-class StaffUploadPhoto extends StatefulWidget {
 
+class StaffUploadPhoto extends StatefulWidget {
   @override
   StaffUploadPhoto({
     Key key,
@@ -43,7 +43,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   //global form key used to validate forms
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _StaffUploadPhotoState(user,firestoreInstance){
+  _StaffUploadPhotoState(user, firestoreInstance){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
@@ -63,7 +63,6 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   @override
   void initState(){
     super.initState();
-    // staffInformation();
     staffInformation();
   }
 

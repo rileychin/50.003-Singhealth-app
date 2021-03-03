@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/pages/tenantViewChecklist.dart';
+import 'package:singhealth_app/pages/tenantViewPhoto.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 
 class TenantHome extends StatefulWidget {
   @override
-
-
   TenantHome({
     Key key,
     this.user}) : super(key: key);
@@ -23,25 +23,22 @@ class TenantHome extends StatefulWidget {
 }
 
 class _TenantHomeState extends State<TenantHome> {
-
   User user;
   FirebaseFirestore firestoreInstance;
 
   dynamic data;
 
-  _TenantHomeState(user,firestoreInstance){
+  _TenantHomeState(user, firestoreInstance){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
 
-
   Future<dynamic> tenantInformation() async {
 
     final DocumentReference document =   firestoreInstance.collection("tenant").doc(user.uid);
-    print(user.uid);
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
-        data =snapshot.data();
+        data = snapshot.data();
       });
     });
   }
@@ -54,8 +51,8 @@ class _TenantHomeState extends State<TenantHome> {
 
   @override
   Widget build(BuildContext context) {
-
     if (data == null) return Center(child: CircularProgressIndicator());
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome ${data["name"]}, you are logged in as tenant'),
@@ -138,7 +135,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: null),
+                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToTenantViewChecklist),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                           child: Text("Audit Checklist"),
@@ -172,7 +169,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: null),
+                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantViewPhoto),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                           child: Text("Unresolved Incident(s)"),
@@ -212,5 +209,12 @@ class _TenantHomeState extends State<TenantHome> {
   }
 
 
-}
+  void navigateToTenantViewChecklist() async{
+    Navigator.push(context,MaterialPageRoute(builder:(context) => TenantViewChecklist(user:user)));
+  }
 
+
+  void navigateToTenantViewPhoto() async{
+    Navigator.push(context,MaterialPageRoute(builder:(context) => TenantViewPhoto(user:user)));
+  }
+}
