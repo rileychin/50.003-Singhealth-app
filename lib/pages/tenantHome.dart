@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/tenantAuditChecklistFnB.dart';
+import 'package:singhealth_app/Pages/tenantAuditChecklistNonFnB.dart';
+import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
@@ -138,7 +141,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: null),
+                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToTenantAuditChecklist),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                           child: Text("Audit Checklist"),
@@ -211,6 +214,16 @@ class _TenantHomeState extends State<TenantHome> {
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 
+  void navigateToTenantAuditChecklist() {
+    //route to either NonFnB or FnB
+    if(Institution.nonFnBTenantList.contains(data['shopName']))
+      {
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistNonFnB(user:user,tenant:data)));
+      }
+    else{
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistFnB(user:user,tenant:data)));
+    }
 
+  }
 }
 
