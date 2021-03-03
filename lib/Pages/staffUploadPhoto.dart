@@ -172,6 +172,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
         } else {
           break;
         }
+        //todo: add max size check
       }
 
       if (incidentName != null && location != null && summary != null && data != null) {

@@ -8,6 +8,7 @@ import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'package:singhealth_app/pages/tenantNoncomplianceReport.dart';
 
 
 class TenantHome extends StatefulWidget {
@@ -173,10 +174,13 @@ class _TenantHomeState extends State<TenantHome> {
                     Column(
                       children: <Widget> [
                         IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantNoncomplianceReport),
+<<<<<<< HEAD:lib/Pages/tenantHome.dart
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                           child: Text("View non-compliance incidents"),
                         ),
+=======
+>>>>>>> ffd56d223d05106e6a4ec2c37acaf6b7fd09c06b:lib/pages/tenantHome.dart
                       ],
                     ),
 
@@ -213,8 +217,11 @@ class _TenantHomeState extends State<TenantHome> {
 
   void navigateToTenantNoncomplianceReport() {
 
+<<<<<<< HEAD:lib/Pages/tenantHome.dart
     Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user:user)));
   }
+=======
+>>>>>>> ffd56d223d05106e6a4ec2c37acaf6b7fd09c06b:lib/pages/tenantHome.dart
 
   void navigateToTenantAuditChecklist() async{
     if (Institution.nonFnBTenantList.contains(data['shopName'])) {
