@@ -7,7 +7,6 @@ import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
-import 'package:singhealth_app/pages/tenantViewPhoto.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 
@@ -136,7 +135,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToTenantViewChecklist),
+                        IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToTenantAuditChecklist),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
                           child: Text("Audit Checklist"),
@@ -170,7 +169,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantViewPhoto),
+                        IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantNoncomplianceReport),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                           child: Text("Unresolved Incident(s)"),
@@ -209,17 +208,14 @@ class _TenantHomeState extends State<TenantHome> {
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 
+  void navigateToTenantNoncomplianceReport() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user:user)));
+  }
 
-  void navigateToTenantViewChecklist() async{
-    if (Institution.nonFnBTenantList.contains(data['shopName'])){
-      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistNonFnB(user:user, tenant: data)));
+  void navigateToTenantAuditChecklist() async{
+    if (Institution.nonFnBTenantList.contains(data['shopName'])) {
+      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistNonFnB(user: user, tenant: data)));
     } else {
-      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user:user, tenant: data)));
+      Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user: user, tenant: data)));
     }
   }
-
-
-  void navigateToTenantViewPhoto() async{
-    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantViewPhoto(user:user)));
-  }
-}

@@ -6,6 +6,7 @@ import 'package:singhealth_app/Pages/StaffAuditDetailsFnB.dart';
 import 'package:singhealth_app/Pages/StaffAuditDetailsNonFnB.dart';
 import 'package:singhealth_app/Pages/staffSubmitFnBAuditChecklist.dart';
 import 'package:singhealth_app/Pages/staffSubmitNonFnBAuditChecklist.dart';
+import 'package:singhealth_app/classes/institution.dart';
 
 class StaffTenantDetailsTwo extends StatefulWidget {
 
@@ -35,22 +36,6 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
   final firestoreInstance = FirebaseFirestore.instance;
   String tenantName;
   DocumentReference tenantReference;
-
-  List<String> nonFnBList = ['168 Florist','Eu Yan Sang',
-    'Hua Xia Taimobi Centre',
-    'Mothercare',
-    'The Choice Gift House',
-    'B&G LifeCasting',
-    'Junior Page',
-    'Neol Gifts',
-    'Spextacular Optics',
-    'Lifeforce Limbs',
-    'Noel',
-    'Lifeline',
-    'Noel Gifts',
-    'Anytime Fitness',
-    'Kindermusk',
-  ];
 
   _StaffTenantDetailsTwoState(user,staff,tenantName,tenantReference){
     this.user = user;
@@ -97,20 +82,17 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
   }
 
   void navigateToSubmitAuditChecklist() {
-    //to allow for navigation to different types of audit checklist
-    if (nonFnBList.contains(tenantName)){
+    if (Institution.nonFnBTenantList.contains(tenantName)) {
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
-    }
-    else{
+    } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
   }
 
   void navigateToAuditDetails() {
-    if (nonFnBList.contains(tenantName)){
+    if (Institution.nonFnBTenantList.contains(tenantName)) {
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
-    }
-    else{
+    } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
   }
