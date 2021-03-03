@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:singhealth_app/Pages/staffHome.dart';
 import 'package:singhealth_app/classes/LabeledCheckBox.dart';
+import 'package:toast/toast.dart';
 
 class StaffSubmitFnBAuditChecklist extends StatefulWidget {
 
@@ -38,7 +40,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
   String comment;
   String todayDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
 
-  //Professionalism and Staff hygiene list
+  //Scores lists and total score
   List<bool> professionalismAndStaffHygiene = new List.filled(13,false);
   int professionalismAndStaffHygieneScore = 0;
 
@@ -55,8 +57,8 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
   int workplaceSafetyAndHealthScore = 0;
 
   int totalScore = 0;
-  //totalScore = professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + workplaceSafetyAndHealthScore;
-
+  //convert total score to percentage
+  // totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + workplaceSafetyAndHealthScore)/96) * 100).round();
 
   _StaffSubmitFnBAuditChecklistState(user,staff,tenantName,tenantReference){
     this.user = user;
@@ -95,12 +97,12 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                         ],
                       ),
 
-                      //Profession and staff hygiene
-                      Text("1. Professionalism & Staff Hygiene (10%)", textAlign: TextAlign.left),
 
-                      //Professionalism & Staff hygiene (10%)
                       Column(
                           children:<Widget>[
+                            //Profession and staff hygiene
+                            //Professionalism & Staff hygiene (10%)
+                            Text("1. Professionalism & Staff Hygiene (10%)", textAlign: TextAlign.left),
                             Text("Professionalism"),
                             SizedBox(height:10),
                             LabeledCheckbox(
@@ -111,6 +113,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[0] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -122,6 +125,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[1] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -133,6 +137,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[2] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -145,6 +150,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[3] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -156,6 +162,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[4] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -167,6 +174,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[5] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -178,6 +186,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[6] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -189,6 +198,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[7] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -200,6 +210,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[8] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -211,6 +222,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[9] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -222,6 +234,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[10] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -233,6 +246,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[11] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -244,6 +258,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     professionalismAndStaffHygiene[12] = newValue;
                                     professionalismAndStaffHygieneScore = getElements(professionalismAndStaffHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -264,6 +279,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[0] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -275,6 +291,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[1] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -286,6 +303,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[2] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -297,6 +315,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[3] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -308,6 +327,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[4] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -319,6 +339,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[5] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -330,6 +351,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[6] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -341,6 +363,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[7] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -352,6 +375,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[8] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -363,6 +387,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[9] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -374,6 +399,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[10] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -385,6 +411,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[11] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -396,6 +423,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[12] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -407,6 +435,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[13] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -421,6 +450,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[14] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -436,6 +466,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[15] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -447,10 +478,11 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     houseKeepingAndGeneralCleanliness[16] = newValue;
                                     houseKeepingAndGeneralCleanlinessScore = getElements(houseKeepingAndGeneralCleanliness);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
-                            Text("Score: $professionalismAndStaffHygieneScore"),
+                            Text("Score: $houseKeepingAndGeneralCleanlinessScore"),
                             SizedBox(height:10),
 
 
@@ -466,6 +498,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[0] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -477,6 +510,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[1] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -488,6 +522,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[2] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -499,6 +534,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[3] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -510,6 +546,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[4] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -521,6 +558,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[5] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -532,6 +570,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[6] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -543,6 +582,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[7] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -554,6 +594,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[8] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -565,6 +606,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[9] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -576,6 +618,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[10] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -587,6 +630,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[11] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -598,6 +642,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[12] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -610,6 +655,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[13] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -621,6 +667,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[14] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -632,6 +679,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[15] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -643,6 +691,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[16] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -654,6 +703,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[17] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -665,6 +715,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[18] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -676,6 +727,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[19] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -687,6 +739,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[20] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -699,6 +752,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[21] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore  + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -710,6 +764,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[22] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -721,6 +776,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[23] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -732,6 +788,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[24] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -743,6 +800,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[25] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -759,6 +817,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[26] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -770,6 +829,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[27] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -781,6 +841,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[28] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -792,6 +853,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[29] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -803,6 +865,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[30] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -814,6 +877,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[31] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -826,6 +890,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[32] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -837,6 +902,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[33] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -848,6 +914,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[34] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -859,6 +926,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[35] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -870,6 +938,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     foodHygiene[36] = newValue;
                                     foodHygieneScore = getElements(foodHygiene);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -891,6 +960,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[0] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -902,6 +972,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[1] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -913,6 +984,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[2] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -924,6 +996,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[3] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -935,6 +1008,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[4] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -946,6 +1020,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[5] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -957,6 +1032,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[6] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -971,6 +1047,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[7] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -982,6 +1059,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[8] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -993,6 +1071,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[9] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1004,6 +1083,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     healthierChoice[10] = newValue;
                                     healthierChoiceScore = getElements(healthierChoice);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1023,6 +1103,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[0] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1034,6 +1115,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[1] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1045,6 +1127,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[2] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1056,6 +1139,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[3] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1067,6 +1151,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[4] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1078,6 +1163,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[5] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1089,6 +1175,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[6] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1100,6 +1187,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[7] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1111,6 +1199,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[8] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1122,6 +1211,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[9] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1133,6 +1223,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[10] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1147,6 +1238,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[11] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1158,6 +1250,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[12] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1169,6 +1262,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[13] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1182,6 +1276,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[14] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1193,6 +1288,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[15] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1204,6 +1300,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[16] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
@@ -1215,13 +1312,29 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   setState(() {
                                     workplaceSafetyAndHealth[17] = newValue;
                                     workplaceSafetyAndHealthScore = getElements(workplaceSafetyAndHealth);
+                                    totalScore = (((professionalismAndStaffHygieneScore + houseKeepingAndGeneralCleanlinessScore + foodHygieneScore + healthierChoiceScore + workplaceSafetyAndHealthScore)/96) * 100).round();
                                   });
                                 }
                             ),
                             Text("Score: $workplaceSafetyAndHealthScore"),
 
                             //TODO: Add total score
-                            Text("Total Score: $totalScore"),
+                            Text("Total Score: %$totalScore",
+                                style : TextStyle(fontWeight: FontWeight.bold)),
+                            SizedBox(height:10),
+
+                            //display warning if totalscore<95
+                            Visibility(
+                              visible: checkWarning(),
+                              child:
+                                Text("WARNING: Tenant score is currently less than 95%",
+                                    style : TextStyle(fontWeight: FontWeight.bold,fontSize: 20))
+                            ),
+
+                            ElevatedButton(
+                              onPressed: submitChecklist,
+                              child:Text("Submit checklist")
+                            )
 
 
                           ]
@@ -1234,6 +1347,58 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
 
 
     );
+  }
+
+  //TODO: Add submit checklist button, navigate to
+  Future<void> submitChecklist() async {
+    CollectionReference collection = FirebaseFirestore.instance.collection("institution").doc(staff['institution']).collection("tenant").doc(tenantName)
+        .collection("auditChecklist");
+    while(true) {
+      DocumentSnapshot docSnap = await collection.doc(todayDate.toString()).get();
+      if (docSnap.exists) {
+        todayDate += '-2';
+      } else {
+        break;
+      }
+    }
+      //add to firestore
+
+    try{
+      FirebaseFirestore.instance.collection('institution').doc(staff['institution']).collection("tenant")
+          .doc(tenantName).collection("auditChecklist").doc(todayDate).set({
+        "date" : todayDate,
+        "comments" : comment,
+        "auditor" : staff['name'],
+        "warning" : checkWarning(),
+        "professionalismAndStaffHygiene" : professionalismAndStaffHygiene,
+        "professionalismAndStaffHygieneScore" : professionalismAndStaffHygieneScore,
+        "houseKeepingAndGeneralCleanliness" : houseKeepingAndGeneralCleanliness,
+        "houseKeepingAndGeneralCleanlinessScore" : houseKeepingAndGeneralCleanlinessScore,
+        "foodHygiene" : foodHygiene,
+        "foodHygieneScore" : foodHygieneScore,
+        "healthierChoice" : healthierChoice,
+        "healthierChoiceScore" : healthierChoiceScore,
+        "workplaceSafetyAndHealth" : workplaceSafetyAndHealth,
+        "workplaceSafetyAndHealthScore" : workplaceSafetyAndHealthScore,
+        "totalScore" : totalScore
+      });
+      Toast.show("Successfully submitted checklist", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffHome(user: user)));
+    } catch(e){
+        print(e);
+    }
+
+
+
+  }
+
+  bool checkWarning() {
+    if (totalScore < 95){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
 

@@ -5,6 +5,22 @@ class Institution{
   List<String> listOfStaffs;
   List<String> listOfTenants;
 
+  static List<String> nonFnBTenantList =  ['168 Florist','Eu Yan Sang',
+    'Hua Xia Taimobi Centre',
+    'Mothercare',
+    'The Choice Gift House',
+    'B&G LifeCasting',
+    'Junior Page',
+    'Neol Gifts',
+    'Spextacular Optics',
+    'Lifeforce Limbs',
+    'Noel',
+    'Lifeline',
+    'Noel Gifts',
+    'Anytime Fitness',
+    'Kindermusk',
+  ];
+
   static List<String> fullTenantList(String institutionName) {
     switch (institutionName) {
     //Changi General Hospital
@@ -94,5 +110,6 @@ class Institution{
           'Starbucks', 'Mr Bean', '168 Florist'];
     }
   }
+
 
 }
