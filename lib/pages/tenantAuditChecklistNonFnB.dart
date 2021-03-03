@@ -2,42 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:singhealth_app/Pages/staffAuditDetailsFnBTwo.dart';
+import 'package:singhealth_app/Pages/tenantAuditChecklistNonFnBTwo.dart';
 
-class StaffAuditDetailsFnB extends StatefulWidget {
+class TenantAuditChecklistNonFnB extends StatefulWidget {
 
   final User user;
-  final dynamic staff;
+  final dynamic tenant;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  final String tenantName;
-  final DocumentReference tenantReference;
-
-  StaffAuditDetailsFnB({
+  TenantAuditChecklistNonFnB({
     Key key,
     this.user,
-    this.staff,
-    this.tenantName,
-    this.tenantReference}) : super(key: key);
+    this.tenant}) : super(key: key);
 
   @override
-  _StaffAuditDetailsFnBState createState() => _StaffAuditDetailsFnBState(user,staff,tenantName,tenantReference);
+  _TenantAuditChecklistNonFnBState createState() => _TenantAuditChecklistNonFnBState(user,tenant);
 }
 
-class _StaffAuditDetailsFnBState extends State<StaffAuditDetailsFnB> {
-
+class _TenantAuditChecklistNonFnBState extends State<TenantAuditChecklistNonFnB> {
 
   User user;
-  dynamic staff;
+  dynamic tenant;
   final firestoreInstance = FirebaseFirestore.instance;
-  String tenantName;
-  DocumentReference tenantReference;
 
-  _StaffAuditDetailsFnBState(user,staff,tenantName,tenantReference){
+  _TenantAuditChecklistNonFnBState(user,tenant){
     this.user = user;
-    this.staff = staff;
-    this.tenantName = tenantName;
-    this.tenantReference = tenantReference;
+    this.tenant = tenant;
   }
 
   @override
@@ -45,11 +35,11 @@ class _StaffAuditDetailsFnBState extends State<StaffAuditDetailsFnB> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
-          title: Text('$tenantName audits list'),
+          title: Text('${tenant['shopName']} audits list'),
         ),
         body: StreamBuilder(
           stream:
-          firestoreInstance.collection('institution').doc(staff['institution']).collection('tenant').doc(tenantName)
+          firestoreInstance.collection('institution').doc(tenant['institution']).collection('tenant').doc(tenant['shopName'])
               .collection('auditChecklist').snapshots(),
           builder: buildUserList,
         )
@@ -66,7 +56,7 @@ class _StaffAuditDetailsFnBState extends State<StaffAuditDetailsFnB> {
           return ListTile(
 
             selectedTileColor: Colors.amber,
-            onTap: (){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnBTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName,auditChecklist:checklistSnapshot.data())));},
+            onTap: (){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistNonFnBTwo(user:user,tenant:tenant,auditChecklist:checklistSnapshot.data())));},
             title: Text(checklistSnapshot.data()['date']),
             subtitle: Text(checklistSnapshot.data()['auditor']),
           );
