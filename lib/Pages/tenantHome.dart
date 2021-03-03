@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/tenantAuditChecklistFnB.dart';
+import 'package:singhealth_app/Pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
-import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
-import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 
@@ -36,6 +36,7 @@ class _TenantHomeState extends State<TenantHome> {
   Future<dynamic> tenantInformation() async {
 
     final DocumentReference document =   firestoreInstance.collection("tenant").doc(user.uid);
+
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data = snapshot.data();
@@ -51,6 +52,8 @@ class _TenantHomeState extends State<TenantHome> {
 
   @override
   Widget build(BuildContext context) {
+
+
     if (data == null) return Center(child: CircularProgressIndicator());
 
     return Scaffold(
@@ -172,7 +175,7 @@ class _TenantHomeState extends State<TenantHome> {
                         IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantNoncomplianceReport),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                          child: Text("Unresolved Incident(s)"),
+                          child: Text("View non-compliance incidents"),
                         ),
                       ],
                     ),
@@ -209,6 +212,7 @@ class _TenantHomeState extends State<TenantHome> {
   }
 
   void navigateToTenantNoncomplianceReport() {
+
     Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user:user)));
   }
 
@@ -219,3 +223,4 @@ class _TenantHomeState extends State<TenantHome> {
       Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user: user, tenant: data)));
     }
   }
+}
