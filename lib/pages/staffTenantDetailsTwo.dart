@@ -82,10 +82,7 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
   }
 
   void navigateToSubmitAuditChecklist() {
-<<<<<<< HEAD:lib/Pages/staffTenantDetailsTwo.dart
     if (Institution.nonFnBTenantList.contains(tenantName)) {
-=======
->>>>>>> ffd56d223d05106e6a4ec2c37acaf6b7fd09c06b:lib/pages/staffTenantDetailsTwo.dart
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
@@ -93,10 +90,7 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
   }
 
   void navigateToAuditDetails() {
-<<<<<<< HEAD:lib/Pages/staffTenantDetailsTwo.dart
     if (Institution.nonFnBTenantList.contains(tenantName)) {
-=======
->>>>>>> ffd56d223d05106e6a4ec2c37acaf6b7fd09c06b:lib/pages/staffTenantDetailsTwo.dart
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
