@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:singhealth_app/classes/admin.dart';
 import 'package:singhealth_app/classes/staff.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 
@@ -15,6 +16,30 @@ class FirebaseFunctions{
     UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
     User user = result.user;
     return user;
+  }
+
+
+
+  static void createAdminWithEmailPassword(String email, String password,Admin newAdmin){
+
+    FirebaseFirestore.instance.collection("admin").doc(newAdmin.id).set({
+      "name" : newAdmin.name,
+      "email" : newAdmin.email,
+      "id" : newAdmin.id,
+      "institution" : newAdmin.institution,
+    });
+
+    //add to general users in database, to check for role easily
+    FirebaseFirestore.instance.collection("users").doc(newAdmin.id).set({
+      "id" : newAdmin.id,
+      "role" : "admin",
+    });
+
+    //add new staff to institution
+    FirebaseFirestore.instance.collection("institution").doc(newAdmin.institution).collection("admin").doc(newAdmin.id).set({
+      "id": newAdmin.id,
+    });
+
   }
 
   static void createStaffWithEmailPassword(String email, String password,Staff newStaff){

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:singhealth_app/classes/admin.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/staff.dart';
 import 'package:singhealth_app/classes/firebase.dart';
@@ -106,6 +107,20 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Radio(
+                      value: 0,
+                      groupValue: id,
+                      onChanged: (val) {
+                        setState(() {
+                          //Staff login
+                          id = 0;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Admin',
+                      style: new TextStyle(fontSize: 17.0),
+                    ),
+                    Radio(
                       value: 1,
                       groupValue: id,
                       onChanged: (val) {
@@ -135,6 +150,21 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
                   ]
+                ),
+                Visibility(
+                  visible: checkAdmin(),
+                  child:
+                  TextFormField(
+                    validator:(input){
+                      if (input != "admin"){
+                        return 'The secret password does not match';
+                      }
+                    },
+                    onSaved: (input) => _position = input,
+                    decoration: InputDecoration(
+                        labelText: 'SUPER duper whooper Secret "admin" password only'
+                    ),
+                  ),
                 ),
                 Visibility(
                   visible: checkTenant(),
@@ -216,6 +246,13 @@ class _SignUpState extends State<SignUp> {
     else return false;
   }
 
+  bool checkAdmin(){
+    if (id == 0){
+      return true;
+    }
+    else return false;
+  }
+
   void signUp() async{
     final formState = _formKey.currentState;
     if (formState.validate()){
@@ -233,6 +270,13 @@ class _SignUpState extends State<SignUp> {
         else if(id == 2){
           Tenant newTenant = new Tenant(_name,_email,user.uid,_position,_institution,_shopName);
           FirebaseFunctions.createTenantWithEmailPassword(_email, _password, newTenant);
+        }
+
+
+        //admin signup
+        else if (id == 0){
+          Admin newAdmin = new Admin(_name,_email,user.uid,_institution);
+          FirebaseFunctions.createAdminWithEmailPassword(_email, _password, newAdmin);
         }
 
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));

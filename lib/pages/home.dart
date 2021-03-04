@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/camerascreen.dart';
 
+
+//DEFUNKT
 class Home extends StatelessWidget{
   //constructor
   Home({

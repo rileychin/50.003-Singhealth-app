@@ -3,10 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:singhealth_app/Pages/adminHome.dart';
 import 'package:singhealth_app/Pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:singhealth_app/Pages/staffHome.dart';
 import 'package:singhealth_app/Pages/tenantHome.dart';
+import 'package:singhealth_app/classes/institution.dart';
+import 'package:singhealth_app/classes/institution.dart';
 
 
 
@@ -80,15 +83,17 @@ class _LoginPageState extends State<LoginPage>{
           if (role == 'tenant'){
             Navigator.push(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
           }
-          else{
-            //TODO: change to StaffHome
+          else if (role == 'staff'){
             Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
+          }
+          else if (role == 'admin'){
+            Navigator.push(context,MaterialPageRoute(builder:(context) => AdminHome(user:user)));
           }
         }
 
 
       }catch(e){
-        print("hello");
+        print(e);
 
       }
     }

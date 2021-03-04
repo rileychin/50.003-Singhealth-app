@@ -21,6 +21,23 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget> [
+
+              Align(
+                alignment: Alignment.center,
+                child:
+                Container(
+                  height: 400,
+                  width: 400,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                      image: AssetImage('images/SingHealth_Logo.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
+
               ElevatedButton(
                 onPressed: navigateToSignIn,
                 child: Text('Sign in'),

@@ -2,15 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:singhealth_app/Pages/staffTenantDetails.dart';
-import 'package:singhealth_app/Pages/staffUploadPhoto.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 
-class StaffHome extends StatefulWidget {
+class AdminHome extends StatefulWidget {
   @override
-  StaffHome({
+  AdminHome({
     Key key,
     this.user}) : super(key: key);
 
@@ -18,25 +16,25 @@ class StaffHome extends StatefulWidget {
   final firestoreInstance = FirebaseFirestore.instance;
 
 
-  _StaffHomeState createState() => _StaffHomeState(user,firestoreInstance);
+  _AdminHomeState createState() => _AdminHomeState(user,firestoreInstance);
 }
 
-class _StaffHomeState extends State<StaffHome> {
+class _AdminHomeState extends State<AdminHome> {
 
   User user;
   FirebaseFirestore firestoreInstance;
 
   dynamic data;
 
-  _StaffHomeState(user,firestoreInstance){
+  _AdminHomeState(user,firestoreInstance){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
 
 
-  Future<dynamic> staffInformation() async {
+  Future<dynamic> adminInformation() async {
 
-    final DocumentReference document = firestoreInstance.collection("staff").doc(user.uid);
+    final DocumentReference document = firestoreInstance.collection("admin").doc(user.uid);
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data =snapshot.data();
@@ -47,7 +45,7 @@ class _StaffHomeState extends State<StaffHome> {
   @override
   void initState(){
     super.initState();
-    staffInformation();
+    adminInformation();
   }
 
   @override
@@ -56,8 +54,8 @@ class _StaffHomeState extends State<StaffHome> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: Text('Welcome ${data["name"]}, you are logged in as staff'),
+        backgroundColor: Colors.redAccent,
+        title: Text('Welcome ${data["name"]}, you are logged in as admin for ${data['institution']}'),
       ),
       body: Center(
         child: Column(
@@ -85,23 +83,11 @@ class _StaffHomeState extends State<StaffHome> {
                         children: <Widget> [
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                            child: Text("Staff Number: ${data["id"]}"),
+                            child: Text("Admin Number: ${data["id"]}"),
                           ),
                         ],
                       ),
 
-                      Container(
-                        margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            image: AssetImage('images/PolarLogo.jpg'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
                     ],
                   )
               ),
@@ -129,54 +115,10 @@ class _StaffHomeState extends State<StaffHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.clipboard_checklist), onPressed: navigateToStaffTenantDetails),
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 60),
-                            child: Text("Tenant Details"),
-                          ),
-                        ],
-                      ),
-
-                      Column(
-                        children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.document), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.document), onPressed: navigateToAddDeleteTenant),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                            child: Text("Institution Details"),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-              ),
-
-              Container(
-                  margin: EdgeInsets.symmetric(vertical: 25, horizontal: 500),
-                  padding: EdgeInsets.all(25),
-                  color: Colors.red[100],
-                  child: Row(
-                    children: <Widget> [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(25, 10, 50, 10),
-                        child: Text("Non-compliance Incidents"),
-                      ),
-
-                      Column(
-                        children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToStaffUploadPhoto),
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                            child: Text("Upload Incident"),
-                          ),
-                        ],
-                      ),
-
-                      Column(
-                        children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.history), onPressed: null),
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                            child: Text("Review Incident Status"),
+                            child: Text("Add / Delete Tenant at this institution"),
                           ),
                         ],
                       ),
@@ -202,14 +144,9 @@ class _StaffHomeState extends State<StaffHome> {
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 
-
-  void navigateToStaffUploadPhoto() async{
-    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user)));
-  }
-
-
-  void navigateToStaffTenantDetails() {
-    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffTenantDetails(user:user,staff:data)));
+  void navigateToAddDeleteTenant() {
+    //TODO: navigate to add and delete tenant page
+    //Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> adminAddDeleteTenant(user:user,)));
   }
 }
 
