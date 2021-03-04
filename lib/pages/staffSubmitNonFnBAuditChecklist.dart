@@ -538,7 +538,7 @@ class _StaffSubmitNonFnBAuditChecklistState extends State<StaffSubmitNonFnBAudit
                             visible: checkWarning(),
                             child:
                             Text("WARNING: Tenant score is currently less than 95%",
-                                style : TextStyle(fontWeight: FontWeight.bold,fontSize: 20))
+                                style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red))
                         ),
 
                         ElevatedButton(

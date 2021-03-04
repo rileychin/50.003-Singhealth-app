@@ -262,7 +262,8 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   });
                                 }
                             ),
-                            Text("Score: $professionalismAndStaffHygieneScore"),
+                            Text("Score: $professionalismAndStaffHygieneScore",
+                            style: TextStyle(color: Colors.green)),
 
                             //2. Housekeeping & General Cleanliness (20%)
                             Text("2. Housekeeping & General Cleanliness (20%)", textAlign: TextAlign.left),
@@ -482,7 +483,8 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   });
                                 }
                             ),
-                            Text("Score: $houseKeepingAndGeneralCleanlinessScore"),
+                            Text("Score: $houseKeepingAndGeneralCleanlinessScore",
+                                style: TextStyle(color: Colors.green)),
                             SizedBox(height:10),
 
 
@@ -942,7 +944,8 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   });
                                 }
                             ),
-                            Text("Score: $foodHygieneScore"),
+                            Text("Score: $foodHygieneScore",
+                                style: TextStyle(color: Colors.green)),
                             SizedBox(height: 10),
 
 
@@ -1087,7 +1090,8 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   });
                                 }
                             ),
-                            Text("Score: $healthierChoiceScore"),
+                            Text("Score: $healthierChoiceScore",
+                                style: TextStyle(color: Colors.green)),
                             SizedBox(height:10),
 
                             //5. Workplace Safety & Health (20%)
@@ -1316,11 +1320,12 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                                   });
                                 }
                             ),
-                            Text("Score: $workplaceSafetyAndHealthScore"),
+                            Text("Score: $workplaceSafetyAndHealthScore",
+                                style: TextStyle(color: Colors.green)),
 
                             //TODO: Add total score
                             Text("Total Score: %$totalScore",
-                                style : TextStyle(fontWeight: FontWeight.bold)),
+                                style : TextStyle(fontWeight: FontWeight.bold,color: Colors.lime)),
                             SizedBox(height:10),
 
                             //display warning if totalscore<95
@@ -1328,7 +1333,7 @@ class _StaffSubmitFnBAuditChecklistState extends State<StaffSubmitFnBAuditCheckl
                               visible: checkWarning(),
                               child:
                                 Text("WARNING: Tenant score is currently less than 95%",
-                                    style : TextStyle(fontWeight: FontWeight.bold,fontSize: 20))
+                                    style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red))
                             ),
 
                             ElevatedButton(

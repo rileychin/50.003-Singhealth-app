@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/staffHome.dart';
 import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
@@ -192,5 +193,6 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
     }
     //confirmation and navigation
     Toast.show("Photo uploaded", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
   }
 }

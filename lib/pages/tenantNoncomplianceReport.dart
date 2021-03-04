@@ -26,6 +26,11 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   QuerySnapshot incidentData;
   Image image;
 
+  String incidentName;
+  String location;
+  String summary;
+  String status;
+
   _TenantViewNoncomplianceState(user, firestoreInstance) {
     this.user = user;
     this.firestoreInstance = firestoreInstance;
@@ -65,6 +70,12 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
         .collection('nonComplianceReport')
         .doc(dropdownValue)
         .get();
+
+
+    incidentName = docSnap.data()['incidentName'];
+    location = docSnap.data()['location'];
+    summary = docSnap.data()['summary'];
+    status = docSnap.data()['status'];
 
     Uint8List imgData =
     new Uint8List.fromList(docSnap.data()['data'].cast<int>());
@@ -117,6 +128,10 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                             child: Text('Display Image'),
                             onPressed: displayImage,
                           ),
+                          Text("Incident Name: $incidentName"),
+                          Text("Summary: $summary"),
+                          Text("Location: $location"),
+                          Text("Status: $status"),
 
                           Container(
                             child: (image == null) ? Text('No image selected') : image,
