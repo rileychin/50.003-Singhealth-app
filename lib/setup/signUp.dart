@@ -85,6 +85,7 @@ class _SignUpState extends State<SignUp> {
                   value: _institution,
                   onChanged: (newValue) {
                     setState(() {
+                      _shopName = null; //set to null when changed so no contention
                       _institution = newValue;
                       _shopNameList = Institution.fullTenantList(newValue);
                       checkIfChanged = 1;
