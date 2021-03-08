@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:singhealth_app/Pages/adminAddtenant.dart';
+import 'package:singhealth_app/Pages/adminAddTenant.dart';
+import 'package:singhealth_app/Pages/adminDeleteTenant.dart';
 
 class AdminAddDeleteTenant extends StatefulWidget {
 
@@ -52,7 +53,7 @@ class _AdminAddDeleteTenantState extends State<AdminAddDeleteTenant> {
               SizedBox(height:10),
               RaisedButton(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                onPressed: navigateToAdminAddTenant,
+                onPressed: navigateToAdminDeleteTenant,
                 child: Text("Delete an existing tenant"),
               ),
             ],
@@ -67,6 +68,6 @@ class _AdminAddDeleteTenantState extends State<AdminAddDeleteTenant> {
   }
 
   void navigateToAdminDeleteTenant() {
-    //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> AdminDeleteTenant(user:user,admin:admin)));
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> AdminDeleteTenant(user:user,admin:admin)));
   }
 }
