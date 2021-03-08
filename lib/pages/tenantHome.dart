@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/classes/institution.dart';
@@ -27,19 +28,26 @@ class _TenantHomeState extends State<TenantHome> {
   User user;
   FirebaseFirestore firestoreInstance;
 
-  dynamic data;
+  dynamic data,tenantInfo;
 
   _TenantHomeState(user, firestoreInstance){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
 
-  Future<dynamic> tenantInformation() async {
+  Future<dynamic> tenantInformation() async{
     final DocumentReference document =   firestoreInstance.collection("tenant").doc(user.uid);
+
 
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data = snapshot.data();
+      });
+    });
+
+    await firestoreInstance.collection('institution').doc(data['institution']).collection('tenant').doc(data['shopName']).get().then((value)  async{
+      setState(() {
+        tenantInfo = value.data();
       });
     });
   }
@@ -52,7 +60,7 @@ class _TenantHomeState extends State<TenantHome> {
 
   @override
   Widget build(BuildContext context) {
-    if (data == null) return Center(child: CircularProgressIndicator());
+    if (data == null || tenantInfo == null) return Center(child: CircularProgressIndicator());
 
     return Scaffold(
       appBar: AppBar(
@@ -92,7 +100,7 @@ class _TenantHomeState extends State<TenantHome> {
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                        child: Text("Contract Expiry: 01/01/2022"),
+                        child: Text("Contract Expiry: ${tenantInfo['contractExpiry']}"),
                       ),
                     ],
                   ),
@@ -214,7 +222,11 @@ class _TenantHomeState extends State<TenantHome> {
   }
 
   void navigateToTenantAuditChecklist() async{
-    if (Institution.nonFnBTenantList.contains(data['shopName'])) {
+
+    List<dynamic> NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(data['institution']);
+    NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
+
+    if (NonFnBTenantList.contains(data['shopName'])) {
       Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistNonFnB(user: user, tenant: data)));
     } else {
       Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user: user, tenant: data)));

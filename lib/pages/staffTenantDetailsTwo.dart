@@ -6,6 +6,7 @@ import 'package:singhealth_app/Pages/staffAuditDetailsFnB.dart';
 import 'package:singhealth_app/Pages/staffAuditDetailsNonFnB.dart';
 import 'package:singhealth_app/Pages/staffSubmitFnBAuditChecklist.dart';
 import 'package:singhealth_app/Pages/staffSubmitNonFnBAuditChecklist.dart';
+import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/institution.dart';
 
 class StaffTenantDetailsTwo extends StatefulWidget {
@@ -81,16 +82,24 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
     );
   }
 
-  void navigateToSubmitAuditChecklist() {
-    if (Institution.nonFnBTenantList.contains(tenantName)) {
+  void navigateToSubmitAuditChecklist() async{
+
+    List<dynamic> NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(staff['institution']);
+    NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
+
+    if (NonFnBTenantList.contains(tenantName)) {
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
   }
 
-  void navigateToAuditDetails() {
-    if (Institution.nonFnBTenantList.contains(tenantName)) {
+  void navigateToAuditDetails() async{
+
+    List<dynamic> NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(staff['institution']);
+    NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
+
+    if (NonFnBTenantList.contains(tenantName)) {
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
