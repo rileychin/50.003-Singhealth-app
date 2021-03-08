@@ -1,8 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:singhealth_app/classes/LabeledCheckBox.dart';
+import 'package:toast/toast.dart';
+import 'dart:io';
+
+
 
 class StaffAuditDetailsFnBTwo extends StatefulWidget {
 
@@ -728,6 +738,7 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                             Text("WARNING: Tenant score is currently less than 95%",
                                 style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red))
                         ),
+                        ElevatedButton(onPressed: (){sendCSV(staff['email'],'${auditChecklist['date']} audit checklist for $tenantName');} , child: Text("send csv")),
 
                       ]
                   ),
@@ -741,4 +752,18 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
   }
 
   checkWarning() {if (auditChecklist['warning']) return true; else return false;}
+
+  //most likely have to custom send the email
+  void sendCSV(String recipient, String subject) async{
+
+    //add checklist AUTOMATICALLY to body
+
+    String url = 'mailto: $recipient?subject=$subject&body=hello';
+
+    try {
+      await launch(url);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

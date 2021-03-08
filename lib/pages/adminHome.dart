@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
+import 'adminAddDeleteTenant.dart';
+
 
 class AdminHome extends StatefulWidget {
   @override
@@ -146,7 +148,7 @@ class _AdminHomeState extends State<AdminHome> {
 
   void navigateToAddDeleteTenant() {
     //TODO: navigate to add and delete tenant page
-    //Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> adminAddDeleteTenant(user:user,)));
+   Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> AdminAddDeleteTenant(user:user,admin:data)));
   }
 }
 

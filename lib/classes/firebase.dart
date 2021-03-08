@@ -94,19 +94,8 @@ class FirebaseFunctions{
     FirebaseFirestore.instance.collection("institution").doc(newTenant.institution).set({
       "institution": newTenant.institution,
     });
-    FirebaseFirestore.instance.collection("institution").doc(newTenant.institution).collection("tenant").doc(newTenant.shopName).set(
-      {
-        "shopName":newTenant.shopName,
-      }
-    );
 
 
-    //TODO: decide who settles the contract expiry date for the tenant shops
-    // FirebaseFirestore.instance.collection("institution").doc(newTenant.institution).collection("tenant").doc(newTenant.shopName)
-    //     .collection("contract expiry date").doc("contract expiry date").set({
-    //   "id": newTenant.id,
-    //   "position" : newTenant.position,
-    // });
 
   }
 
@@ -115,5 +104,26 @@ class FirebaseFunctions{
     DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("staff").doc(user.uid).get();
     return snapshot;
   }
+
+  static Future<List<dynamic>> getInstitutionNonFnBTenants(String institution) async{
+    DocumentSnapshot snapshot2 = await FirebaseFirestore.instance.collection("institution").doc(institution).get();
+    try{
+      List<dynamic> tenantList = snapshot2['NonFnBTenantList'];
+      return tenantList;
+    }catch(e){
+      return [];
+    }
+  }
+
+  static Future<List<dynamic>> getInstitutionFnBTenants(String institution) async{
+    DocumentSnapshot snapshot1 = await FirebaseFirestore.instance.collection("institution").doc(institution).get();
+    try{
+      List<dynamic> tenantList = snapshot1['FnBTenantList'];
+      return tenantList;
+    }catch(e){
+      return [];
+    }
+  }
+
 
 }

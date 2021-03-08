@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,16 +26,35 @@ class _SignUpState extends State<SignUp> {
   //bool _isFnB = true;
   DateTime contractExpiryDate;
 
+  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<String> FullTenantList;
   //1 == staff, 2 == tenant
   int id = 1;
 
-  //
-  int checkIfChanged = 0;
 
   //Institution and corresponding tenants
   List<String> _institutions = ['CGH','KKH','SGH','SKH','NCCS','NHCS','BVH','OCH','Academia'];
-  List<String> _shopNameList = Institution.fullTenantList('CGH');
+  List<String> _shopNameList = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  getTenantList() async{
+    try{
+
+      NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(_institution);
+      FnBTenantList = await FirebaseFunctions.getInstitutionFnBTenants(_institution);
+      FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+      _shopNameList = FullTenantList;
+
+    }catch(e){
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTenantList();
+  }
 
   @override
   Widget build(BuildContext context){
@@ -87,8 +108,7 @@ class _SignUpState extends State<SignUp> {
                     setState(() {
                       _shopName = null; //set to null when changed so no contention
                       _institution = newValue;
-                      _shopNameList = Institution.fullTenantList(newValue);
-                      checkIfChanged = 1;
+                      getTenantList(); //getTenantList() does not finish fast enough to assign FullTenantList to _shopNameList
                     });
                   },
                   items: _institutions.map((institution) {
@@ -112,7 +132,7 @@ class _SignUpState extends State<SignUp> {
                       groupValue: id,
                       onChanged: (val) {
                         setState(() {
-                          //Staff login
+                          //Admin login
                           id = 0;
                         });
                       },
@@ -191,7 +211,6 @@ class _SignUpState extends State<SignUp> {
                     onChanged: (newValue) {
                       setState(() {
                         _shopName = newValue;
-                        _shopNameList = Institution.fullTenantList(_institution);
                       });
                     },
                     items: _shopNameList.map((shopName) {
@@ -203,34 +222,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 //TODO: ADD CONTRACT EXPIRY DATE when the time comes
-                // Visibility(
-                //     visible: checkTenant(),
-                //     child:
-                //         Column(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           children: <Widget>[
-                //             Text(contractExpiryDate.toString()),
-                //             ElevatedButton(
-                //               child:Text("Contract Expiry Date"),
-                //               onPressed: (){
-                //                 showDatePicker(
-                //                   context: context,
-                //                   initialDate: DateTime.now(),
-                //                   firstDate: DateTime.now(),
-                //                   lastDate: DateTime(2030),
-                //                 ).then((date){
-                //                   setState(() {
-                //                     contractExpiryDate = date;
-                //                     Text(contractExpiryDate.toString());
-                //                   });
-                //                 });
-                //               },
-                //             )
-                //           ],
-                //         )
-                //
-                // ),
-
                 ElevatedButton(onPressed: signUp,
                   child: Text('Sign Up'),
                 )
@@ -287,6 +278,9 @@ class _SignUpState extends State<SignUp> {
       }
     }
   }
+
+
+
 
 
 }

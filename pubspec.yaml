@@ -26,6 +26,11 @@ dependencies:
   firebase_auth: ^0.20.0+1
   cloud_firestore: ^0.16.0
   firebase_auth_web:
+  flutter_mailer:
+  flutter_email_sender:
+  mailto:
+  url_launcher:
+  csv:
   toast:
   intl:
   http:

@@ -5,6 +5,14 @@ class Institution{
   List<String> listOfStaffs;
   List<String> listOfTenants;
 
+  static List<String> convertToStringList(List fullTenantList) {
+    List<String> returnList=[];
+    for (int i = 0; i<fullTenantList.length;i++){
+      returnList.add(fullTenantList[i].toString());
+    }
+    return returnList;
+  }
+
   static List<String> nonFnBTenantList =  ['168 Florist','Eu Yan Sang',
     'Hua Xia Taimobi Centre',
     'Mothercare',
