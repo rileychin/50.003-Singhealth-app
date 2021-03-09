@@ -34,7 +34,6 @@ class _TenantAuditChecklistNonFnBTwoState extends State<TenantAuditChecklistNonF
     if (auditChecklist == null) {return CircularProgressIndicator();}
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
           title: Text('${tenant['shopName']} ${auditChecklist['date']} audit checklist'),
         ),
         body: SingleChildScrollView(

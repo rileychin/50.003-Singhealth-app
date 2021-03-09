@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/tenantAccount.dart';
+import 'package:singhealth_app/Pages/tenantContractDetails.dart';
 import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
@@ -99,6 +101,10 @@ class _TenantHomeState extends State<TenantHome> {
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                        child: Text("Shop Name: ${tenantInfo['shopName']}"),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                         child: Text("Contract Expiry: ${tenantInfo['contractExpiry']}"),
                       ),
                     ],
@@ -133,7 +139,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.clipboard_user), onPressed: null),
+                        IconButton(icon: Icon(CustomIcons.clipboard_user), onPressed: navigateToTenantAccount),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                           child: Text("Account"),
@@ -153,7 +159,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                     Column(
                       children: <Widget> [
-                        IconButton(icon: Icon(CustomIcons.document), onPressed: null),
+                        IconButton(icon: Icon(CustomIcons.document), onPressed: navigateToTenantContractDetails),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                           child: Text("Contract Details"),
@@ -230,5 +236,13 @@ class _TenantHomeState extends State<TenantHome> {
     } else {
       Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAuditChecklistFnB(user: user, tenant: data)));
     }
+  }
+
+  void navigateToTenantAccount() {
+    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAccount(user: user, tenant: data,tenantInfo: tenantInfo)));
+  }
+
+  void navigateToTenantContractDetails() {
+    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantContractDetails(user: user, tenant: data,tenantInfo: tenantInfo)));
   }
 }

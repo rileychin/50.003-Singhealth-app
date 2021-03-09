@@ -33,7 +33,7 @@ class _AdminDeleteTenantState extends State<AdminDeleteTenant> {
   }
 
   List<dynamic> NonFnBTenantList,FnBTenantList;
-  List<String> FullTenantList;
+  List<String> FullTenantList = [];
   List<String> _shopNameList = [];
   String _shopName;
 

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/Pages/staffAccount.dart';
+import 'package:singhealth_app/Pages/staffInstitutionDetails.dart';
 import 'package:singhealth_app/Pages/staffTenantDetails.dart';
 import 'package:singhealth_app/Pages/staffUploadPhoto.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
@@ -140,7 +141,7 @@ class _StaffHomeState extends State<StaffHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.document), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.document), onPressed: navigateToStaffInstitutionDetails),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                             child: Text("Institution Details"),
@@ -215,6 +216,10 @@ class _StaffHomeState extends State<StaffHome> {
 
   void navigateToStaffAccount() {
     Navigator.push(context,MaterialPageRoute(builder:(context)=> StaffAccount(user:user,staff:data)));
+  }
+
+  void navigateToStaffInstitutionDetails() {
+    Navigator.push(context,MaterialPageRoute(builder:(context)=> StaffInstitutionDetails(user:user,staff:data)));
   }
 }
 

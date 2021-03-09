@@ -138,8 +138,8 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
       Toast.show("Please choose a tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
     }
     else{
-      DocumentReference tenantReference = firestoreInstance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(tenantName);
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+      DocumentReference tenantReference = firestoreInstance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(_shopName);
+      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
     }
   }
 }

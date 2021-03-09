@@ -34,7 +34,6 @@ class _TenantAuditChecklistNonFnBState extends State<TenantAuditChecklistNonFnB>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.amber,
           title: Text('${tenant['shopName']} audits list'),
         ),
         body: StreamBuilder(

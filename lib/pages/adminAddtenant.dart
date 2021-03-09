@@ -37,7 +37,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
   //fields needed for adding admin
   List<String> _institutions = ['CGH','KKH','SGH','SKH','NCCS','NHCS','BVH','OCH','Academia'];
   String _institution = 'CGH';
-  String newTenant;
+  String newTenant,unitNumber,phoneNumber;
   DateTime selectedDate = DateTime.now();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isFnB = true;
@@ -79,6 +79,28 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                       onSaved: (input) => newTenant = input,
                       decoration: InputDecoration(
                           labelText: 'Enter new tenant name'
+                      ),
+                    ),
+                    TextFormField(
+                      validator:(input){
+                        if (input.length == 0){
+                          return 'Please enter a unit number';
+                        }
+                      },
+                      onSaved: (input) => unitNumber = input,
+                      decoration: InputDecoration(
+                          labelText: 'Enter tenant unit number'
+                      ),
+                    ),
+                    TextFormField(
+                      validator:(input){
+                        if (input.length == 0){
+                          return 'Please enter a phone number';
+                        }
+                      },
+                      onSaved: (input) => phoneNumber = input,
+                      decoration: InputDecoration(
+                          labelText: 'Enter tenant phone  number'
                       ),
                     ),
                     ElevatedButton(
@@ -141,7 +163,10 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
             Toast.show("Successfully added new tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
             institutionRef.collection('tenant').doc(newTenant).set({
               'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-              'shopName' : newTenant
+              'shopName' : newTenant,
+              'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
+              'unitNumber' : unitNumber,
+              'phoneNumber' : phoneNumber,
             });
           }
           //END
@@ -161,7 +186,10 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
             tenantList.clear();
             institutionRef.collection('tenant').doc(newTenant).set({
               'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-              'shopName' : newTenant
+              'shopName' : newTenant,
+              'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
+              'unitNumber' : unitNumber,
+              'phoneNumber' : phoneNumber,
             });
           }
         }
@@ -186,7 +214,10 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
 
         institutionRef.collection('tenant').doc(newTenant).set({
           'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-          'shopName' : newTenant
+          'shopName' : newTenant,
+          'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
+          'unitNumber' : unitNumber,
+          'phoneNumber' : phoneNumber,
         });
       }
 

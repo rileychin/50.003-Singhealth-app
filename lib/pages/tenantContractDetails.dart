@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:toast/toast.dart';
 
-class TenantAccount extends StatefulWidget {
+class TenantContractDetails extends StatefulWidget {
 
   final User user;
   final dynamic tenant,tenantInfo;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  TenantAccount({
+  TenantContractDetails({
     Key key,
     this.user,
     this.tenant,
@@ -19,10 +19,10 @@ class TenantAccount extends StatefulWidget {
 
 
   @override
-  _TenantAccountState createState() => _TenantAccountState(user,tenant,tenantInfo);
+  _TenantContractDetailsState createState() => _TenantContractDetailsState(user,tenant,tenantInfo);
 }
 
-class _TenantAccountState extends State<TenantAccount> {
+class _TenantContractDetailsState extends State<TenantContractDetails> {
 
   User user;
   dynamic tenant,tenantInfo;
@@ -30,7 +30,7 @@ class _TenantAccountState extends State<TenantAccount> {
 
 
 
-  _TenantAccountState(user,tenant,tenantInfo){
+  _TenantContractDetailsState(user,tenant,tenantInfo){
     this.user = user;
     this.tenant = tenant;
     this.tenantInfo = tenantInfo;
@@ -41,8 +41,8 @@ class _TenantAccountState extends State<TenantAccount> {
 
   TextEditingController
   nameController,emailController,institutionController,
-  positionController,contractExpiryController,shopNameController,dateJoinedController,
-  unitNumberController,phoneNumberController;
+      positionController,contractExpiryController,shopNameController,dateJoinedController,
+      unitNumberController,phoneNumberController;
 
   @override
   void initState() {
@@ -72,7 +72,7 @@ class _TenantAccountState extends State<TenantAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Tenant account details'),
+          title: Text('Tenant contract details'),
         ),
         body:
         Align(
@@ -84,103 +84,7 @@ class _TenantAccountState extends State<TenantAccount> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Profile Details: "),
-                  IconButton(icon: Icon(Icons.edit),
-                      onPressed: (){
-                        setState(() {
-                          switch(_isEnabled){
-                            case true:
-                              _isEnabled = false;
-                              break;
-                            case false:
-                              _isEnabled = true;
-                              break;
-                          }
-                          updateInfo();
-                        });
-                      }),
-                ],
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Name: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: nameController,
-                        enabled: _isEnabled,
-                        style: colorDecider(),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(width:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Email: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        textAlign: TextAlign.center,
-                        controller: emailController,
-                        enabled: _isEnabled,
-                        style: colorDecider(),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Position: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: positionController,
-                        enabled: _isEnabled,
-                        style: colorDecider(),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Institution: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        controller: institutionController,
-                        enabled: false,
-                        style: TextStyle(color:Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-
-              SizedBox(height:10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text("Tenancy Details: "),
+                  Text("Contract Summary: "),
                 ],
               ),
               SizedBox(height:10),
@@ -279,32 +183,41 @@ class _TenantAccountState extends State<TenantAccount> {
                     ),
                   ]
               ),
+              SizedBox(height:10),
+              Visibility(
+                visible: checkDate(),
+                  child:
+                  Text("WARNING: Your contract is about to expiry, please renew it before ${tenantInfo['contractExpiry']}",
+                      style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red)))
             ],
           ),
         )
     );
   }
 
-  TextStyle colorDecider() {
-    if (_isEnabled == true){
-      return TextStyle(color:Colors.grey);
+  bool checkDate() {
+    //split currentDate and expiryDate
+    String currentDate = DateTime.now().toLocal().toString().split(' ')[0];
+    List<String> currentDateSplit = currentDate.split('-');
+    String expiryDate = tenantInfo['contractExpiry'];
+    List<String> expiryDateSplit = expiryDate.split('-');
+
+    //get values for each time construct
+    int year = int.parse(expiryDateSplit[0]) - int.parse(currentDateSplit[0]);
+    int month = int.parse(expiryDateSplit[1]) - int.parse(currentDateSplit[1]);
+    int day = int.parse(expiryDateSplit[2]) - int.parse(currentDateSplit[2]);
+
+    //calculate total days < 3 months (3*30 days)
+    //3 months period for contract expiry notice
+    int totalDays = year*365 + month*30 + day;
+
+    if (totalDays > 90){
+      return false;
     }
-    else{
-      return TextStyle(color:Colors.black);
-    }
+    return true;
+
   }
 
-  void updateInfo() {
-    try{
-      var message;
-      user.updateEmail(emailController.text).then((value) => message = 'Success').catchError((onError) => message = 'error');
 
-      FirebaseFirestore.instance.collection('tenant').doc(user.uid).update({
-        'name' : nameController.text,
-        'email' : emailController.text,
-      });
-      Toast.show("Successfully changed details", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-    }catch(e){print(e);}
-  }
 
 }

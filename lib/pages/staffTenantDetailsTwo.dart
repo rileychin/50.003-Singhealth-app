@@ -6,6 +6,7 @@ import 'package:singhealth_app/Pages/staffAuditDetailsFnB.dart';
 import 'package:singhealth_app/Pages/staffAuditDetailsNonFnB.dart';
 import 'package:singhealth_app/Pages/staffSubmitFnBAuditChecklist.dart';
 import 'package:singhealth_app/Pages/staffSubmitNonFnBAuditChecklist.dart';
+import 'package:singhealth_app/Pages/staffTenantDetailsThree.dart';
 import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/institution.dart';
 
@@ -73,7 +74,7 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
                 SizedBox(height: 10),
                 RaisedButton(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  onPressed: (){},
+                  onPressed: navigateToTenantDetails,
                   child: Text("Tenant Details"),
                 ),
               ]
@@ -104,5 +105,9 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
     } else{
       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
+  }
+
+  void navigateToTenantDetails() {
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
   }
 }
