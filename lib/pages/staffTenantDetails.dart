@@ -37,12 +37,58 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<String> FullTenantList;
+  List<String> _shopNameList = [];
+  String _shopName;
+
   _StaffTenantDetailsState(user,firestoreInstance,staff){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
     this.staff = staff;
   }
 
+  void getTenantsList() async {
+    try{
+
+      await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
+        setState(() {
+          if (snapshot.exists){
+            if (snapshot.data().containsKey('NonFnBTenantList')){
+              NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
+            }
+            else{
+              NonFnBTenantList = [];
+            }
+            if (snapshot.data().containsKey('FnBTenantList')){
+              FnBTenantList = snapshot.data()['FnBTenantList'];
+            }
+            else{
+              FnBTenantList = [];
+            }
+            FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+            _shopNameList = FullTenantList;
+            _shopName = _shopNameList[0];
+          }
+          else{
+            FullTenantList = [];
+            _shopNameList = FullTenantList;
+            _shopName = null;
+          }
+
+        });
+
+      });
+
+    }catch(e){
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getTenantsList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +111,13 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
                   Text("${staff['institution']}"),
                   DropdownButton(
                     hint: Text('Select tenant'),
-                    value: tenantName,
+                    value: _shopName,
                     onChanged: (newValue) {
                       setState(() {
-                        tenantName = newValue;
+                        _shopName = newValue;
                       });
                     },
-                    items: Institution.fullTenantList(staff['institution']).map((shopName) {
+                    items: _shopNameList.map((shopName) {
                       return DropdownMenuItem(
                         child: new Text(shopName),
                         value: shopName,
@@ -88,7 +134,7 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
   }
 
   void navigateToTenantDetailsTwo() {
-    if (tenantName == null){
+    if (_shopName == null){
       Toast.show("Please choose a tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
     }
     else{
