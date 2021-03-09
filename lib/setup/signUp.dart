@@ -37,16 +37,39 @@ class _SignUpState extends State<SignUp> {
   List<String> _shopNameList = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  getTenantList() async{
+  getTenantList()async{
     try{
+    await FirebaseFirestore.instance.collection('institution').doc(_institution).get().then<dynamic>(( DocumentSnapshot snapshot) async{
+      setState(() {
+        if (snapshot.exists){
+          if (snapshot.data().containsKey('NonFnBTenantList')){
+            NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
+          }
+          else{
+            NonFnBTenantList = [];
+          }
+          if (snapshot.data().containsKey('FnBTenantList')){
+            FnBTenantList = snapshot.data()['FnBTenantList'];
+          }
+          else{
+            FnBTenantList = [];
+          }
+          FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+          _shopNameList = FullTenantList;
+          _shopName = _shopNameList[0];
+        }
+        else{
+          FullTenantList = [];
+          _shopNameList = FullTenantList;
+          _shopName = null;
+        }
 
-      NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(_institution);
-      FnBTenantList = await FirebaseFunctions.getInstitutionFnBTenants(_institution);
-      FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
-      _shopNameList = FullTenantList;
+      });
+
+    });
 
     }catch(e){
-    }
+  }
   }
 
   @override

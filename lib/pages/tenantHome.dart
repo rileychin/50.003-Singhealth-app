@@ -38,7 +38,6 @@ class _TenantHomeState extends State<TenantHome> {
   Future<dynamic> tenantInformation() async{
     final DocumentReference document =   firestoreInstance.collection("tenant").doc(user.uid);
 
-
     await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
       setState(() {
         data = snapshot.data();

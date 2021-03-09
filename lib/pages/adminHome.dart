@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/Pages/adminAccount.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
@@ -107,7 +108,7 @@ class _AdminHomeState extends State<AdminHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.clipboard_user), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.clipboard_user), onPressed: navigateToAdminAccount),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                             child: Text("Account"),
@@ -149,6 +150,10 @@ class _AdminHomeState extends State<AdminHome> {
   void navigateToAddDeleteTenant() {
     //TODO: navigate to add and delete tenant page
    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> AdminAddDeleteTenant(user:user,admin:data)));
+  }
+
+  void navigateToAdminAccount() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> AdminAccount(user:user,admin:data)));
   }
 }
 

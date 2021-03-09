@@ -24,7 +24,7 @@ class _AdminAddDeleteTenantState extends State<AdminAddDeleteTenant> {
 
   //TODO: add 2 buttons, one for delete one for add
   User user;
-  dynamic admin,auditChecklist;
+  dynamic admin;
   final firestoreInstance = FirebaseFirestore.instance;
 
   _AdminAddDeleteTenantState(user,admin){
