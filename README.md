@@ -18,12 +18,12 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Features implemented
 
-basic register login template
+all basic functionalities
 
-web support for app development
+## TODO 
 
-basic firebase add and retrieval and display
+dynamic checklist
 
-institution & corresponding tenants
+upload photo
 
-navigation to tenant home page for now 
+send email with body 
