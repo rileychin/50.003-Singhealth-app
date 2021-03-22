@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,7 +29,8 @@ class _AdminHomeState extends State<AdminHome> {
 
   User user;
   FirebaseFirestore firestoreInstance;
-
+  Image image;
+  Uint8List imageData;
   dynamic data;
 
   _AdminHomeState(user,firestoreInstance){
@@ -38,9 +42,16 @@ class _AdminHomeState extends State<AdminHome> {
   Future<dynamic> adminInformation() async {
 
     final DocumentReference document = firestoreInstance.collection("admin").doc(user.uid);
-    await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
+    await document.get().then<dynamic>(( DocumentSnapshot snapshot) async {
       setState(() {
         data =snapshot.data();
+      });
+    });
+
+    await firestoreInstance.collection('admin').doc(user.uid).collection('profile_picture').doc('0').get().then((value) async {
+      setState(() {
+        imageData = new Uint8List.fromList(value.data()['data'].cast<int>());
+        image = Image.memory(imageData, width: 400, height: 400);
       });
     });
   }
@@ -91,6 +102,36 @@ class _AdminHomeState extends State<AdminHome> {
                         ],
                       ),
 
+                      InkWell(
+                        onTap: () async {
+                          FilePickerResult picked = await FilePicker.platform.pickFiles();
+                          this.imageData = picked.files.single.bytes;
+
+                          setState(() {
+                            this.image = Image.memory(this.imageData, width: 400, height: 400);
+                          });
+
+                          if (this.imageData != null) {
+                            FirebaseFirestore.instance.collection('admin').doc(user.uid).collection('profile_picture').doc('0').set({
+                              'data': imageData
+                            });
+                          }
+                        },
+                        child: Container(
+                            margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
+                            height: 120,
+                            width: 120,
+                            child: image != null ? image : Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                  image: AssetImage('images/DefaultUserPic.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            )
+                        ),
+                      ),
                     ],
                   )
               ),

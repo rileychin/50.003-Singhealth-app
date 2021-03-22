@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -36,7 +35,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   FirebaseFirestore firestoreInstance;
   String _institution;
   //used for data snapshots
-  dynamic staffData,institutionData;
+  dynamic staffData, institutionData;
   DocumentSnapshot staffSnapshot;
   Image image;
 
@@ -135,11 +134,13 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                 ),
               ),
               Container(child:image != null ? image : Text('No photo uploaded')),
-              ElevatedButton(onPressed: uploadPhoto,
+              ElevatedButton(
+                onPressed: uploadPhoto,
                 child: Text('Upload Photo'),
               ),
               SizedBox(height: 10),
-              ElevatedButton(onPressed: addIncident,
+              ElevatedButton(
+                onPressed: addIncident,
                 child: Text('Confirm'),
               )
             ],
@@ -154,8 +155,9 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   Future<void> uploadPhoto() async {
     FilePickerResult picked = await FilePicker.platform.pickFiles();
     this.data = picked.files.single.bytes;
+
     setState(() {
-      this.image = Image.memory(this.data,width: 400,height: 400,);
+      this.image = Image.memory(this.data, width: 400, height: 400);
     });
   }
 
@@ -183,7 +185,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
           "incidentName": incidentName,
           "location": location,
           "summary": summary,
-          "status": "incomplete",
+          "status": "unresolved",
           "data": data
         });
       }

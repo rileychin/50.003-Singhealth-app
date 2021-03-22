@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:singhealth_app/Pages/staffTenantDetailsTwo.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/staff.dart';
-import 'dart:html';
 import 'package:toast/toast.dart';
 
 class StaffTenantDetails extends StatefulWidget {
