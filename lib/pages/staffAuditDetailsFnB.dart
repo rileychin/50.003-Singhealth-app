@@ -63,7 +63,7 @@ class _StaffAuditDetailsFnBState extends State<StaffAuditDetailsFnB> {
 
           return ListTile(
             selectedTileColor: Colors.amber,
-            onTap: (){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnBTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName,auditChecklist:checklistSnapshot.data())));},
+            onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnBTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName,auditChecklist:checklistSnapshot.data())));},
             title: Text(checklistSnapshot.data()['date']),
             subtitle: Text(checklistSnapshot.data()['auditor']),
           );

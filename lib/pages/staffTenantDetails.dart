@@ -18,9 +18,6 @@ class StaffTenantDetails extends StatefulWidget {
     this.user,
     this.staff}) : super(key: key);
 
-
-
-
   @override
   _StaffTenantDetailsState createState() => _StaffTenantDetailsState(user,firestoreInstance,staff);
 
@@ -36,20 +33,19 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<dynamic> NonFnBTenantList, FnBTenantList;
   List<String> FullTenantList;
   List<String> _shopNameList = [];
   String _shopName;
 
-  _StaffTenantDetailsState(user,firestoreInstance,staff){
+  _StaffTenantDetailsState(user, firestoreInstance, staff){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
     this.staff = staff;
   }
 
   void getTenantsList() async {
-    try{
-
+    try {
       await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
         setState(() {
           if (snapshot.exists){
@@ -74,14 +70,12 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
             _shopNameList = FullTenantList;
             _shopName = null;
           }
-
         });
-
       });
-
-    }catch(e){
+    } catch(e) {
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -123,7 +117,10 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
                       );
                     }).toList(),
                   ),
-                  ElevatedButton(onPressed: navigateToTenantDetailsTwo, child: Text("Find"))
+                  ElevatedButton(
+                      onPressed: navigateToTenantDetailsTwo,
+                      child: Text("Find")
+                  )
                 ],
               )
           )
@@ -138,7 +135,7 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
     }
     else{
       DocumentReference tenantReference = firestoreInstance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(_shopName);
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
     }
   }
 }

@@ -54,7 +54,7 @@ class _TenantAuditChecklistFnBState extends State<TenantAuditChecklistFnB> {
           return ListTile(
 
             selectedTileColor: Colors.amber,
-            onTap: (){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistFnBTwo(user:user,tenant:tenant,auditChecklist:checklistSnapshot.data())));},
+            onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistFnBTwo(user:user,tenant:tenant,auditChecklist:checklistSnapshot.data())));},
             title: Text(checklistSnapshot.data()['date']),
             subtitle: Text(checklistSnapshot.data()['auditor']),
           );

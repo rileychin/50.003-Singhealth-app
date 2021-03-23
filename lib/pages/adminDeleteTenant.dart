@@ -32,14 +32,13 @@ class _AdminDeleteTenantState extends State<AdminDeleteTenant> {
     this.admin = admin;
   }
 
-  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<dynamic> NonFnBTenantList, FnBTenantList;
   List<String> FullTenantList = [];
   List<String> _shopNameList = [];
   String _shopName;
 
    void getTenantsList() async {
-     try{
-
+     try {
        await FirebaseFirestore.instance.collection('institution').doc(admin['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
          setState(() {
            if (snapshot.exists){
@@ -64,12 +63,9 @@ class _AdminDeleteTenantState extends State<AdminDeleteTenant> {
              _shopNameList = FullTenantList;
              _shopName = null;
            }
-
          });
-
        });
-
-     }catch(e){
+     } catch(e) {
      }
   }
 
@@ -141,7 +137,7 @@ class _AdminDeleteTenantState extends State<AdminDeleteTenant> {
        //removing totally from institution collection
        institutionRef.collection('tenant').doc(_shopName).delete();
        Toast.show("Tenant removed successfully", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-       Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> AdminHome(user:user)));
+       Navigator.push(context,MaterialPageRoute(builder: (context)=> AdminHome(user:user)));
      }
 
 

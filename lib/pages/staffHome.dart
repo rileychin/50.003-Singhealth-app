@@ -235,12 +235,16 @@ class _StaffHomeState extends State<StaffHome> {
 
 
   void navigateToStaffUploadPhoto() async{
+<<<<<<< HEAD
     Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user,staff:data)));
+=======
+    Navigator.pushReplacement(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user, staff:data)));
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
   }
 
 
   void navigateToStaffTenantDetails() {
-    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffTenantDetails(user:user,staff:data)));
+    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffTenantDetails(user:user, staff:data)));
   }
 
   void navigateToStaffAccount() {

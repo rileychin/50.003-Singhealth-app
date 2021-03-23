@@ -52,9 +52,8 @@ class _TenantAuditChecklistNonFnBState extends State<TenantAuditChecklistNonFnB>
           DocumentSnapshot checklistSnapshot = snapshot.data.docs[index];
 
           return ListTile(
-
             selectedTileColor: Colors.amber,
-            onTap: (){Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistNonFnBTwo(user:user,tenant:tenant,auditChecklist:checklistSnapshot.data())));},
+            onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context)=> TenantAuditChecklistNonFnBTwo(user:user,tenant:tenant,auditChecklist:checklistSnapshot.data())));},
             title: Text(checklistSnapshot.data()['date']),
             subtitle: Text(checklistSnapshot.data()['auditor']),
           );

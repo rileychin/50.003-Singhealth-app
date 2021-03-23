@@ -12,6 +12,7 @@ import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/setup/signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:singhealth_app/setup/welcome.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -245,9 +246,20 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 //TODO: ADD CONTRACT EXPIRY DATE when the time comes
-                ElevatedButton(onPressed: signUp,
-                  child: Text('Sign Up'),
-                )
+                Container(
+                    margin: EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      onPressed: signUp,
+                      child: Text('Sign Up'),
+                    )
+                ),
+                Container(
+                    margin: EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      onPressed: back,
+                      child: Text('Go Back'),
+                    )
+                ),
               ],
             )
         )
@@ -272,7 +284,7 @@ class _SignUpState extends State<SignUp> {
     final formState = _formKey.currentState;
     if (formState.validate()){
       formState.save();
-      try{
+      try {
         User user = await FirebaseFunctions.createUser(_email,_password);
 
         //staff signup
@@ -287,23 +299,20 @@ class _SignUpState extends State<SignUp> {
           FirebaseFunctions.createTenantWithEmailPassword(_email, _password, newTenant);
         }
 
-
         //admin signup
         else if (id == 0){
           Admin newAdmin = new Admin(_name,_email,user.uid,_institution);
           FirebaseFunctions.createAdminWithEmailPassword(_email, _password, newAdmin);
         }
 
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> LoginPage()));
-      }catch(e){
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => LoginPage()));
+      } catch(e) {
         print(e.toString());
-
       }
     }
   }
 
-
-
-
-
+  void back() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+  }
 }

@@ -3,24 +3,23 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:singhealth_app/pages/tenantHome.dart';
 import 'dart:typed_data';
 import 'package:toast/toast.dart';
 
 
-class TenantViewNoncompliance extends StatefulWidget {
+class TenantViewReportHistory extends StatefulWidget {
   final User user;
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
-  TenantViewNoncompliance({Key key, this.user}) : super(key: key);
+  TenantViewReportHistory({Key key, this.user}) : super(key: key);
 
   @override
-  _TenantViewNoncomplianceState createState() =>
-      _TenantViewNoncomplianceState(user, firestoreInstance);
+  _TenantViewReportHistoryState createState() =>
+      _TenantViewReportHistoryState(user, firestoreInstance);
 }
 
-class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
+class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
   String dropdownValue;
   List<String> incidents = [''];
   User user;
@@ -35,7 +34,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   String summary;
   String status;
 
-  _TenantViewNoncomplianceState(user, firestoreInstance) {
+  _TenantViewReportHistoryState(user, firestoreInstance) {
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
@@ -56,7 +55,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
     // updateIncidentList() merged
     String inc = '';
     incidentData.docs.forEach((element) {
-      if (element['status'] == 'unresolved') {
+      if (element['status'] == 'resolved') {
         inc += element['incidentName'] + ':';
       }
     });
@@ -151,64 +150,10 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                               child: resImage != null ? resImage : Text('No resolution image')
                           ),
                         ],
-                      ),
-
-                      Container(
-                          margin: EdgeInsets.all(10),
-                          child: ElevatedButton(
-                            onPressed: uploadResolution,
-                            child: Text("Upload Resolution Photo"),
-                          )
-                      ),
-                      Container(
-                          margin: EdgeInsets.all(10),
-                          child: ElevatedButton(
-                            onPressed: resolveIncident,
-                            child: Text("Resolve Incident"),
-                          )
-                      ),
-                      Container(
-                          margin: EdgeInsets.all(50),
-                          child: ElevatedButton(
-                            onPressed: back,
-                            child: Text('Go Back'),
-                          )
                       )
                     ],
                   )
               );
             }
           });
-
-  Future<void> uploadResolution() async {
-    FilePickerResult picked = await FilePicker.platform.pickFiles();
-    this.resImageData = picked.files.single.bytes;
-
-    setState(() {
-      this.resImage = Image.memory(this.resImageData, width: 400, height: 400);
-    });
-  }
-
-  Future<void> resolveIncident() async {
-    if (this.resImageData == null) {
-      Toast.show("No resolution image selected.", context,
-          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-    } else {
-      var path = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(dropdownValue);
-
-      path.update({
-        "status": "resolved"
-      });
-
-      path.collection('images').doc('resolution_image').set({
-        "data": resImageData,
-      });
-
-      back();
-    }
-  }
-
-  void back() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TenantHome(user: user)));
-  }
 }

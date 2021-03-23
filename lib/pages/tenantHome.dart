@@ -14,6 +14,7 @@ import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
 import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/pages/tenantReportHistory.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 import 'package:singhealth_app/pages/tenantNoncomplianceReport.dart';
 
@@ -223,7 +224,7 @@ class _TenantHomeState extends State<TenantHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.history), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.history), onPressed: navigateToTenantReportHistory),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                             child: Text("Past Reports"),
@@ -249,15 +250,18 @@ class _TenantHomeState extends State<TenantHome> {
 
   Future<void> signOut() async{
     await FirebaseAuth.instance.signOut();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> WelcomePage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomePage()));
   }
 
   void navigateToTenantNoncomplianceReport() {
     Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user: user)));
   }
 
-  void navigateToTenantAuditChecklist() async{
+  void navigateToTenantReportHistory() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TenantViewReportHistory(user: user)));
+  }
 
+  void navigateToTenantAuditChecklist() async{
     List<dynamic> NonFnBTenantList = await FirebaseFunctions.getInstitutionNonFnBTenants(data['institution']);
     NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
 

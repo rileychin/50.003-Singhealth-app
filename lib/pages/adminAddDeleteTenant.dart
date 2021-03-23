@@ -64,10 +64,10 @@ class _AdminAddDeleteTenantState extends State<AdminAddDeleteTenant> {
 
 
   void navigateToAdminAddTenant() {
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> AdminAddTenant(user:user,admin:admin)));
+    Navigator.push(context,MaterialPageRoute(builder: (context)=> AdminAddTenant(user:user,admin:admin)));
   }
 
   void navigateToAdminDeleteTenant() {
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> AdminDeleteTenant(user:user,admin:admin)));
+    Navigator.push(context,MaterialPageRoute(builder: (context)=> AdminDeleteTenant(user:user,admin:admin)));
   }
 }
