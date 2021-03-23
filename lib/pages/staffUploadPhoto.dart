@@ -18,13 +18,15 @@ class StaffUploadPhoto extends StatefulWidget {
   @override
   StaffUploadPhoto({
     Key key,
-    this.user}) : super(key: key);
+    this.user,
+    this.staff}) : super(key: key);
 
+  final dynamic staff;
   final User user;
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
-  _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user,firestoreInstance);
+  _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user,firestoreInstance,staff);
 }
 
 class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
@@ -38,14 +40,19 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   dynamic staffData, institutionData;
   DocumentSnapshot staffSnapshot;
   Image image;
-
+  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<String> FullTenantList = [];
+  List<String> _shopNameList = [];
+  String _shopName;
+  dynamic staff;
 
   //global form key used to validate forms
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  _StaffUploadPhotoState(user, firestoreInstance){
+  _StaffUploadPhotoState(user, firestoreInstance,staff){
     this.user = user;
     this.firestoreInstance = firestoreInstance;
+    this.staff = staff;
   }
 
   //getting staff information from snapshot
@@ -60,10 +67,47 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
     });
   }
 
+  void getTenantsList() async {
+    try{
+
+      await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
+        setState(() {
+          if (snapshot.exists){
+            if (snapshot.data().containsKey('NonFnBTenantList')){
+              NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
+            }
+            else{
+              NonFnBTenantList = [];
+            }
+            if (snapshot.data().containsKey('FnBTenantList')){
+              FnBTenantList = snapshot.data()['FnBTenantList'];
+            }
+            else{
+              FnBTenantList = [];
+            }
+            FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+            _shopNameList = FullTenantList;
+            _shopName = _shopNameList[0];
+          }
+          else{
+            FullTenantList = [];
+            _shopNameList = FullTenantList;
+            _shopName = null;
+          }
+
+        });
+
+      });
+
+    }catch(e){
+    }
+  }
+
   @override
   void initState(){
     super.initState();
     staffInformation();
+    getTenantsList();
   }
 
   @override
@@ -86,14 +130,14 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
               ),
               DropdownButton(
                 hint: Text('Select tenant'),
-                value: tenantName,
+                value: _shopName,
                 onChanged: (newValue) {
                   setState(() {
-                    tenantName = newValue;
+                    _shopName = newValue;
                   });
                 },
                 //todo: add validator for dropdown button
-                items: Institution.fullTenantList(staffData['institution']).map((shopName) {
+                items: _shopNameList.map((shopName) {
                   return DropdownMenuItem(
                     child: new Text(shopName),
                     value: shopName,

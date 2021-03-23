@@ -235,7 +235,7 @@ class _StaffHomeState extends State<StaffHome> {
 
 
   void navigateToStaffUploadPhoto() async{
-    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user)));
+    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user,staff:data)));
   }
 
 

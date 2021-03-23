@@ -197,7 +197,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
         //else it does not exist so create new one
         if (isFnB){
           tenantList.add(newTenant);
-          institutionRef.set({
+          institutionRef.update({
             'FnBTenantList' : tenantList
           });
           tenantList.clear();
@@ -205,7 +205,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
         }
         else{
           tenantList.add(newTenant);
-          institutionRef.set({
+          institutionRef.update({
             'NonFnBTenantList' : tenantList
           });
           tenantList.clear();
