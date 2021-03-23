@@ -196,10 +196,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
     } else {
       var path = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(dropdownValue);
 
-      path.set({
-        "incidentName": incidentName,
-        "location": location,
-        "summary": summary,
+      path.update({
         "status": "resolved"
       });
 
