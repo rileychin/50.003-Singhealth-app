@@ -10,6 +10,7 @@ import 'package:singhealth_app/Pages/staffHome.dart';
 import 'package:singhealth_app/Pages/tenantHome.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/institution.dart';
+import 'package:singhealth_app/setup/welcome.dart';
 
 
 
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage>{
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign in'),
+          title: Text('Sign In'),
         ),
         body: Form(
           key: _formKey,
@@ -50,14 +51,28 @@ class _LoginPageState extends State<LoginPage>{
                   }
                 },
                 onSaved: (input) => _password = input,
+                onFieldSubmitted: (value) {
+                  signIn();
+                },
                 decoration: InputDecoration(
                     labelText: 'Password'
                 ),
                 obscureText: true,
               ),
-              ElevatedButton(onPressed: signIn,
-                  child: Text('Sign in'),
-              )
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    onPressed: signIn,
+                    child: Text('Sign In'),
+                  )
+              ),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    onPressed: back,
+                    child: Text('Go Back'),
+                  )
+              ),
           ],
         )
       )
@@ -81,21 +96,22 @@ class _LoginPageState extends State<LoginPage>{
           String role = snapshot.data()['role'];
 
           if (role == 'tenant'){
-            Navigator.push(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
+            Navigator.pushReplacement(context,MaterialPageRoute(builder:(context) => TenantHome(user:user)));
           }
           else if (role == 'staff'){
-            Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
+            Navigator.pushReplacement(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
           }
           else if (role == 'admin'){
-            Navigator.push(context,MaterialPageRoute(builder:(context) => AdminHome(user:user)));
+            Navigator.pushReplacement(context,MaterialPageRoute(builder:(context) => AdminHome(user:user)));
           }
         }
-
-
-      }catch(e){
+      } catch(e) {
         print(e);
-
       }
     }
+  }
+
+  void back() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomePage()));
   }
 }

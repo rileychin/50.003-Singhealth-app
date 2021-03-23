@@ -123,7 +123,10 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
                       );
                     }).toList(),
                   ),
-                  ElevatedButton(onPressed: navigateToTenantDetailsTwo, child: Text("Find"))
+                  ElevatedButton(
+                      onPressed: navigateToTenantDetailsTwo,
+                      child: Text("Find")
+                  )
                 ],
               )
           )
@@ -138,7 +141,7 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
     }
     else{
       DocumentReference tenantReference = firestoreInstance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(_shopName);
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
     }
   }
 }

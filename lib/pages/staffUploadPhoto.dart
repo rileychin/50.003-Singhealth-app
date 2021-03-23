@@ -73,7 +73,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        title: Text('Upload Non compliance incident photo'),
+        title: Text('Upload non-compliance incident photo'),
       ),
       body: Form(
         key: _formKey,
@@ -133,15 +133,28 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                     labelText: 'Summary'
                 ),
               ),
+
               Container(child:image != null ? image : Text('No photo uploaded')),
-              ElevatedButton(
-                onPressed: uploadPhoto,
-                child: Text('Upload Photo'),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    onPressed: uploadPhoto,
+                    child: Text('Upload Photo'),
+                  )
               ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: addIncident,
-                child: Text('Confirm'),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  child: ElevatedButton(
+                    onPressed: addIncident,
+                    child: Text('Confirm'),
+                  )
+              ),
+              Container(
+                  margin: EdgeInsets.all(50),
+                  child: ElevatedButton(
+                    onPressed: back,
+                    child: Text('Go Back'),
+                  )
               )
             ],
           )
@@ -163,38 +176,52 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
 
   //TODO: navigate to confirmation page
   Future<void> addIncident() async {
-    final formState = _formKey.currentState;
-    if (formState.validate()){
-      formState.save();
-      CollectionReference incidentCollectionRef = FirebaseFirestore.instance.collection("institution").doc(staffData['institution']).collection("tenant").doc(tenantName)
-          .collection("nonComplianceReport");
-      while(true) {
-        DocumentSnapshot docSnap = await incidentCollectionRef.doc(incidentName).get();
-        if (docSnap.exists) {
-          incidentName += ' 2';
-        } else {
-          break;
+    if (this.data == null) {
+      Toast.show("No incident image selected.", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    } else {
+      final formState = _formKey.currentState;
+      if (formState.validate()){
+        formState.save();
+        CollectionReference incidentCollectionRef = FirebaseFirestore.instance.collection("institution").doc(staffData['institution']).collection("tenant").doc(tenantName)
+            .collection("nonComplianceReport");
+        while(true) {
+          DocumentSnapshot docSnap = await incidentCollectionRef.doc(incidentName).get();
+          if (docSnap.exists) {
+            incidentName += ' 2';
+          } else {
+            break;
+          }
+          //todo: add max size check
         }
-        //todo: add max size check
-      }
 
-      if (incidentName != null && location != null && summary != null && data != null) {
-        FirebaseFirestore.instance.collection("institution").doc(
-            staffData['institution']).collection("tenant").doc(tenantName)
-            .collection("nonComplianceReport").doc(incidentName).set({
-          "incidentName": incidentName,
-          "location": location,
-          "summary": summary,
-          "status": "unresolved",
-          "data": data
-        });
+        if (incidentName != null && location != null && summary != null && data != null) {
+          FirebaseFirestore.instance.collection("institution").doc(
+              staffData['institution']).collection("tenant").doc(tenantName)
+              .collection("nonComplianceReport").doc(incidentName).set({
+            "incidentName": incidentName,
+            "location": location,
+            "summary": summary,
+            "status": "unresolved"
+          });
+
+          FirebaseFirestore.instance.collection('institution').doc(
+              staffData['institution']).collection('tenant').doc(tenantName)
+              .collection('nonComplianceReport').doc(incidentName).collection('images').doc('incident_image').set({
+            "data": data
+          });
+        }
+        else{
+          Toast.show("Empty fields", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+        }
       }
-      else{
-        Toast.show("Empty fields", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-      }
+      //confirmation and navigation
+      Toast.show("Photo uploaded", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+      back();
     }
-    //confirmation and navigation
-    Toast.show("Photo uploaded", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-    Navigator.push(context,MaterialPageRoute(builder:(context) => StaffHome(user:user)));
+  }
+
+  void back() {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StaffHome(user: user)));
   }
 }

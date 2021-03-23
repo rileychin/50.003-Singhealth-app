@@ -89,9 +89,9 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
     NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
 
     if (NonFnBTenantList.contains(tenantName)) {
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffSubmitNonFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffSubmitFnBAuditChecklist(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
   }
 
@@ -101,13 +101,13 @@ class _StaffTenantDetailsTwoState extends State<StaffTenantDetailsTwo> {
     NonFnBTenantList = Institution.convertToStringList(NonFnBTenantList);
 
     if (NonFnBTenantList.contains(tenantName)) {
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsNonFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     } else{
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffAuditDetailsFnB(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
     }
   }
 
   void navigateToTenantDetails() {
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
+    Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:tenantName)));
   }
 }

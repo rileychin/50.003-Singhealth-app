@@ -190,11 +190,11 @@ class _AdminHomeState extends State<AdminHome> {
 
   void navigateToAddDeleteTenant() {
     //TODO: navigate to add and delete tenant page
-   Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> AdminAddDeleteTenant(user:user,admin:data)));
+   Navigator.push(context, MaterialPageRoute(builder:(context)=> AdminAddDeleteTenant(user:user,admin:data)));
   }
 
   void navigateToAdminAccount() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder:(context)=> AdminAccount(user:user,admin:data)));
+    Navigator.push(context, MaterialPageRoute(builder:(context)=> AdminAccount(user:user,admin:data)));
   }
 }
 

@@ -593,7 +593,7 @@ class _StaffSubmitNonFnBAuditChecklistState extends State<StaffSubmitNonFnBAudit
         "totalScore" : totalScore,
       });
       Toast.show("Successfully submitted checklist", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffHome(user: user)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffHome(user: user)));
 
     }catch(e) {print(e);}
 

@@ -89,7 +89,7 @@ class _StaffInsitutionDetailsState extends State<StaffInstitutionDetails> {
                           title: Text('${FnBTenantListString[index]}'),
                           onTap: (){
                             DocumentReference tenantReference = FirebaseFirestore.instance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(FnBTenantListString[index]);
-                            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:FnBTenantListString[index])));
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:FnBTenantListString[index])));
                           },
                       );
                     }
@@ -105,7 +105,7 @@ class _StaffInsitutionDetailsState extends State<StaffInstitutionDetails> {
                           title: Text('${NonFnBTenantListString[index]}'),
                           onTap: (){
                             DocumentReference tenantReference = FirebaseFirestore.instance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(FnBTenantListString[index]);
-                            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:FnBTenantListString[index])));
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsThree(user:user,staff:staff,tenantReference:tenantReference,tenantName:FnBTenantListString[index])));
                           },
                       );
                     }
