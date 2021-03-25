@@ -7,6 +7,8 @@ import 'package:singhealth_app/pages/tenantHome.dart';
 import 'dart:typed_data';
 import 'package:toast/toast.dart';
 
+import '../custom_icons.dart';
+
 
 class TenantViewNoncompliance extends StatefulWidget {
   final User user;
@@ -168,12 +170,15 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                           )
                       ),
                       Container(
-                          margin: EdgeInsets.all(50),
-                          child: ElevatedButton(
-                            onPressed: back,
-                            child: Text('Go Back'),
-                          )
-                      )
+                        margin: EdgeInsets.all(50),
+                        child: RaisedButton.icon(
+                          icon: Icon(CustomIcons.backward),
+                          label: Text("Go Back"),
+                          textColor: Colors.white,
+                          color: Colors.blue[300],
+                          onPressed: back,
+                        ),
+                      ),
                     ],
                   )
               );
@@ -197,7 +202,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
       var path = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(dropdownValue);
 
       path.update({
-        "status": "resolved"
+        "status": "pending"
       });
 
       path.collection('images').doc('resolution_image').set({

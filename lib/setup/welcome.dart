@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/setup/signIn.dart';
 import 'package:singhealth_app/setup/signUp.dart';
 
+import '../custom_icons.dart';
+
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -40,17 +42,24 @@ class _WelcomePageState extends State<WelcomePage> {
 
               Container(
                   margin: EdgeInsets.all(5),
-                  child: ElevatedButton(
+                  child: RaisedButton.icon(
+                    icon: Icon(CustomIcons.sign_in),
+                    label: Text("Sign In"),
+                    textColor: Colors.white,
+                    color: Colors.blue[300],
                     onPressed: navigateToSignIn,
-                    child: Text('Sign In'),
-                  )
+                  ),
               ),
+
               Container(
-                  margin: EdgeInsets.all(5),
-                  child: ElevatedButton(
-                    onPressed: navigateToSignUp,
-                    child: Text('Sign Up'),
-                  )
+                margin: EdgeInsets.all(5),
+                child: RaisedButton.icon(
+                  icon: Icon(CustomIcons.clipboard_user),
+                  label: Text("Sign Up"),
+                  textColor: Colors.white,
+                  color: Colors.blue[300],
+                  onPressed: navigateToSignUp,
+                ),
               ),
             ]
         ),

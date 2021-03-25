@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:singhealth_app/Pages/tenantAccount.dart';
 import 'package:singhealth_app/Pages/tenantContractDetails.dart';
 import 'package:singhealth_app/classes/firebase.dart';
@@ -13,7 +12,8 @@ import 'package:singhealth_app/pages/tenantAuditChecklistFnB.dart';
 import 'package:singhealth_app/pages/tenantAuditChecklistNonFnB.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/tenant.dart';
-import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/custom_icons.dart';
+import 'package:singhealth_app/pages/tenantPendingReports.dart';
 import 'package:singhealth_app/pages/tenantReportHistory.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 import 'package:singhealth_app/pages/tenantNoncomplianceReport.dart';
@@ -217,7 +217,17 @@ class _TenantHomeState extends State<TenantHome> {
                           IconButton(icon: Icon(CustomIcons.calendar_exclamation), onPressed: navigateToTenantNoncomplianceReport),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                            child: Text("View non-compliance incidents"),
+                            child: Text("View Non-compliance Incidents"),
+                          ),
+                        ],
+                      ),
+
+                      Column(
+                        children: <Widget> [
+                          IconButton(icon: Icon(CustomIcons.stamp), onPressed: navigateToTenantPendingReports),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+                            child: Text("Pending Review"),
                           ),
                         ],
                       ),
@@ -257,6 +267,10 @@ class _TenantHomeState extends State<TenantHome> {
     Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => TenantViewNoncompliance(user: user)));
   }
 
+  void navigateToTenantPendingReports() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TenantViewPendingReports(user: user)));
+  }
+
   void navigateToTenantReportHistory() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => TenantViewReportHistory(user: user)));
   }
@@ -273,10 +287,10 @@ class _TenantHomeState extends State<TenantHome> {
   }
 
   void navigateToTenantAccount() {
-    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAccount(user: user, tenant: data,tenantInfo: tenantInfo)));
+    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantAccount(user: user, tenant: data, tenantInfo: tenantInfo)));
   }
 
   void navigateToTenantContractDetails() {
-    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantContractDetails(user: user, tenant: data,tenantInfo: tenantInfo)));
+    Navigator.push(context, MaterialPageRoute(builder:(context) => TenantContractDetails(user: user, tenant: data, tenantInfo: tenantInfo)));
   }
 }

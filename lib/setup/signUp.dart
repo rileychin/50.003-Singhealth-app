@@ -14,6 +14,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
+import '../custom_icons.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -246,19 +248,27 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 //TODO: ADD CONTRACT EXPIRY DATE when the time comes
+
                 Container(
-                    margin: EdgeInsets.all(10),
-                    child: ElevatedButton(
-                      onPressed: signUp,
-                      child: Text('Sign Up'),
-                    )
+                  margin: EdgeInsets.all(5),
+                  child: RaisedButton.icon(
+                    icon: Icon(CustomIcons.clipboard_user),
+                    label: Text("Sign Up"),
+                    textColor: Colors.white,
+                    color: Colors.blue[300],
+                    onPressed: signUp,
+                  ),
                 ),
+
                 Container(
-                    margin: EdgeInsets.all(10),
-                    child: ElevatedButton(
-                      onPressed: back,
-                      child: Text('Go Back'),
-                    )
+                  margin: EdgeInsets.all(5),
+                  child: RaisedButton.icon(
+                    icon: Icon(CustomIcons.backward),
+                    label: Text("Go Back"),
+                    textColor: Colors.white,
+                    color: Colors.blue[300],
+                    onPressed: back,
+                  ),
                 ),
               ],
             )
