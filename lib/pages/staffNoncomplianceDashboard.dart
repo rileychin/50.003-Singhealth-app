@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'staffDashboardIncidentDetails.dart';
 
 
 class StaffNonComplianceDashboard extends StatefulWidget {
@@ -24,8 +25,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   User user;
   FirebaseFirestore firestoreInstance;
   List<String> tenantList,incidentList;
-  QuerySnapshot querySnapshot;
-  String institution;
+  String institution,shopName;
   bool shopSelected = false;
 
   _StaffNonComplianceDashboardState(user,firestoreinstance) {
@@ -44,7 +44,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
     await docRef.get().then<dynamic>((DocumentSnapshot snapshot) => {
       institution = snapshot.data()['institution']
     });
-    querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').get();
+    QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').get();
 
     String inc = '';
     querySnapshot.docs.forEach((doc) {
@@ -60,22 +60,39 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   }
 
   Future<void> getIncidents(int index) async {
-    String shop = tenantList[index];
-    QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shop).collection('nonComplianceReport').get();
-    String inc = '';
+    shopName = tenantList[index];
+    QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').get();
+    String unresolved = '';
+    String pending = '';
+    String resolved = '';
+
     querySnapshot.docs.forEach((doc){
-      inc += doc['incidentName'] + ':';
+      if (doc['status'] == 'unresolved'){
+        unresolved += doc['incidentName'] + ':';
+      } else if (doc['status'] == 'pending'){
+        pending += doc['incidentName'] + ':';
+      } else if (doc['status'] == 'resolved'){
+        resolved += doc['incidentName'] + ':';
+      }
+
     });
 
-    inc = inc.substring(0,inc.length-1);
-    incidentList = inc.split(":");
+    unresolved = unresolved.substring(0,unresolved.length-1);
+    pending = pending.substring(0,pending.length-1);
+    resolved = resolved.substring(0,resolved.length-1);
+    incidentList = ['Unresolved Incidents'] + unresolved.split(":") + ['Pending Confirmation'] + pending.split(":") + ['Resolved Incidents'] + resolved.split(":");
     setState(() {
       incidentList = incidentList;
       shopSelected = true;
     });
+  }
 
-
-
+  bool incidentTitle(String listItem) {
+    if (listItem == 'Unresolved Incidents' || listItem == 'Pending Confirmation' || listItem == 'Resolved Incidents') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -123,9 +140,14 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
                   itemBuilder: (BuildContext context, int index){
                     return Container(
                       height: 50,
-                      color: Colors.amber[500],
-                      child: Center(
-                          child: Text(incidentList[index]))
+                      color: incidentTitle(incidentList[index]) ? Colors.amber[500] : Colors.amber[100],
+                      child: RawMaterialButton(
+                        child: Center(
+                          child: Text(incidentList[index]),
+                        ),
+                        onPressed: incidentTitle(incidentList[index]) ? null : (){navigateToIncidentDetails(incidentList[index]);},
+
+                      )
                     );
                   },
 
@@ -137,6 +159,9 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
 
         }
       );
+  void navigateToIncidentDetails(String incidentName) {
+    Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, institution: institution, shopName: shopName, incidentName: incidentName)));
+  }
 
 
 }
