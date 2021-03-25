@@ -7,19 +7,19 @@ import 'dart:typed_data';
 import 'package:toast/toast.dart';
 
 
-class TenantViewReportHistory extends StatefulWidget {
+class TenantViewPendingReports extends StatefulWidget {
   final User user;
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
-  TenantViewReportHistory({Key key, this.user}) : super(key: key);
+  TenantViewPendingReports({Key key, this.user}) : super(key: key);
 
   @override
-  _TenantViewReportHistoryState createState() =>
-      _TenantViewReportHistoryState(user, firestoreInstance);
+  _TenantViewPendingReportsState createState() =>
+      _TenantViewPendingReportsState(user, firestoreInstance);
 }
 
-class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
+class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
   String dropdownValue;
   List<String> incidents = [''];
   User user;
@@ -34,7 +34,7 @@ class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
   String summary;
   String status;
 
-  _TenantViewReportHistoryState(user, firestoreInstance) {
+  _TenantViewPendingReportsState(user, firestoreInstance) {
     this.user = user;
     this.firestoreInstance = firestoreInstance;
   }
@@ -55,7 +55,7 @@ class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
     // updateIncidentList() merged
     String inc = '';
     incidentData.docs.forEach((element) {
-      if (element['status'] == 'resolved') {
+      if (element['status'] == 'pending') {
         inc += element['incidentName'] + ':';
       }
     });
@@ -103,7 +103,7 @@ class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
               return Scaffold(
                   appBar: AppBar(
                     title: Text(
-                        'Viewing history of non-compliance incidents for ${shopName}'),
+                        'Viewing incidents pending approval for ${shopName}'),
                   ),
                   body: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

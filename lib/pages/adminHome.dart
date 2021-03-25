@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/Pages/adminAccount.dart';
-import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/custom_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 import 'adminAddDeleteTenant.dart';

@@ -12,6 +12,8 @@ import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
+import '../custom_icons.dart';
+
 
 
 class LoginPage extends StatefulWidget{
@@ -59,19 +61,27 @@ class _LoginPageState extends State<LoginPage>{
                 ),
                 obscureText: true,
               ),
+
               Container(
-                  margin: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    onPressed: signIn,
-                    child: Text('Sign In'),
-                  )
+                margin: EdgeInsets.all(5),
+                child: RaisedButton.icon(
+                  icon: Icon(CustomIcons.sign_in),
+                  label: Text("Sign In"),
+                  textColor: Colors.white,
+                  color: Colors.blue[300],
+                  onPressed: signIn,
+                ),
               ),
+
               Container(
-                  margin: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    onPressed: back,
-                    child: Text('Go Back'),
-                  )
+                margin: EdgeInsets.all(5),
+                child: RaisedButton.icon(
+                  icon: Icon(CustomIcons.backward),
+                  label: Text("Go Back"),
+                  textColor: Colors.white,
+                  color: Colors.blue[300],
+                  onPressed: back,
+                ),
               ),
           ],
         )

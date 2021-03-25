@@ -9,7 +9,7 @@ import 'package:singhealth_app/Pages/staffAccount.dart';
 import 'package:singhealth_app/Pages/staffInstitutionDetails.dart';
 import 'package:singhealth_app/Pages/staffTenantDetails.dart';
 import 'package:singhealth_app/Pages/staffUploadPhoto.dart';
-import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/custom_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 import 'staffNoncomplianceDashboard.dart';
 

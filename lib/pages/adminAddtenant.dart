@@ -6,6 +6,8 @@ import 'package:singhealth_app/Pages/adminHome.dart';
 import 'package:singhealth_app/classes/LabeledCheckBox.dart';
 import 'package:toast/toast.dart';
 
+import '../custom_icons.dart';
+
 class AdminAddTenant extends StatefulWidget {
 
 
@@ -108,9 +110,13 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                         child:Text("Select contract expiry date")
                     ),
                     Text("${selectedDate.toLocal()}".split(' ')[0]),
-                    ElevatedButton(
-                        onPressed: createNewTenant,
-                        child:Text("Confirm")
+
+                    RaisedButton.icon(
+                      icon: Icon(CustomIcons.check),
+                      label: Text("Confirm"),
+                      textColor: Colors.white,
+                      color: Colors.blue[300],
+                      onPressed: createNewTenant,
                     ),
                   ],
                 )
