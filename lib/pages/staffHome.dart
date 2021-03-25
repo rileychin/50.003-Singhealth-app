@@ -11,6 +11,7 @@ import 'package:singhealth_app/Pages/staffTenantDetails.dart';
 import 'package:singhealth_app/Pages/staffUploadPhoto.dart';
 import 'package:singhealth_app/custom_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'staffNoncomplianceDashboard.dart';
 
 
 class StaffHome extends StatefulWidget {
@@ -204,7 +205,7 @@ class _StaffHomeState extends State<StaffHome> {
 
                       Column(
                         children: <Widget> [
-                          IconButton(icon: Icon(CustomIcons.history), onPressed: null),
+                          IconButton(icon: Icon(CustomIcons.history), onPressed: navigateToStaffNonComplianceDashboard),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                             child: Text("Review Incident Status"),
@@ -250,5 +251,11 @@ class _StaffHomeState extends State<StaffHome> {
   void navigateToStaffInstitutionDetails() {
     Navigator.push(context,MaterialPageRoute(builder:(context)=> StaffInstitutionDetails(user:user,staff:data)));
   }
+
+  void navigateToStaffNonComplianceDashboard() {
+    Navigator.push(context,MaterialPageRoute(builder:(context)=> StaffNonComplianceDashboard(user:user)));
+  }
+
+
 }
 
