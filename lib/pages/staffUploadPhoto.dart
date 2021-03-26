@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:singhealth_app/Pages/staffHome.dart';
 import 'package:singhealth_app/classes/firebase.dart';
 import 'package:singhealth_app/classes/institution.dart';
-import 'package:singhealth_app/custom_icons_icons.dart';
+import 'package:singhealth_app/custom_icons.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 import 'package:toast/toast.dart';
 
@@ -214,19 +214,25 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                   )
               ),
               Container(
-                  margin: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    onPressed: addIncident,
-                    child: Text('Confirm'),
-                  )
+                margin: EdgeInsets.all(10),
+                child: RaisedButton.icon(
+                  icon: Icon(CustomIcons.check),
+                  label: Text("Confirm"),
+                  textColor: Colors.white,
+                  color: Colors.blue[300],
+                  onPressed: addIncident,
+                ),
               ),
               Container(
-                  margin: EdgeInsets.all(50),
-                  child: ElevatedButton(
-                    onPressed: back,
-                    child: Text('Go Back'),
-                  )
-              )
+                margin: EdgeInsets.all(50),
+                child: RaisedButton.icon(
+                  icon: Icon(CustomIcons.backward),
+                  label: Text("Go Back"),
+                  textColor: Colors.white,
+                  color: Colors.blue[300],
+                  onPressed: back,
+                ),
+              ),
             ],
           )
         ),
