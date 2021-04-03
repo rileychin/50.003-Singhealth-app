@@ -11,81 +11,42 @@ class StaffDashboardIncidentDetails extends StatefulWidget {
   StaffDashboardIncidentDetails({
     Key key,
     this.user,
-    this.institution,
-    this.shopName,
-    this.incidentName}) : super(key: key);
+    this.details,
+    this.incidentName,
+    this.incidentBytes,
+    this.resolutionBytes}) : super(key: key);
 
   final User user;
-  final String institution,shopName,incidentName;
+  final String incidentName,details;
+  final Uint8List incidentBytes,resolutionBytes;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, institution, shopName, incidentName, firestoreInstance);
+  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes);
 }
 
 class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDetails>{
   User user;
-  String institution,shopName,incidentName,detailsString;
-  FirebaseFirestore firestoreInstance;
+  String details,incidentName;
   Image incidentImage,resolutionImage;
-  Uint8List incidentBytes,resolutionBytes;
 
-  _StaffDashboardIncidentDetailsState(User user,String institution, String shopName, String incidentName, FirebaseFirestore firestoreInstance) {
+
+  _StaffDashboardIncidentDetailsState(User user,String details, String incidentName, Uint8List incidentBytes, Uint8List resolutionBytes) {
     this.user = user;
-    this.institution = institution;
-    this.shopName = shopName;
+    this.details = details;
     this.incidentName = incidentName;
-    this.firestoreInstance = firestoreInstance;
+    this.incidentImage = Image.memory(incidentBytes);
+    if(resolutionBytes != null) {
+      this.resolutionImage = Image.memory(resolutionBytes);
+    }
+
+
   }
   void initState(){
     super.initState();
   }
 
-  Future<void> updateIncidentDetails() async {
-    
-    await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).get().then((doc){
-      detailsString = "Summary: ${doc.data()['summary']}\nLocation: ${doc.data()['location']}\nStatus: ${doc.data()['status']}";
-    });
-
-    print(detailsString);
-    
-    await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).collection('images').get().then((qS){
-      qS.docs.forEach((element) {
-        if (element.id == "incident_image"){
-          //print(element.data()['data']);
-          incidentBytes = element.data()['data'];
-          //print(incidentImage);
-        } else if (element.id == "resolution_image") {
-          if (element.data()['data'].exists) {
-            resolutionBytes = element.data()['data'];
-          }
-
-        }
-      });
-    });
-    
-
-    print("a");
-    if (detailsString != null && incidentBytes != null ) {
-      setState(() {
-        incidentImage = Image.memory(incidentBytes);
-        detailsString = detailsString;
-        if (resolutionBytes != null) {
-          resolutionImage = Image.memory(resolutionBytes);
-        }
-
-      });
-    }
-
-  }
-
   @override
-  Widget build(BuildContext context) =>
-      FutureBuilder(
-        future: updateIncidentDetails(),
-        builder: (context,snapshot){
-          if (detailsString == null) {
-            return Center(child: CircularProgressIndicator());
-          } else {
+  Widget build(BuildContext context) {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.amber,
@@ -98,7 +59,7 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
                     color: Colors.amber
                   ),
                   Container(
-                    child: Text(detailsString),
+                    child: Text(details),
                     color: Colors.amber[200]
                   ),
                   Row(
@@ -118,6 +79,6 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
             );
           }
 
-        });
+
 
 }

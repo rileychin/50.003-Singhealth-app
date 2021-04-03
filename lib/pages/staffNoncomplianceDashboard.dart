@@ -1,5 +1,7 @@
 
 
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +27,11 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   User user;
   FirebaseFirestore firestoreInstance;
   List<String> tenantList,incidentList;
-  String institution,shopName;
+  String institution,shopName,details;
   bool shopSelected = false;
+
+  Uint8List incidentBytes,resolutionBytes;
+  
 
   _StaffNonComplianceDashboardState(user,firestoreinstance) {
     this.user = user;
@@ -39,7 +44,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   }
 
   Future<List<dynamic>> updateNonCompliance() async {
-    //TODO: add code to update list
+
     DocumentReference docRef = firestoreInstance.collection('staff').doc(user.uid);
     await docRef.get().then<dynamic>((DocumentSnapshot snapshot) => {
       institution = snapshot.data()['institution']
@@ -76,10 +81,9 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
       }
 
     });
-
-    unresolved = unresolved.substring(0,unresolved.length-1);
-    pending = pending.substring(0,pending.length-1);
-    resolved = resolved.substring(0,resolved.length-1);
+    if(unresolved.length > 0) {unresolved = unresolved.substring(0,unresolved.length-1);}
+    if(pending.length > 0) {pending = pending.substring(0,pending.length-1);}
+    if(resolved.length > 0){resolved = resolved.substring(0,resolved.length-1);}
     incidentList = ['Unresolved Incidents'] + unresolved.split(":") + ['Pending Confirmation'] + pending.split(":") + ['Resolved Incidents'] + resolved.split(":");
     setState(() {
       incidentList = incidentList;
@@ -159,8 +163,23 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
 
         }
       );
-  void navigateToIncidentDetails(String incidentName) {
-    Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, institution: institution, shopName: shopName, incidentName: incidentName)));
+  void navigateToIncidentDetails(String incidentName) async {
+    DocumentSnapshot docSnap = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).get();
+    details = "Location: ${docSnap.data()['location']}\nStatus: ${docSnap.data()['status']}\nSummary: ${docSnap.data()['summary']}";
+    QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).collection('images').get();
+    querySnapshot.docs.forEach((element) {
+      if (element.id == "incident_image"){
+        print(element.data()['data']);
+        incidentBytes = Uint8List.fromList(element.data()['data'].cast<int>());
+        //print(incidentImage);
+      } else if (element.id == "resolution_image") {
+        if (element.data()['data'].exists) {
+           resolutionBytes = Uint8List.fromList(element.data()['data'].cast<int>());
+        }
+
+      }});
+
+    Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, details: details, incidentName: incidentName, incidentBytes: incidentBytes, resolutionBytes: resolutionBytes)));
   }
 
 
