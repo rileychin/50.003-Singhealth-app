@@ -21,12 +21,17 @@ class StaffUploadPhoto extends StatefulWidget {
     this.user,
     this.staff}) : super(key: key);
 
+  final dynamic staff;
   final User user;
   final dynamic staff;
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
+<<<<<<< HEAD
+  _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user,firestoreInstance,staff);
+=======
   _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user, firestoreInstance, staff);
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
 }
 
 class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
@@ -40,16 +45,28 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   dynamic staff, staffData, institutionData;
   DocumentSnapshot staffSnapshot;
   Image image;
+<<<<<<< HEAD
+  List<dynamic> NonFnBTenantList,FnBTenantList;
+  List<String> FullTenantList = [];
+  List<String> _shopNameList = [];
+  String _shopName;
+  dynamic staff;
+=======
 
   List<dynamic> NonFnBTenantList, FnBTenantList;
   List<String> FullTenantList;
   List<String> _shopNameList = [];
   String _shopName;
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
 
   //global form key used to validate forms
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+<<<<<<< HEAD
+  _StaffUploadPhotoState(user, firestoreInstance,staff){
+=======
   _StaffUploadPhotoState(user, firestoreInstance, staff){
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
     this.user = user;
     this.firestoreInstance = firestoreInstance;
     this.staff = staff;
@@ -68,7 +85,12 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   }
 
   void getTenantsList() async {
+<<<<<<< HEAD
+    try{
+
+=======
     try {
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
       await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
         setState(() {
           if (snapshot.exists){
@@ -93,9 +115,18 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
             _shopNameList = FullTenantList;
             _shopName = null;
           }
+<<<<<<< HEAD
+
+        });
+
+      });
+
+    }catch(e){
+=======
         });
       });
     } catch(e) {
+>>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
     }
   }
 
@@ -126,10 +157,10 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
               ),
               DropdownButton(
                 hint: Text('Select tenant'),
-                value: tenantName,
+                value: _shopName,
                 onChanged: (newValue) {
                   setState(() {
-                    tenantName = newValue;
+                    _shopName = newValue;
                   });
                 },
                 //todo: add validator for dropdown button
