@@ -31,7 +31,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   bool shopSelected = false;
 
   Uint8List incidentBytes,resolutionBytes;
-  
+
 
   _StaffNonComplianceDashboardState(user,firestoreinstance) {
     this.user = user;
@@ -103,65 +103,65 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
   @override
   Widget build(BuildContext context) =>
       FutureBuilder(
-        future: updateNonCompliance(),
-        builder: (context,snapshot){
-          if (tenantList == null) {return Center(child: CircularProgressIndicator());}
-          else {
-            if (shopSelected == false) {
-              return Scaffold(
-                appBar: AppBar(
-                    title: Text("Non Compliance Dashboard")
-                ),
-                body: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: tenantList.length,
+          future: updateNonCompliance(),
+          builder: (context,snapshot){
+            if (tenantList == null) {return Center(child: CircularProgressIndicator());}
+            else {
+              if (shopSelected == false) {
+                return Scaffold(
+                  appBar: AppBar(
+                      title: Text("Non Compliance Dashboard")
+                  ),
+                  body: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: tenantList.length,
 
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                          height: 50,
-                          color: Colors.amber[500],
-                          child: RawMaterialButton(
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                            height: 50,
+                            color: Colors.amber[500],
+                            child: RawMaterialButton(
+                                child: Center(
+                                    child: Text(tenantList[index].toString())),
+                                onPressed: () {getIncidents(index);}
+                            )
+
+                        );
+                      }
+
+
+                  ),
+
+                );
+              } else {
+                return Scaffold(
+                    appBar: AppBar(
+                        title: Text("Non Compliance Report")
+                    ),
+                    body: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: incidentList.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return Container(
+                            height: 50,
+                            color: incidentTitle(incidentList[index]) ? Colors.amber[500] : Colors.amber[100],
+                            child: RawMaterialButton(
                               child: Center(
-                                  child: Text(tenantList[index].toString())),
-                              onPressed: () {getIncidents(index);}
-                          )
+                                child: Text(incidentList[index]),
+                              ),
+                              onPressed: incidentTitle(incidentList[index]) ? null : (){navigateToIncidentDetails(incidentList[index]);},
 
-                      );
-                    }
+                            )
+                        );
+                      },
 
-
-                ),
-
-              );
-            } else {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text("Non Compliance Report")
-                ),
-                body: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: incidentList.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return Container(
-                      height: 50,
-                      color: incidentTitle(incidentList[index]) ? Colors.amber[500] : Colors.amber[100],
-                      child: RawMaterialButton(
-                        child: Center(
-                          child: Text(incidentList[index]),
-                        ),
-                        onPressed: incidentTitle(incidentList[index]) ? null : (){navigateToIncidentDetails(incidentList[index]);},
-
-                      )
-                    );
-                  },
-
-                )
-              );
+                    )
+                );
+              }
             }
+
+
           }
-
-
-        }
       );
   void navigateToIncidentDetails(String incidentName) async {
     DocumentSnapshot docSnap = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).get();
@@ -174,7 +174,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
         //print(incidentImage);
       } else if (element.id == "resolution_image") {
         if (element.data()['data'].exists) {
-           resolutionBytes = Uint8List.fromList(element.data()['data'].cast<int>());
+          resolutionBytes = Uint8List.fromList(element.data()['data'].cast<int>());
         }
 
       }});

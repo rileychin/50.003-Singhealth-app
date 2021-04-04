@@ -9,5 +9,17 @@ class Person {
     this.id = id;
   }
 
+  String getName() {
+    return this.name;
+  }
+
+  String getEmail() {
+    return this.email;
+  }
+
+  String getId() {
+    return this.id;
+  }
+
 
 }

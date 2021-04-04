@@ -9,4 +9,8 @@ class Staff extends Person{
     this.institution = institution;
   }
 
+  String getInstitution(){
+    return this.institution;
+  }
+
 }

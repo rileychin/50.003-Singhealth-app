@@ -42,10 +42,20 @@ dependencies:
   path:
   file_picker:
   image_picker:
+  webdriver:
+  cloud_firestore_mocks:
+  firebase_auth_mocks:
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  test: any
+  flutter_driver:
+    sdk: flutter
+  mockito:
+  dio:
+  integration_test:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

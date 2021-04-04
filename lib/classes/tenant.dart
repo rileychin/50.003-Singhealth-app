@@ -7,4 +7,17 @@ class Tenant extends Person {
     this.institution = institution;
     this.shopName = shopName;
   }
+
+  String getPosition() {
+    return this.position;
+  }
+
+  String getInstitution() {
+    return this.institution;
+  }
+
+  String getShopName(){
+    return this.shopName;
+  }
+
 }

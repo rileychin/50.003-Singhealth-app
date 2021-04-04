@@ -21,17 +21,12 @@ class StaffUploadPhoto extends StatefulWidget {
     this.user,
     this.staff}) : super(key: key);
 
-  final dynamic staff;
   final User user;
   final dynamic staff;
   final firestoreInstance = FirebaseFirestore.instance;
 
   @override
-<<<<<<< HEAD
-  _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user,firestoreInstance,staff);
-=======
   _StaffUploadPhotoState createState() => _StaffUploadPhotoState(user, firestoreInstance, staff);
->>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
 }
 
 class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
@@ -45,28 +40,16 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   dynamic staff, staffData, institutionData;
   DocumentSnapshot staffSnapshot;
   Image image;
-<<<<<<< HEAD
-  List<dynamic> NonFnBTenantList,FnBTenantList;
-  List<String> FullTenantList = [];
-  List<String> _shopNameList = [];
-  String _shopName;
-  dynamic staff;
-=======
 
   List<dynamic> NonFnBTenantList, FnBTenantList;
   List<String> FullTenantList;
   List<String> _shopNameList = [];
   String _shopName;
->>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
 
   //global form key used to validate forms
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-<<<<<<< HEAD
-  _StaffUploadPhotoState(user, firestoreInstance,staff){
-=======
   _StaffUploadPhotoState(user, firestoreInstance, staff){
->>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
     this.user = user;
     this.firestoreInstance = firestoreInstance;
     this.staff = staff;
@@ -85,12 +68,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   }
 
   void getTenantsList() async {
-<<<<<<< HEAD
-    try{
-
-=======
     try {
->>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
       await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
         setState(() {
           if (snapshot.exists){
@@ -115,18 +93,9 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
             _shopNameList = FullTenantList;
             _shopName = null;
           }
-<<<<<<< HEAD
-
-        });
-
-      });
-
-    }catch(e){
-=======
         });
       });
     } catch(e) {
->>>>>>> 9c273a394a8c785c302f5c033020e58f09c2678f
     }
   }
 
@@ -142,102 +111,102 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
     if (staffData == null) return Center(child: CircularProgressIndicator());
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: Text('Upload non-compliance incident photo'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Align(
-          alignment: Alignment.center,
-          child:
-          Column(
-            children: <Widget>[
-              Text("${staffData['institution']}",
-              ),
-              DropdownButton(
-                hint: Text('Select tenant'),
-                value: _shopName,
-                onChanged: (newValue) {
-                  setState(() {
-                    _shopName = newValue;
-                  });
-                },
-                //todo: add validator for dropdown button
-                items: _shopNameList.map((shopName) {
-                  return DropdownMenuItem(
-                    child: new Text(shopName),
-                    value: shopName,
-                  );
-                }).toList(),
-              ),
-              TextFormField(
-                validator:(input){
-                  if (input.isEmpty){
-                    return 'Please enter the location';
-                  }
-                },
-                onSaved: (input) => location = input,
-                decoration: InputDecoration(
-                    labelText: 'Location of incident'
-                ),
-              ),
-              TextFormField(
-                validator:(input){
-                  if (input.isEmpty){
-                    return 'Please enter the incident title';
-                  }
-                },
-                onSaved: (input) =>  incidentName = input,
-                decoration: InputDecoration(
-                    labelText: 'Incident Title'
-                ),
-              ),
-              TextFormField(
-                validator:(input){
-                  if (input.isEmpty){
-                    return 'Please enter a short summary of the incident';
-                  }
-                },
-                onSaved: (input) => summary = input,
-                decoration: InputDecoration(
-                    labelText: 'Summary'
-                ),
-              ),
-
-              Container(child:image != null ? image : Text('No photo uploaded')),
-              Container(
-                  margin: EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    onPressed: uploadPhoto,
-                    child: Text('Upload Photo'),
-                  )
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: RaisedButton.icon(
-                  icon: Icon(CustomIcons.check),
-                  label: Text("Confirm"),
-                  textColor: Colors.white,
-                  color: Colors.blue[300],
-                  onPressed: addIncident,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(50),
-                child: RaisedButton.icon(
-                  icon: Icon(CustomIcons.backward),
-                  label: Text("Go Back"),
-                  textColor: Colors.white,
-                  color: Colors.blue[300],
-                  onPressed: back,
-                ),
-              ),
-            ],
-          )
+        appBar: AppBar(
+          backgroundColor: Colors.amber,
+          title: Text('Upload non-compliance incident photo'),
         ),
+        body: Form(
+          key: _formKey,
+          child: Align(
+              alignment: Alignment.center,
+              child:
+              Column(
+                children: <Widget>[
+                  Text("${staffData['institution']}",
+                  ),
+                  DropdownButton(
+                    hint: Text('Select tenant'),
+                    value: tenantName,
+                    onChanged: (newValue) {
+                      setState(() {
+                        tenantName = newValue;
+                      });
+                    },
+                    //todo: add validator for dropdown button
+                    items: _shopNameList.map((shopName) {
+                      return DropdownMenuItem(
+                        child: new Text(shopName),
+                        value: shopName,
+                      );
+                    }).toList(),
+                  ),
+                  TextFormField(
+                    validator:(input){
+                      if (input.isEmpty){
+                        return 'Please enter the location';
+                      }
+                    },
+                    onSaved: (input) => location = input,
+                    decoration: InputDecoration(
+                        labelText: 'Location of incident'
+                    ),
+                  ),
+                  TextFormField(
+                    validator:(input){
+                      if (input.isEmpty){
+                        return 'Please enter the incident title';
+                      }
+                    },
+                    onSaved: (input) =>  incidentName = input,
+                    decoration: InputDecoration(
+                        labelText: 'Incident Title'
+                    ),
+                  ),
+                  TextFormField(
+                    validator:(input){
+                      if (input.isEmpty){
+                        return 'Please enter a short summary of the incident';
+                      }
+                    },
+                    onSaved: (input) => summary = input,
+                    decoration: InputDecoration(
+                        labelText: 'Summary'
+                    ),
+                  ),
 
-      )
+                  Container(child:image != null ? image : Text('No photo uploaded')),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: ElevatedButton(
+                        onPressed: uploadPhoto,
+                        child: Text('Upload Photo'),
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: RaisedButton.icon(
+                      icon: Icon(CustomIcons.check),
+                      label: Text("Confirm"),
+                      textColor: Colors.white,
+                      color: Colors.blue[300],
+                      onPressed: addIncident,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(50),
+                    child: RaisedButton.icon(
+                      icon: Icon(CustomIcons.backward),
+                      label: Text("Go Back"),
+                      textColor: Colors.white,
+                      color: Colors.blue[300],
+                      onPressed: back,
+                    ),
+                  ),
+                ],
+              )
+          ),
+
+        )
     );
   }
 

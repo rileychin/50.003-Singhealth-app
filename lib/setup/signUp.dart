@@ -94,6 +94,7 @@ class _SignUpState extends State<SignUp> {
               children: <Widget>[
                 //TODO: Implement fields
                 TextFormField(
+                  key:ValueKey("name"),
                   validator:(input){
                     if (input.isEmpty){
                       return 'Please enter a name';
@@ -105,6 +106,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 TextFormField(
+                  key:ValueKey("email"),
                   validator:(input){
                     if (input.isEmpty){
                       return 'Please type an email';
@@ -116,6 +118,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 TextFormField(
+                  key:ValueKey("password"),
                   validator:(input){
                     if (input.length < 6){
                       return 'Your password needs to be at least 6 characters';
@@ -128,6 +131,7 @@ class _SignUpState extends State<SignUp> {
                   obscureText: true,
                 ),
                 DropdownButton(
+                  key:ValueKey("institution"),
                   hint: Text('Please choose an institution'),
                   value: _institution,
                   onChanged: (newValue) {
@@ -154,6 +158,7 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Radio(
+                      key: ValueKey("admin"),
                       value: 0,
                       groupValue: id,
                       onChanged: (val) {
@@ -168,6 +173,7 @@ class _SignUpState extends State<SignUp> {
                       style: new TextStyle(fontSize: 17.0),
                     ),
                     Radio(
+                      key: ValueKey("staff"),
                       value: 1,
                       groupValue: id,
                       onChanged: (val) {
@@ -182,6 +188,7 @@ class _SignUpState extends State<SignUp> {
                       style: new TextStyle(fontSize: 17.0),
                     ),
                     Radio(
+                      key: ValueKey("tenant"),
                       value: 2,
                       groupValue: id,
                       onChanged: (val) {
@@ -202,6 +209,7 @@ class _SignUpState extends State<SignUp> {
                   visible: checkAdmin(),
                   child:
                   TextFormField(
+                    key: ValueKey("secret"),
                     validator:(input){
                       if (input != "admin"){
                         return 'The secret password does not match';
@@ -217,6 +225,7 @@ class _SignUpState extends State<SignUp> {
                   visible: checkTenant(),
                   child:
                   TextFormField(
+                    key: ValueKey("position"),
                     validator:(input){
                       if (input.isEmpty){
                         return 'Please enter your position';
@@ -232,6 +241,7 @@ class _SignUpState extends State<SignUp> {
                   visible: checkTenant(),
                   child:
                   DropdownButton(
+                    key: ValueKey("shopName"),
                     hint: Text('Please select your shop'),
                     value: _shopName,
                     onChanged: (newValue) {
