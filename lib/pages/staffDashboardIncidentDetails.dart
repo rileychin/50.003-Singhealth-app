@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 
+
 class StaffDashboardIncidentDetails extends StatefulWidget {
   @override
   StaffDashboardIncidentDetails({
@@ -14,23 +15,28 @@ class StaffDashboardIncidentDetails extends StatefulWidget {
     this.details,
     this.incidentName,
     this.incidentBytes,
-    this.resolutionBytes}) : super(key: key);
+    this.resolutionBytes,
+    this.firestoreInstance,
+    this.docRef}) : super(key: key);
 
   final User user;
   final String incidentName,details;
   final Uint8List incidentBytes,resolutionBytes;
-  final firestoreInstance = FirebaseFirestore.instance;
+  final firestoreInstance,docRef;
 
-  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes);
+
+  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes, firestoreInstance, docRef);
 }
 
 class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDetails>{
   User user;
   String details,incidentName;
   Image incidentImage,resolutionImage;
+  FirebaseFirestore firestoreInstance;
+  DocumentReference docRef;
 
 
-  _StaffDashboardIncidentDetailsState(User user,String details, String incidentName, Uint8List incidentBytes, Uint8List resolutionBytes) {
+  _StaffDashboardIncidentDetailsState(User user,String details, String incidentName, Uint8List incidentBytes, Uint8List resolutionBytes, FirebaseFirestore firestoreInstance, DocumentReference docRef) {
     this.user = user;
     this.details = details;
     this.incidentName = incidentName;
@@ -38,6 +44,8 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
     if(resolutionBytes != null) {
       this.resolutionImage = Image.memory(resolutionBytes);
     }
+    this.firestoreInstance = firestoreInstance;
+    this.docRef = docRef;
 
 
   }
@@ -45,8 +53,20 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
     super.initState();
   }
 
+  void approve() {
+    docRef.update({'status' : 'resolved'});
+    Navigator.pop(context);
+  }
+
+  void reject() {
+    docRef.update({'status' : 'unresolved'});
+    Navigator.pop(context);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
@@ -71,9 +91,19 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
                     child: resolutionImage != null ? resolutionImage : Text("No image")
                 )
               ],
+            ),
+            Container(
+                child: details.substring(details.length - 7) == 'pending' ? Row(
+                  children: [
+                    RawMaterialButton(
+                        child: Text("Approve"),
+                        onPressed: approve),
+                    RawMaterialButton(
+                        child: Text("Reject"),
+                        onPressed: reject)
+                  ],
+                ) : null
             )
-
-
           ],
         )
     );
