@@ -36,9 +36,10 @@ class _LoginPageState extends State<LoginPage>{
             children: <Widget>[
               //TODO: Implement fields
               TextFormField(
+                key:ValueKey("email"),
                 validator: (input) {
-                  if (input.isEmpty) {
-                    return 'Please type an email';
+                  if (input.isEmpty || !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(input)) {
+                    return 'Please enter valid email format';
                   }
                 },
                 onSaved: (input) => _email = input,
@@ -47,6 +48,7 @@ class _LoginPageState extends State<LoginPage>{
                 ),
               ),
               TextFormField(
+                key:ValueKey("password"),
                 validator: (input) {
                   if (input.length < 6) {
                     return 'Your password needs to be at least 6 characters';
@@ -65,6 +67,7 @@ class _LoginPageState extends State<LoginPage>{
               Container(
                 margin: EdgeInsets.all(5),
                 child: RaisedButton.icon(
+                  key:ValueKey("sign_in"),
                   icon: Icon(CustomIcons.sign_in),
                   label: Text("Sign In"),
                   textColor: Colors.white,

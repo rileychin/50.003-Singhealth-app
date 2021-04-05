@@ -73,6 +73,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                         }
                     ),
                     TextFormField(
+                      key: ValueKey("tenantName"),
                       validator:(input){
                         if (input.length == 0){
                           return 'Please enter a name for the new tenant';
@@ -84,6 +85,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                       ),
                     ),
                     TextFormField(
+                      key: ValueKey("tenantUnitNumber"),
                       validator:(input){
                         if (input.length == 0){
                           return 'Please enter a unit number';
@@ -95,6 +97,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                       ),
                     ),
                     TextFormField(
+                      key: ValueKey("tenantPhoneNumber"),
                       validator:(input){
                         if (input.length == 0){
                           return 'Please enter a phone number';
@@ -112,6 +115,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
                     Text("${selectedDate.toLocal()}".split(' ')[0]),
 
                     RaisedButton.icon(
+                      key: ValueKey("confirmButton"),
                       icon: Icon(CustomIcons.check),
                       label: Text("Confirm"),
                       textColor: Colors.white,
