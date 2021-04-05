@@ -181,7 +181,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
       }});
     print(docSnap.id);
     await Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, details: details, incidentName: incidentName, incidentBytes: incidentBytes, resolutionBytes: resolutionBytes, firestoreInstance: firestoreInstance,
-    docRef: docRef)));
+        docRef: docRef)));
     setState(() {
       shopSelected = false;
     });

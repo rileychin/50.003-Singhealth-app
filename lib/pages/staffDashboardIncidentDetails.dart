@@ -68,47 +68,47 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
   @override
   Widget build(BuildContext context) {
 
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.amber,
-                title: Text('Noncompliance Incident Details'),
-              ),
-              body: Column(
-                children: [
-                  Container(
-                    child: Text(incidentName),
-                    color: Colors.amber
-                  ),
-                  Container(
-                    child: Text(details),
-                    color: Colors.amber[200]
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        child: incidentImage != null ? incidentImage : Text("No image")
-                      ),
-                      Container(
-                        child: resolutionImage != null ? resolutionImage : Text("No image")
-                      )
-                    ],
-                  ),
-                  Container(
-                    child: details.substring(details.length - 7) == 'pending' ? Row(
-                      children: [
-                        RawMaterialButton(
-                            child: Text("Approve"),
-                            onPressed: approve),
-                        RawMaterialButton(
-                            child: Text("Reject"),
-                            onPressed: reject)
-                      ],
-                    ) : null
-                  )
-                ],
-              )
-            );
-          }
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.amber,
+          title: Text('Noncompliance Incident Details'),
+        ),
+        body: Column(
+          children: [
+            Container(
+                child: Text(incidentName),
+                color: Colors.amber
+            ),
+            Container(
+                child: Text(details),
+                color: Colors.amber[200]
+            ),
+            Row(
+              children: [
+                Container(
+                    child: incidentImage != null ? incidentImage : Text("No image")
+                ),
+                Container(
+                    child: resolutionImage != null ? resolutionImage : Text("No image")
+                )
+              ],
+            ),
+            Container(
+                child: details.substring(details.length - 7) == 'pending' ? Row(
+                  children: [
+                    RawMaterialButton(
+                        child: Text("Approve"),
+                        onPressed: approve),
+                    RawMaterialButton(
+                        child: Text("Reject"),
+                        onPressed: reject)
+                  ],
+                ) : null
+            )
+          ],
+        )
+    );
+  }
 
 
 
