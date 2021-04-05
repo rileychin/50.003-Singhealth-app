@@ -60,6 +60,7 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
 
   void reject() {
     docRef.update({'status' : 'unresolved'});
+    docRef.collection("images").doc("resolution_image").delete();
     Navigator.pop(context);
   }
 

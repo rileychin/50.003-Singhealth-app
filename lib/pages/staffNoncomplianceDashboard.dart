@@ -170,7 +170,7 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
     QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).collection('images').get();
     querySnapshot.docs.forEach((element) {
       if (element.id == "incident_image"){
-        print(element.data()['data']);
+        //print(element.data()['data']);
         incidentBytes = Uint8List.fromList(element.data()['data'].cast<int>());
         //print(incidentImage);
       } else if (element.id == "resolution_image") {
@@ -179,12 +179,14 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
         }
 
       }});
-
+    print(docSnap.id);
     await Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, details: details, incidentName: incidentName, incidentBytes: incidentBytes, resolutionBytes: resolutionBytes, firestoreInstance: firestoreInstance,
     docRef: docRef)));
     setState(() {
       shopSelected = false;
     });
+    incidentBytes = null;
+    resolutionBytes = null;
 
 
   }
