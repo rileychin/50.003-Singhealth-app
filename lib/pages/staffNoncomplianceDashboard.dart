@@ -164,8 +164,9 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
           }
       );
   void navigateToIncidentDetails(String incidentName) async {
-    DocumentSnapshot docSnap = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).get();
-    details = "Location: ${docSnap.data()['location']}\nStatus: ${docSnap.data()['status']}\nSummary: ${docSnap.data()['summary']}";
+    DocumentReference docRef = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName);
+    DocumentSnapshot docSnap = await docRef.get();
+    details = "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}";
     QuerySnapshot querySnapshot = await firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(incidentName).collection('images').get();
     querySnapshot.docs.forEach((element) {
       if (element.id == "incident_image"){
@@ -173,13 +174,19 @@ class _StaffNonComplianceDashboardState extends State<StaffNonComplianceDashboar
         incidentBytes = Uint8List.fromList(element.data()['data'].cast<int>());
         //print(incidentImage);
       } else if (element.id == "resolution_image") {
-        if (element.data()['data'].exists) {
+        if (element.data()['data'] != null) {
           resolutionBytes = Uint8List.fromList(element.data()['data'].cast<int>());
         }
 
       }});
 
-    Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, details: details, incidentName: incidentName, incidentBytes: incidentBytes, resolutionBytes: resolutionBytes)));
+    await Navigator.push(context, MaterialPageRoute(builder:(context) => StaffDashboardIncidentDetails(user: user, details: details, incidentName: incidentName, incidentBytes: incidentBytes, resolutionBytes: resolutionBytes, firestoreInstance: firestoreInstance,
+    docRef: docRef)));
+    setState(() {
+      shopSelected = false;
+    });
+
+
   }
 
 
