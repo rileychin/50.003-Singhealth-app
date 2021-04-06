@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:singhealth_app/classes/checklistQuestions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:singhealth_app/classes/LabeledCheckBox.dart';
 import 'package:toast/toast.dart';
@@ -88,7 +89,7 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                         Text("Professionalism"),
                         SizedBox(height:10),
                         LabeledCheckbox(
-                            label: 'Shop is open and ready to service patients/visitors according to operating hours.	',
+                            label: ('Shop is open and ready to service patients/visitors according to operating hours.	'),
                             padding: const EdgeInsets.symmetric(horizontal: 20.0),
                             value: auditChecklist['professionalismAndStaffHygiene'][0],
                             onChanged: null
@@ -736,7 +737,7 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                             Text("WARNING: Tenant score is currently less than 95%",
                                 style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red))
                         ),
-                        ElevatedButton(onPressed: (){sendCSV(staff['email'],'${auditChecklist['date']} audit checklist for $tenantName');} , child: Text("send csv")),
+                        ElevatedButton(onPressed: (){sendEmail(staff['email'],'${auditChecklist['date']} audit checklist for $tenantName');} , child: Text("send email")),
 
                       ]
                   ),
@@ -752,11 +753,69 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
   checkWarning() {if (auditChecklist['warning']) return true; else return false;}
 
   //most likely have to custom send the email
-  void sendCSV(String recipient, String subject) async{
+  void sendEmail(String recipient, String subject) async{
 
     //add checklist AUTOMATICALLY to body
+    String body = "";
 
-    String url = 'mailto: $recipient?subject=$subject&body=hello';
+
+    //professionalism part
+    body += "Professionalism and Staff Hygiene Score:  " + auditChecklist['professionalismAndStaffHygieneScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['professionalismAndStaffHygiene'].length; i++){
+      if (auditChecklist['professionalismAndStaffHygiene'][i]){
+        body += FnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //housekeeping part
+    body += "Housekeeping and General Cleanliness Score: " + auditChecklist['houseKeepingAndGeneralCleanlinessScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['houseKeepingAndGeneralCleanliness'].length; i++){
+      if (auditChecklist['houseKeepingAndGeneralCleanliness'][i]){
+        body += FnBChecklistQuestions.houseKeepingAndGeneralCleanliness[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //foodHygiene part
+    body += "Food Hygiene Score: " + auditChecklist['foodHygieneScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['foodHygiene'].length; i++){
+      if (auditChecklist['foodHygiene'][i]){
+        body += FnBChecklistQuestions.foodHygiene[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //healthier choice part
+    body += "Healthier Choice Score: " + auditChecklist['healthierChoiceScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['healthierChoice'].length; i++){
+      if (auditChecklist['healthierChoice'][i]){
+        body += FnBChecklistQuestions.healthierChoice[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //workplace safety and health part
+    body += "Workplace safety and Health Score: " + auditChecklist['workplaceSafetyAndHealthScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['workplaceSafetyAndHealth'].length; i++){
+      if (auditChecklist['workplaceSafetyAndHealth'][i]){
+        body += FnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //total score
+    body += "Total Score: " + auditChecklist['totalScore'].toString();
+
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: staff['email'],
+      query: 'subject=$subject&body=$body'
+    );
+
+    String url = params.toString();
+
+    //String url = 'mailto: $recipient?subject=$subject&body=$body';
 
     try {
       await launch(url);
