@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:singhealth_app/classes/LabeledCheckBox.dart';
+import 'package:singhealth_app/classes/checklistQuestions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StaffAuditDetailsNonFnBTwo extends StatefulWidget {
 
@@ -315,6 +317,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
                             Text("WARNING: Tenant score is currently less than 95%",
                                 style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red))
                         ),
+                        ElevatedButton(onPressed: (){sendEmail(staff['email'],'${auditChecklist['date']} audit checklist for $tenantName');} , child: Text("send email")),
+
                       ],
                     )
                   ],
@@ -326,4 +330,56 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
   }
 
   checkWarning() {if (auditChecklist['warning']) return true; else return false;}
+
+  void sendEmail(String recipient, String subject) async{
+
+    //add checklist AUTOMATICALLY to body
+    String body = "";
+
+    //professionalism part
+    body += "Professionalism and Staff Hygiene Score:  " + auditChecklist['professionalismAndStaffHygieneScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['professionalismAndStaffHygiene'].length; i++){
+      if (auditChecklist['professionalismAndStaffHygiene'][i]){
+        body += NonFnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //housekeeping part
+    body += "Housekeeping and General Cleanliness Score: " + auditChecklist['houseKeepingAndGeneralCleanlinessScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['houseKeepingAndGeneralCleanliness'].length; i++){
+      if (auditChecklist['houseKeepingAndGeneralCleanliness'][i]){
+        body += NonFnBChecklistQuestions.houseKeepingAndGeneralCleanliness[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //workplace safety and health part
+    body += "Workplace safety and Health Score: " + auditChecklist['workplaceSafetyAndHealthScore'].toString() + " \n\n";
+    for (int i = 0; i < auditChecklist['workplaceSafetyAndHealth'].length; i++){
+      if (auditChecklist['workplaceSafetyAndHealth'][i]){
+        body += NonFnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\n";
+      }
+    }
+    body += "\n";
+
+    //total score
+    body += "Total Score: " + auditChecklist['totalScore'].toString();
+
+    final Uri params = Uri(
+        scheme: 'mailto',
+        path: staff['email'],
+        query: 'subject=$subject&body=$body'
+    );
+
+    String url = params.toString();
+
+    //String url = 'mailto: $recipient?subject=$subject&body=$body';
+
+    try {
+      await launch(url);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
