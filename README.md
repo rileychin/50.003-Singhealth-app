@@ -18,12 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Features implemented
 
-all basic functionalities
+all functionalities
 
-## TODO 
-
-dynamic checklist
-
-upload photo
-
-send email with body 
