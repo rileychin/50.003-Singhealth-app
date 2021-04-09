@@ -6,43 +6,41 @@ import 'package:singhealth_app/custom_icons.dart';
 import 'package:toast/toast.dart';
 
 class TenantContractDetails extends StatefulWidget {
-
   final User user;
-  final dynamic tenant,tenantInfo;
+  final dynamic tenant, tenantInfo;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  TenantContractDetails({
-    Key key,
-    this.user,
-    this.tenant,
-    this.tenantInfo}) : super(key: key);
-
+  TenantContractDetails({Key key, this.user, this.tenant, this.tenantInfo})
+      : super(key: key);
 
   @override
-  _TenantContractDetailsState createState() => _TenantContractDetailsState(user,tenant,tenantInfo);
+  _TenantContractDetailsState createState() =>
+      _TenantContractDetailsState(user, tenant, tenantInfo);
 }
 
 class _TenantContractDetailsState extends State<TenantContractDetails> {
-
   User user;
-  dynamic tenant,tenantInfo;
+  dynamic tenant, tenantInfo;
   final firestoreInstance = FirebaseFirestore.instance;
 
-
-
-  _TenantContractDetailsState(user,tenant,tenantInfo){
+  _TenantContractDetailsState(user, tenant, tenantInfo) {
     this.user = user;
     this.tenant = tenant;
     this.tenantInfo = tenantInfo;
   }
 
   bool _isEnabled = false;
-  String name,email,institution;
+  String name, email, institution;
 
-  TextEditingController
-  nameController,emailController,institutionController,
-      positionController,contractExpiryController,shopNameController,dateJoinedController,
-      unitNumberController,phoneNumberController;
+  TextEditingController nameController,
+      emailController,
+      institutionController,
+      positionController,
+      contractExpiryController,
+      shopNameController,
+      dateJoinedController,
+      unitNumberController,
+      phoneNumberController;
 
   @override
   void initState() {
@@ -52,11 +50,15 @@ class _TenantContractDetailsState extends State<TenantContractDetails> {
     emailController = TextEditingController(text: tenant['email']);
     institutionController = TextEditingController(text: tenant['institution']);
     positionController = TextEditingController(text: tenant['position']);
-    contractExpiryController = TextEditingController(text: tenantInfo['contractExpiry']);
+    contractExpiryController =
+        TextEditingController(text: tenantInfo['contractExpiry']);
     shopNameController = TextEditingController(text: tenantInfo['shopName']);
-    dateJoinedController = TextEditingController(text: tenantInfo['dateJoined']);
-    unitNumberController = TextEditingController(text: tenantInfo['unitNumber']);
-    phoneNumberController = TextEditingController(text: tenantInfo['phoneNumber']);
+    dateJoinedController =
+        TextEditingController(text: tenantInfo['dateJoined']);
+    unitNumberController =
+        TextEditingController(text: tenantInfo['unitNumber']);
+    phoneNumberController =
+        TextEditingController(text: tenantInfo['phoneNumber']);
   }
 
   @override
@@ -71,127 +73,163 @@ class _TenantContractDetailsState extends State<TenantContractDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Tenant contract details'),
-        ),
-        body:
-        Align(
-          alignment: Alignment.center,
-          child:
-          Column(
+      appBar: AppBar(
+        title: Text('Tenant contract details'),
+      ),
+      body: Container(
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text("Contract Summary: "),
-                ],
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Shop Name: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenantInfo['shopName']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
+              Column(children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 30.0),
+                  child: Card(
+                    elevation: 5,
+                    child: Column(
+                      children: [
+                        ListTile(
+                          tileColor: Colors.grey,
+                          title: Center(
+                            child: Text(
+                              "Contract Summary: ",
+                              textScaleFactor: 1.5,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Shop Name: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenantInfo['shopName']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Institution: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenant['institution']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Contract Expiry: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenantInfo['contractExpiry']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Date Joined: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenantInfo['dateJoined']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Unit Number: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenantInfo['unitNumber']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("Phone Number: "),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 350,
+                                  child: Text(
+                                    "${tenantInfo['phoneNumber']}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(height: 10),
+                        Visibility(
+                            visible: checkDate(),
+                            child: Text(
+                                "WARNING: Your contract is about to expiry, please renew it before ${tenantInfo['contractExpiry']}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40,
+                                    color: Colors.red))),
+                      ],
                     ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Institution: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenant['institution']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Contract Expiry: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenantInfo['contractExpiry']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Date Joined: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenantInfo['dateJoined']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Unit Number: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenantInfo['unitNumber']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
-                    Text("Phone Number: "),
-                    Container(
-                      alignment: Alignment.center,
-                      width: 1000,
-                      child: Text("${tenantInfo['phoneNumber']}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ]
-              ),
-              SizedBox(height:10),
-              Visibility(
-                visible: checkDate(),
-                  child:
-                  Text("WARNING: Your contract is about to expiry, please renew it before ${tenantInfo['contractExpiry']}",
-                      style : TextStyle(fontWeight: FontWeight.bold,fontSize: 40, color: Colors.red)))
-            ],
-          ),
-        )
+                  ),
+                ),
+              ]),
+            ]),
+      ),
     );
   }
 
@@ -209,15 +247,11 @@ class _TenantContractDetailsState extends State<TenantContractDetails> {
 
     //calculate total days < 3 months (3*30 days)
     //3 months period for contract expiry notice
-    int totalDays = year*365 + month*30 + day;
+    int totalDays = year * 365 + month * 30 + day;
 
-    if (totalDays > 90){
+    if (totalDays > 90) {
       return false;
     }
     return true;
-
   }
-
-
-
 }
