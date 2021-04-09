@@ -9,7 +9,6 @@ import 'package:toast/toast.dart';
 
 import '../custom_icons.dart';
 
-
 class TenantViewNoncompliance extends StatefulWidget {
   final User user;
   final firestoreInstance = FirebaseFirestore.instance;
@@ -44,7 +43,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
 
   Future<void> updateIncidentData() async {
     DocumentSnapshot documentSnapshot =
-    await firestoreInstance.collection('tenant').doc(user.uid).get();
+        await firestoreInstance.collection('tenant').doc(user.uid).get();
     shopName = documentSnapshot.data()['shopName'];
     institution = documentSnapshot.data()['institution'];
     incidentData = await firestoreInstance
@@ -71,119 +70,131 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   }
 
   Future<void> displayImage() async {
-    var path = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(dropdownValue);
+    var path = firestoreInstance
+        .collection('institution')
+        .doc(institution)
+        .collection('tenant')
+        .doc(shopName)
+        .collection('nonComplianceReport')
+        .doc(dropdownValue);
     DocumentSnapshot docSnap = await path.get();
-    DocumentSnapshot imageSnapshot = await path.collection('images').doc('incident_image').get();
-    DocumentSnapshot resImageSnapshot = await path.collection('images').doc('resolution_image').get();
+    DocumentSnapshot imageSnapshot =
+        await path.collection('images').doc('incident_image').get();
+    DocumentSnapshot resImageSnapshot =
+        await path.collection('images').doc('resolution_image').get();
 
     incidentName = docSnap.data()['incidentName'];
     location = docSnap.data()['location'];
     summary = docSnap.data()['summary'];
     status = docSnap.data()['status'];
 
-    imageData = new Uint8List.fromList(imageSnapshot.data()['data'].cast<int>());
+    imageData =
+        new Uint8List.fromList(imageSnapshot.data()['data'].cast<int>());
     setState(() {
       image = Image.memory(imageData, width: 400, height: 400);
     });
 
-    resImageData = new Uint8List.fromList(resImageSnapshot.data()['data'].cast<int>());
+    resImageData =
+        new Uint8List.fromList(resImageSnapshot.data()['data'].cast<int>());
     setState(() {
       resImage = Image.memory(resImageData, width: 400, height: 400);
     });
   }
 
   @override
-  Widget build(BuildContext context) =>
-      FutureBuilder(
-          future: updateIncidentData(),
-          builder: (context, snapshot) {
-            if (incidentData == null) {
-              return Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ));
-            } else {
-              return Scaffold(
-                  appBar: AppBar(
-                    title: Text(
-                        'Viewing non-compliance reports for ${shopName}'),
+  Widget build(BuildContext context) => FutureBuilder(
+      future: updateIncidentData(),
+      builder: (context, snapshot) {
+        if (incidentData == null) {
+          return Scaffold(
+              body: Center(
+            child: CircularProgressIndicator(),
+          ));
+        } else {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text('Viewing non-compliance reports for ${shopName}'),
+              ),
+              body: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(35.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        DropdownButton<String>(
+                          hint: new Text('Incident Name'),
+                          value: dropdownValue,
+                          icon: Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              dropdownValue = newValue;
+                            });
+                            displayImage();
+                          },
+                          items: incidents
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                        Text("Incident Name: $incidentName"),
+                        Text("Summary: $summary"),
+                        Text("Location: $location"),
+                        Text("Status: $status"),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.all(50),
+                                child: image != null
+                                    ? image
+                                    : Text('No incident image')),
+                            Container(
+                                margin: EdgeInsets.all(50),
+                                child: resImage != null
+                                    ? resImage
+                                    : Text('No resolution image')),
+                          ],
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(10),
+                            child: ElevatedButton(
+                              onPressed: uploadResolution,
+                              child: Text("Upload Resolution Photo"),
+                            )),
+                        Container(
+                            margin: EdgeInsets.all(10),
+                            child: ElevatedButton(
+                              onPressed: resolveIncident,
+                              child: Text("Resolve Incident"),
+                            )),
+                        Container(
+                          margin: EdgeInsets.all(50),
+                          child: RaisedButton.icon(
+                            icon: Icon(CustomIcons.backward),
+                            label: Text("Go Back"),
+                            textColor: Colors.white,
+                            color: Colors.blue[300],
+                            onPressed: back,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  body: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      DropdownButton<String>(
-                        hint: new Text('Incident Name'),
-                        value: dropdownValue,
-                        icon: Icon(Icons.arrow_downward),
-                        iconSize: 24,
-                        elevation: 16,
-                        style: TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            dropdownValue = newValue;
-                          });
-                          displayImage();
-                        },
-                        items: incidents.map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-
-                      Text("Incident Name: $incidentName"),
-                      Text("Summary: $summary"),
-                      Text("Location: $location"),
-                      Text("Status: $status"),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                              margin: EdgeInsets.all(50),
-                              child: image != null ? image : Text('No incident image')
-                          ),
-                          Container(
-                              margin: EdgeInsets.all(50),
-                              child: resImage != null ? resImage : Text('No resolution image')
-                          ),
-                        ],
-                      ),
-
-                      Container(
-                          margin: EdgeInsets.all(10),
-                          child: ElevatedButton(
-                            onPressed: uploadResolution,
-                            child: Text("Upload Resolution Photo"),
-                          )
-                      ),
-                      Container(
-                          margin: EdgeInsets.all(10),
-                          child: ElevatedButton(
-                            onPressed: resolveIncident,
-                            child: Text("Resolve Incident"),
-                          )
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(50),
-                        child: RaisedButton.icon(
-                          icon: Icon(CustomIcons.backward),
-                          label: Text("Go Back"),
-                          textColor: Colors.white,
-                          color: Colors.blue[300],
-                          onPressed: back,
-                        ),
-                      ),
-                    ],
-                  )
-              );
-            }
-          });
+                ],
+              ));
+        }
+      });
 
   Future<void> uploadResolution() async {
     FilePickerResult picked = await FilePicker.platform.pickFiles();
@@ -199,11 +210,15 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
       Toast.show("No resolution image selected.", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
     } else {
-      var path = firestoreInstance.collection('institution').doc(institution).collection('tenant').doc(shopName).collection('nonComplianceReport').doc(dropdownValue);
+      var path = firestoreInstance
+          .collection('institution')
+          .doc(institution)
+          .collection('tenant')
+          .doc(shopName)
+          .collection('nonComplianceReport')
+          .doc(dropdownValue);
 
-      path.update({
-        "status": "pending"
-      });
+      path.update({"status": "pending"});
 
       path.collection('images').doc('resolution_image').set({
         "data": resImageData,
@@ -214,6 +229,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   }
 
   void back() {
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TenantHome(user: user)));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => TenantHome(user: user)));
   }
 }
