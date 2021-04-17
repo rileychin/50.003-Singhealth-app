@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Container(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 700.0),
+                padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 600.0),
                 child: Card(
                   child: Column(
                     children: <Widget>[
