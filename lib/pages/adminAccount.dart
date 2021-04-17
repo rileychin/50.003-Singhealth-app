@@ -61,6 +61,7 @@ class _AdminAccountState extends State<AdminAccount> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
+
                   // child: ListView.builder(
                   //     // scrollDirection: Axis.horizontal,
                   //     itemCount: 2,
@@ -72,6 +73,15 @@ class _AdminAccountState extends State<AdminAccount> {
 
                   child: Column(
                     children: [
+                      Positioned(
+                        left: 150,
+                        top: 1,
+                        child: Image(
+                          width: 200,
+                          height: 200,
+                          image: AssetImage('images/SingHealth_Logo.png'),
+                        ),
+                      ),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 30.0),
@@ -108,7 +118,7 @@ class _AdminAccountState extends State<AdminAccount> {
                                         textScaleFactor: 1.5,
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 24,
+                                            fontSize: 18,
                                             fontFamily: 'Open Sans',
                                             fontWeight: FontWeight.w500,
                                             letterSpacing: 2.40
