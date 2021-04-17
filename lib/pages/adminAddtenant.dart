@@ -9,37 +9,40 @@ import 'package:toast/toast.dart';
 import '../custom_icons.dart';
 
 class AdminAddTenant extends StatefulWidget {
-
-
   final User user;
   final dynamic admin;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  AdminAddTenant({
-    Key key,
-    this.user,
-    this.admin}) : super(key: key);
+  AdminAddTenant({Key key, this.user, this.admin}) : super(key: key);
 
   @override
-  _AdminAddTenantState createState() => _AdminAddTenantState(user,admin);
+  _AdminAddTenantState createState() => _AdminAddTenantState(user, admin);
 }
 
 class _AdminAddTenantState extends State<AdminAddTenant> {
-
   User user;
-  dynamic admin,auditChecklist;
+  dynamic admin, auditChecklist;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  _AdminAddTenantState(user,admin){
+  _AdminAddTenantState(user, admin) {
     this.user = user;
     this.admin = admin;
   }
 
-
   //fields needed for adding admin
-  List<String> _institutions = ['CGH','KKH','SGH','SKH','NCCS','NHCS','BVH','OCH','Academia'];
+  List<String> _institutions = [
+    'CGH',
+    'KKH',
+    'SGH',
+    'SKH',
+    'NCCS',
+    'NHCS',
+    'BVH',
+    'OCH',
+    'Academia'
+  ];
   String _institution = 'CGH';
-  String newTenant,unitNumber,phoneNumber;
+  String newTenant, unitNumber, phoneNumber;
   DateTime selectedDate = DateTime.now();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isFnB = true;
@@ -47,88 +50,108 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        title: Text('Adding tenant for institution ${admin['institution']}'),
-      ),
-
-      body:
-        Align(
-          alignment: Alignment.center,
-          child:
-              Form(
+        appBar: AppBar(
+          backgroundColor: Colors.redAccent,
+          title: Text('Adding tenant for institution ${admin['institution']}'),
+        ),
+        body: Align(
+            alignment: Alignment.center,
+            child: Form(
                 key: _formKey,
-                child:
-                Column(
-                  children: <Widget>[
-                    Text("Institution : ${admin['institution']}"),
-                    LabeledCheckbox(
-                        label: ("Food and Beverage tenant?"),
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        value: isFnB,
-                        onChanged: (bool newValue){
-                          setState(() {
-                            isFnB = newValue;
-                          });
-                        }
-                    ),
-                    TextFormField(
-                      key: ValueKey("tenantName"),
-                      validator:(input){
-                        if (input.length == 0){
-                          return 'Please enter a name for the new tenant';
-                        }
-                      },
-                      onSaved: (input) => newTenant = input,
-                      decoration: InputDecoration(
-                          labelText: 'Enter new tenant name'
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(600.0, 30.0, 600.0, 350.0),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child:
+                                Text("Institution : ${admin['institution']}"),
+                          ),
+                          LabeledCheckbox(
+                              label:
+                                  ("Food and Beverage Tenant?   (click to tick checkbox)"),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              value: isFnB,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  isFnB = newValue;
+                                });
+                              }),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              key: ValueKey("tenantName"),
+                              validator: (input) {
+                                if (input.length == 0) {
+                                  return 'Please enter a name for the new tenant';
+                                }
+                              },
+                              onSaved: (input) => newTenant = input,
+                              decoration: InputDecoration(
+                                  labelText: 'Enter new tenant name'),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              key: ValueKey("tenantUnitNumber"),
+                              validator: (input) {
+                                if (input.length == 0) {
+                                  return 'Please enter a unit number';
+                                }
+                              },
+                              onSaved: (input) => unitNumber = input,
+                              decoration: InputDecoration(
+                                  labelText: 'Enter tenant unit number'),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              key: ValueKey("tenantPhoneNumber"),
+                              validator: (input) {
+                                if (input.length == 0) {
+                                  return 'Please enter a phone number';
+                                }
+                              },
+                              onSaved: (input) => phoneNumber = input,
+                              decoration: InputDecoration(
+                                  labelText: 'Enter tenant phone  number'),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  _selectDate(context);
+                                },
+                                child: Text("Select contract expiry date")),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child:
+                                Text("${selectedDate.toLocal()}".split(' ')[0]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: RaisedButton.icon(
+                              key: ValueKey("confirmButton"),
+                              icon: Icon(CustomIcons.check),
+                              label: Text("Confirm"),
+                              textColor: Colors.white,
+                              color: Colors.blue[300],
+                              onPressed: createNewTenant,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    TextFormField(
-                      key: ValueKey("tenantUnitNumber"),
-                      validator:(input){
-                        if (input.length == 0){
-                          return 'Please enter a unit number';
-                        }
-                      },
-                      onSaved: (input) => unitNumber = input,
-                      decoration: InputDecoration(
-                          labelText: 'Enter tenant unit number'
-                      ),
-                    ),
-                    TextFormField(
-                      key: ValueKey("tenantPhoneNumber"),
-                      validator:(input){
-                        if (input.length == 0){
-                          return 'Please enter a phone number';
-                        }
-                      },
-                      onSaved: (input) => phoneNumber = input,
-                      decoration: InputDecoration(
-                          labelText: 'Enter tenant phone  number'
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: (){_selectDate(context);},
-                        child:Text("Select contract expiry date")
-                    ),
-                    Text("${selectedDate.toLocal()}".split(' ')[0]),
-
-                    RaisedButton.icon(
-                      key: ValueKey("confirmButton"),
-                      icon: Icon(CustomIcons.check),
-                      label: Text("Confirm"),
-                      textColor: Colors.white,
-                      color: Colors.blue[300],
-                      onPressed: createNewTenant,
-                    ),
-                  ],
-                )
-              )
-
-        )
-
-    );
+                  ),
+                ))));
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -143,108 +166,106 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
       });
   }
 
-
-  void createNewTenant() async{
+  void createNewTenant() async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
     }
-    try{
-
-      DocumentReference institutionRef = firestoreInstance.collection("institution").doc(admin['institution']);
+    try {
+      DocumentReference institutionRef =
+          firestoreInstance.collection("institution").doc(admin['institution']);
       List<dynamic> tenantList = [];
 
       //If it already exists then update
       try {
         DocumentSnapshot snapshot = await institutionRef.get();
 
-        if (isFnB){
+        if (isFnB) {
           //START
           tenantList = snapshot['FnBTenantList'];
-          if (checkExists(tenantList)){
-            Toast.show("tenant already exists", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-          }
-          else{
+          if (checkExists(tenantList)) {
+            Toast.show("tenant already exists", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          } else {
             tenantList.add(newTenant);
-            institutionRef.update({
-              'FnBTenantList' : tenantList
-            });
+            institutionRef.update({'FnBTenantList': tenantList});
             tenantList.clear();
-            Toast.show("Successfully added new tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+            Toast.show("Successfully added new tenant", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
             institutionRef.collection('tenant').doc(newTenant).set({
-              'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-              'shopName' : newTenant,
-              'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
-              'unitNumber' : unitNumber,
-              'phoneNumber' : phoneNumber,
+              'contractExpiry': selectedDate
+                  .toLocal()
+                  .toString()
+                  .split(' ')[0], //add contract expiry date to list
+              'shopName': newTenant,
+              'dateJoined': DateTime.now().toLocal().toString().split(' ')[0],
+              'unitNumber': unitNumber,
+              'phoneNumber': phoneNumber,
             });
           }
           //END
-        }
-        else{
+        } else {
           tenantList = snapshot['NonFnBTenantList'];
-          if (checkExists(tenantList)){
-            Toast.show("tenant already exists", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-          }
-          else{
+          if (checkExists(tenantList)) {
+            Toast.show("tenant already exists", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          } else {
             tenantList.add(newTenant);
-            institutionRef.update({
-              'NonFnBTenantList' : tenantList
-            });
+            institutionRef.update({'NonFnBTenantList': tenantList});
 
-            Toast.show("Successfully added new tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+            Toast.show("Successfully added new tenant", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
             tenantList.clear();
             institutionRef.collection('tenant').doc(newTenant).set({
-              'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-              'shopName' : newTenant,
-              'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
-              'unitNumber' : unitNumber,
-              'phoneNumber' : phoneNumber,
+              'contractExpiry': selectedDate
+                  .toLocal()
+                  .toString()
+                  .split(' ')[0], //add contract expiry date to list
+              'shopName': newTenant,
+              'dateJoined': DateTime.now().toLocal().toString().split(' ')[0],
+              'unitNumber': unitNumber,
+              'phoneNumber': phoneNumber,
             });
           }
         }
-      }catch(e){
+      } catch (e) {
         //else it does not exist so create new one
-        if (isFnB){
+        if (isFnB) {
           tenantList.add(newTenant);
-          institutionRef.update({
-            'FnBTenantList' : tenantList
-          });
+          institutionRef.update({'FnBTenantList': tenantList});
           tenantList.clear();
-          Toast.show("Successfully added new tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-        }
-        else{
+          Toast.show("Successfully added new tenant", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+        } else {
           tenantList.add(newTenant);
-          institutionRef.update({
-            'NonFnBTenantList' : tenantList
-          });
+          institutionRef.update({'NonFnBTenantList': tenantList});
           tenantList.clear();
-          Toast.show("Successfully added new tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
+          Toast.show("Successfully added new tenant", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
         }
 
         institutionRef.collection('tenant').doc(newTenant).set({
-          'contractExpiry' : selectedDate.toLocal().toString().split(' ')[0], //add contract expiry date to list
-          'shopName' : newTenant,
-          'dateJoined' : DateTime.now().toLocal().toString().split(' ')[0],
-          'unitNumber' : unitNumber,
-          'phoneNumber' : phoneNumber,
+          'contractExpiry': selectedDate
+              .toLocal()
+              .toString()
+              .split(' ')[0], //add contract expiry date to list
+          'shopName': newTenant,
+          'dateJoined': DateTime.now().toLocal().toString().split(' ')[0],
+          'unitNumber': unitNumber,
+          'phoneNumber': phoneNumber,
         });
       }
-
-
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
   bool checkExists(List tenantList) {
-    for (int i = 0; i < tenantList.length; i++){
-      if (tenantList[i] == newTenant){
+    for (int i = 0; i < tenantList.length; i++) {
+      if (tenantList[i] == newTenant) {
         return true;
       }
     }
     return false;
   }
-
-
 }

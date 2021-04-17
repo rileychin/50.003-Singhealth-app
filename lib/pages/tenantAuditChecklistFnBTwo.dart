@@ -88,13 +88,14 @@ class _TenantAuditChecklistFnBTwoState
                             ),
                             Column(
                               children: [
-                                new TextFormField(
-                                    style: TextStyle(
-                                        //fontSize: 14
-                                        ),
-                                    decoration: new InputDecoration(
-                                      labelText: "Professionalism",
-                                    ))
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Visibility(
+                                      child: Text("Professionalism",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))),
+                                ),
                               ],
                             ),
                             LabeledCheckbox(
@@ -123,10 +124,14 @@ class _TenantAuditChecklistFnBTwoState
                                 onChanged: null),
                             Column(
                               children: [
-                                new TextFormField(
-                                    decoration: new InputDecoration(
-                                  labelText: "Staff Hygiene",
-                                )),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Visibility(
+                                      child: Text("Staff Hygiene",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))),
+                                ),
                               ],
                             ),
                             LabeledCheckbox(
@@ -215,7 +220,7 @@ class _TenantAuditChecklistFnBTwoState
                                   child: Text(
                                       "Score: ${auditChecklist['professionalismAndStaffHygieneScore']}",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.black))),
+                                          fontSize: 18, color: Colors.blue))),
                             ),
                           ],
                         ),
@@ -223,35 +228,32 @@ class _TenantAuditChecklistFnBTwoState
                         //2. Housekeeping & General Cleanliness (20%)
                         Column(
                           children: [
-                            Column(
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: double.infinity,
-                                  color: Colors.blue[300],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                        "2. Housekeeping & General Cleanliness (20%)",
-                                        textScaleFactor: 1.5,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ),
-                              ],
+                            Container(
+                              height: 50,
+                              width: double.infinity,
+                              color: Colors.blue[300],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                    "2. Housekeeping & General Cleanliness (20%)",
+                                    textScaleFactor: 1.5,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
                             ),
 
                             //General Environment Cleanliness
                             Column(
                               children: [
-                                new TextFormField(
-                                    style: TextStyle(
-                                        //fontSize: 14
-                                        ),
-                                    decoration: new InputDecoration(
-                                      labelText:
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Visibility(
+                                      child: Text(
                                           "General Environment Cleanliness",
-                                    ))
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))),
+                                ),
                               ],
                             ),
                             //SizedBox(height: 10),
@@ -383,13 +385,14 @@ class _TenantAuditChecklistFnBTwoState
                             //Hand Hygiene Facilities
                             Column(
                               children: [
-                                new TextFormField(
-                                    style: TextStyle(
-                                        //fontSize: 14
-                                        ),
-                                    decoration: new InputDecoration(
-                                      labelText: "Hand Hygiene Facilities",
-                                    ))
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Visibility(
+                                      child: Text("Hand Hygiene Facilities",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black))),
+                                ),
                               ],
                             ),
 
@@ -416,7 +419,7 @@ class _TenantAuditChecklistFnBTwoState
                                   child: Text(
                                       "Score: ${auditChecklist['houseKeepingAndGeneralCleanlinessScore']}",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.black))),
+                                          fontSize: 18, color: Colors.blue))),
                             ),
 
                             SizedBox(height: 10),
@@ -444,13 +447,13 @@ class _TenantAuditChecklistFnBTwoState
                         SizedBox(height: 10),
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "Storage & Preparation of Food",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Storage & Preparation of Food",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
                         LabeledCheckbox(
@@ -639,14 +642,14 @@ class _TenantAuditChecklistFnBTwoState
                         //Storage of Food in Refrigerator/Warmer
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText:
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text(
                                       "Storage of Food in Refrigerator/ Warmer",
-                                ))
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -735,7 +738,7 @@ class _TenantAuditChecklistFnBTwoState
                               child: Text(
                                   "Score: ${auditChecklist['foodHygieneScore']}",
                                   style: TextStyle(
-                                      fontSize: 18, color: Colors.black))),
+                                      fontSize: 18, color: Colors.blue))),
                         ),
 
                         SizedBox(height: 10),
@@ -761,13 +764,13 @@ class _TenantAuditChecklistFnBTwoState
                         SizedBox(height: 10),
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "Food",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Food",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
 
@@ -821,13 +824,13 @@ class _TenantAuditChecklistFnBTwoState
                             onChanged: null),
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "Beverage",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Beverage",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -867,7 +870,7 @@ class _TenantAuditChecklistFnBTwoState
                               child: Text(
                                   "Score: ${auditChecklist['healthierChoiceScore']}",
                                   style: TextStyle(
-                                      fontSize: 18, color: Colors.black))),
+                                      fontSize: 18, color: Colors.blue))),
                         ),
 
                         SizedBox(height: 10),
@@ -894,13 +897,13 @@ class _TenantAuditChecklistFnBTwoState
 
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "General Safety",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("General Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
 
@@ -993,13 +996,13 @@ class _TenantAuditChecklistFnBTwoState
                             onChanged: null),
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "Fire & Emergency Safety",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Fire & Emergency Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -1029,13 +1032,13 @@ class _TenantAuditChecklistFnBTwoState
                             onChanged: null),
                         Column(
                           children: [
-                            new TextFormField(
-                                style: TextStyle(
-                                    //fontSize: 14
-                                    ),
-                                decoration: new InputDecoration(
-                                  labelText: "Electrical Safety",
-                                ))
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Electrical Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -1077,7 +1080,7 @@ class _TenantAuditChecklistFnBTwoState
                               child: Text(
                                   "Score: ${auditChecklist['workplaceSafetyAndHealthScore']}",
                                   style: TextStyle(
-                                      fontSize: 18, color: Colors.black))),
+                                      fontSize: 18, color: Colors.blue))),
                         ),
 
                         //TODO: Add total score

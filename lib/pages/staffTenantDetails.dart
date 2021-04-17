@@ -8,23 +8,18 @@ import 'package:singhealth_app/classes/staff.dart';
 import 'package:toast/toast.dart';
 
 class StaffTenantDetails extends StatefulWidget {
-
   final User user;
   final dynamic staff;
   final firestoreInstance = FirebaseFirestore.instance;
 
-  StaffTenantDetails({
-    Key key,
-    this.user,
-    this.staff}) : super(key: key);
+  StaffTenantDetails({Key key, this.user, this.staff}) : super(key: key);
 
   @override
-  _StaffTenantDetailsState createState() => _StaffTenantDetailsState(user,firestoreInstance,staff);
-
+  _StaffTenantDetailsState createState() =>
+      _StaffTenantDetailsState(user, firestoreInstance, staff);
 }
 
 class _StaffTenantDetailsState extends State<StaffTenantDetails> {
-
   User user;
   FirebaseFirestore firestoreInstance;
   dynamic staff;
@@ -38,7 +33,7 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
   List<String> _shopNameList = [];
   String _shopName;
 
-  _StaffTenantDetailsState(user, firestoreInstance, staff){
+  _StaffTenantDetailsState(user, firestoreInstance, staff) {
     this.user = user;
     this.firestoreInstance = firestoreInstance;
     this.staff = staff;
@@ -46,34 +41,35 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
 
   void getTenantsList() async {
     try {
-      await FirebaseFirestore.instance.collection('institution').doc(staff['institution']).get().then<dynamic>(( DocumentSnapshot snapshot) async{
+      await FirebaseFirestore.instance
+          .collection('institution')
+          .doc(staff['institution'])
+          .get()
+          .then<dynamic>((DocumentSnapshot snapshot) async {
         setState(() {
-          if (snapshot.exists){
-            if (snapshot.data().containsKey('NonFnBTenantList')){
+          if (snapshot.exists) {
+            if (snapshot.data().containsKey('NonFnBTenantList')) {
               NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
-            }
-            else{
+            } else {
               NonFnBTenantList = [];
             }
-            if (snapshot.data().containsKey('FnBTenantList')){
+            if (snapshot.data().containsKey('FnBTenantList')) {
               FnBTenantList = snapshot.data()['FnBTenantList'];
-            }
-            else{
+            } else {
               FnBTenantList = [];
             }
-            FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+            FullTenantList = Institution.convertToStringList(
+                NonFnBTenantList + FnBTenantList);
             _shopNameList = FullTenantList;
             _shopName = _shopNameList[0];
-          }
-          else{
+          } else {
             FullTenantList = [];
             _shopNameList = FullTenantList;
             _shopName = null;
           }
         });
       });
-    } catch(e) {
-    }
+    } catch (e) {}
   }
 
   @override
@@ -92,50 +88,66 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
         backgroundColor: Colors.amber,
         title: Text('Tenant Details'),
       ),
-
       body: Form(
-        key: _formKey,
-        child:
-          Align(
-            alignment: Alignment.center,
-            child:
-              Column(
-                children: <Widget>[
-                  Text("${staff['institution']}"),
-                  DropdownButton(
-                    hint: Text('Select tenant'),
-                    value: _shopName,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _shopName = newValue;
-                      });
-                    },
-                    items: _shopNameList.map((shopName) {
-                      return DropdownMenuItem(
-                        child: new Text(shopName),
-                        value: shopName,
-                      );
-                    }).toList(),
-                  ),
-                  ElevatedButton(
-                      onPressed: navigateToTenantDetailsTwo,
-                      child: Text("Find")
-                  )
-                ],
-              )
-          )
-      ),
-
+          key: _formKey,
+          child: Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("${staff['institution']}"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton(
+                        hint: Text('Select tenant'),
+                        value: _shopName,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _shopName = newValue;
+                          });
+                        },
+                        items: _shopNameList.map((shopName) {
+                          return DropdownMenuItem(
+                            child: new Text(shopName),
+                            value: shopName,
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ElevatedButton(
+                          onPressed: navigateToTenantDetailsTwo,
+                          child: Text("Find")),
+                    )
+                  ],
+                ),
+              ))),
     );
   }
 
   void navigateToTenantDetailsTwo() {
-    if (_shopName == null){
-      Toast.show("Please choose a tenant", context, duration: Toast.LENGTH_SHORT, gravity:  Toast.BOTTOM);
-    }
-    else{
-      DocumentReference tenantReference = firestoreInstance.collection("institution").doc("${staff['institution']}").collection("tenant").doc(_shopName);
-      Navigator.push(context,MaterialPageRoute(builder: (context)=> StaffTenantDetailsTwo(user:user,staff:staff,tenantReference:tenantReference,tenantName:_shopName)));
+    if (_shopName == null) {
+      Toast.show("Please choose a tenant", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    } else {
+      DocumentReference tenantReference = firestoreInstance
+          .collection("institution")
+          .doc("${staff['institution']}")
+          .collection("tenant")
+          .doc(_shopName);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => StaffTenantDetailsTwo(
+                  user: user,
+                  staff: staff,
+                  tenantReference: tenantReference,
+                  tenantName: _shopName)));
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:singhealth_app/pages/tenantHome.dart';
 import 'package:singhealth_app/setup/welcome.dart';
 
 void main() {
