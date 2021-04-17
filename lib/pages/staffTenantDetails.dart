@@ -96,6 +96,15 @@ class _StaffTenantDetailsState extends State<StaffTenantDetails> {
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
+                    Positioned(
+                      left: 150,
+                      top: 1,
+                      child: Image(
+                        width: 200,
+                        height: 200,
+                        image: AssetImage('images/SingHealth_Logo.png'),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text("${staff['institution']}"),
