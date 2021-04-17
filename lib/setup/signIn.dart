@@ -31,73 +31,83 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Container(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 600.0),
-                child: Card(
-                  child: Column(
-                    children: <Widget>[
-                      //TODO: Implement fields
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: TextFormField(
-                              key: ValueKey("email"),
-                              validator: (input) {
-                                if (input.isEmpty ||
-                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                        .hasMatch(input)) {
-                                  return 'Please enter valid email format';
-                                }
-                              },
-                              onSaved: (input) => _email = input,
-                              decoration: InputDecoration(labelText: 'Email'),
+                padding: const EdgeInsets.all(10.0),
+                //padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 600.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 600.0),
+                  child: Card(
+                    child: Column(
+                      children: <Widget>[
+                        //TODO: Implement fields
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextFormField(
+                                key: ValueKey("email"),
+                                validator: (input) {
+                                  if (input.isEmpty ||
+                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(input)) {
+                                    return 'Please enter valid email format';
+                                  }
+                                },
+                                onSaved: (input) => _email = input,
+                                decoration: InputDecoration(labelText: 'Email'),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextFormField(
+                                key: ValueKey("password"),
+                                validator: (input) {
+                                  if (input.length < 6) {
+                                    return 'Your password needs to be at least 6 characters';
+                                  }
+                                },
+                                onSaved: (input) => _password = input,
+                                onFieldSubmitted: (value) {
+                                  signIn();
+                                },
+                                decoration:
+                                    InputDecoration(labelText: 'Password'),
+                                obscureText: true,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            child: RaisedButton.icon(
+                              key: ValueKey("sign_in"),
+                              icon: Icon(CustomIcons.sign_in),
+                              label: Text("Sign In"),
+                              textColor: Colors.white,
+                              color: Colors.blue[300],
+                              onPressed: signIn,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: TextFormField(
-                              key: ValueKey("password"),
-                              validator: (input) {
-                                if (input.length < 6) {
-                                  return 'Your password needs to be at least 6 characters';
-                                }
-                              },
-                              onSaved: (input) => _password = input,
-                              onFieldSubmitted: (value) {
-                                signIn();
-                              },
-                              decoration:
-                                  InputDecoration(labelText: 'Password'),
-                              obscureText: true,
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            child: RaisedButton.icon(
+                              icon: Icon(CustomIcons.backward),
+                              label: Text("Go Back"),
+                              textColor: Colors.white,
+                              color: Colors.blue[300],
+                              onPressed: back,
                             ),
                           ),
-                        ],
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.all(5),
-                        child: RaisedButton.icon(
-                          key: ValueKey("sign_in"),
-                          icon: Icon(CustomIcons.sign_in),
-                          label: Text("Sign In"),
-                          textColor: Colors.white,
-                          color: Colors.blue[300],
-                          onPressed: signIn,
                         ),
-                      ),
-
-                      Container(
-                        margin: EdgeInsets.all(5),
-                        child: RaisedButton.icon(
-                          icon: Icon(CustomIcons.backward),
-                          label: Text("Go Back"),
-                          textColor: Colors.white,
-                          color: Colors.blue[300],
-                          onPressed: back,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

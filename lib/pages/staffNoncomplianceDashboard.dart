@@ -130,14 +130,20 @@ class _StaffNonComplianceDashboardState
                   itemCount: tenantList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                        height: 50,
-                        color: Colors.amber[200],
-                        child: RawMaterialButton(
-                            child: Center(
-                                child: Text(tenantList[index].toString())),
-                            onPressed: () {
-                              getIncidents(index);
-                            }));
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 600.0),
+                        child: Container(
+                            height: 50,
+                            color: Colors.amber[200],
+                            child: RawMaterialButton(
+                                child: Center(
+                                    child: Text(tenantList[index].toString())),
+                                onPressed: () {
+                                  getIncidents(index);
+                                })),
+                      ),
+                    );
                   }),
             );
           } else {
@@ -149,22 +155,30 @@ class _StaffNonComplianceDashboardState
                   padding: const EdgeInsets.fromLTRB(200.0, 16.0, 200.0, 16.0),
                   itemCount: incidentList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                        height: 50,
-                        color: incidentTitle(incidentList[index])
-                            ? Colors.amber[300]
-                            : Colors.amber[100],
-                        child: RawMaterialButton(
-                          child: Center(
-                            child: Text(incidentList[index]),
-                          ),
-                          onPressed: incidentTitle(incidentList[index])
-                              ? null
-                              : () {
-                                  navigateToIncidentDetails(
-                                      incidentList[index]);
-                                },
-                        ));
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 300.0),
+                          child: Container(
+                              height: 50,
+                              color: incidentTitle(incidentList[index])
+                                  ? Colors.amber[300]
+                                  : Colors.amber[100],
+                              child: RawMaterialButton(
+                                child: Center(
+                                  child: Text(incidentList[index]),
+                                ),
+                                onPressed: incidentTitle(incidentList[index])
+                                    ? null
+                                    : () {
+                                        navigateToIncidentDetails(
+                                            incidentList[index]);
+                                      },
+                              )),
+                        ),
+                      ],
+                    );
                   },
                 ));
           }

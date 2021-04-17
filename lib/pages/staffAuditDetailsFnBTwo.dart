@@ -223,16 +223,34 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                 value: auditChecklist[
                                     'professionalismAndStaffHygiene'][12],
                                 onChanged: null),
-                            Text(
-                                "Score: ${auditChecklist['professionalismAndStaffHygieneScore']}"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Score: ${auditChecklist['professionalismAndStaffHygieneScore']}",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue))),
+                            ),
                           ],
                         ),
 
                         //2. Housekeeping & General Cleanliness (20%)
                         Column(
                           children: [
-                            Text("2. Housekeeping & General Cleanliness (20%)",
-                                textAlign: TextAlign.left),
+                            Container(
+                              height: 50,
+                              width: double.infinity,
+                              color: Colors.amber[300],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                    "2. Housekeeping & General Cleanliness (20%)",
+                                    textScaleFactor: 1.5,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
 
                             //General Environment Cleanliness
 
@@ -395,8 +413,16 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                 value: auditChecklist[
                                     'houseKeepingAndGeneralCleanliness'][16],
                                 onChanged: null),
-                            Text(
-                                "Score: ${auditChecklist['houseKeepingAndGeneralCleanlinessScore']}"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Score: ${auditChecklist['houseKeepingAndGeneralCleanlinessScore']}",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue))),
+                            ),
+
                             SizedBox(height: 10),
                           ],
                         ),
@@ -404,10 +430,28 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                         //3. Food Hygiene (35%)
                         Column(
                           children: [
-                            Text("3. Food Hygiene (35%)"),
+                            Container(
+                              height: 50,
+                              width: double.infinity,
+                              color: Colors.amber[300],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("3. Food Hygiene (35%)",
+                                    textScaleFactor: 1.5,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
 
                             SizedBox(height: 10),
-                            Text("Storage & Preparation of Food"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Storage & Preparation of Food",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
+
                             LabeledCheckbox(
                                 label:
                                     ("Food is stored in appropriate conditions and at an appropriate temperature.	"),
@@ -594,7 +638,15 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                 onChanged: null),
 
                             //Storage of Food in Refrigerator/Warmer
-                            Text("Storage of Food in Refrigerator/ Warmer"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Storage of Food in Refrigerator/ Warmer",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
+
                             SizedBox(height: 10),
 
                             LabeledCheckbox(
@@ -674,8 +726,17 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     horizontal: 20.0),
                                 value: auditChecklist['foodHygiene'][36],
                                 onChanged: null),
-                            Text(
-                                "Score: ${auditChecklist['foodHygieneScore']}"),
+
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Score: ${auditChecklist['foodHygieneScore']}",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue))),
+                            ),
+
                             SizedBox(height: 10),
                           ],
                         ),
@@ -683,10 +744,27 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                         //4. Healthier Choice in line with HPB’s Healthy Eating’s Initiative (15%)
                         Column(
                           children: [
-                            Text(
-                                '4. Healthier Choice in line with HPB’s Healthy Eating’s Initiative (15%)'),
+                            Container(
+                              height: 50,
+                              width: double.infinity,
+                              color: Colors.amber[300],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                    '4. Healthier Choice in line with HPB’s Healthy Eating’s Initiative (15%)',
+                                    textScaleFactor: 1.5,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
                             SizedBox(height: 10),
-                            Text("Food"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Food",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                             LabeledCheckbox(
                                 label:
                                     ("Min. no. of healthier variety of food items per stall.	"
@@ -735,7 +813,13 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     horizontal: 20.0),
                                 value: auditChecklist['healthierChoice'][6],
                                 onChanged: null),
-                            Text("Beverage"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Beverage",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                             SizedBox(height: 10),
                             LabeledCheckbox(
                                 label:
@@ -765,8 +849,15 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     horizontal: 20.0),
                                 value: auditChecklist['healthierChoice'][10],
                                 onChanged: null),
-                            Text(
-                                "Score: ${auditChecklist['healthierChoiceScore']}"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Score: ${auditChecklist['healthierChoiceScore']}",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue))),
+                            ),
                             SizedBox(height: 10),
                           ],
                         ),
@@ -774,9 +865,27 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                         //5. Workplace Safety & Health (20%)
                         Column(
                           children: [
-                            Text("5. Workplace Safety & Health (20%)"),
+                            Container(
+                              height: 50,
+                              width: double.infinity,
+                              color: Colors.amber[300],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                    "5. Workplace Safety & Health (20%)",
+                                    textScaleFactor: 1.5,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
                             SizedBox(height: 10),
-                            Text("General Safety	"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("General Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                             LabeledCheckbox(
                                 label:
                                     ("All food handlers have Basic Food Hygiene certificate and a valid Refresher Food Hygiene certificate (if applicable)."),
@@ -875,7 +984,13 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     auditChecklist['workplaceSafetyAndHealth']
                                         [10],
                                 onChanged: null),
-                            Text("Fire & Emergency Safety"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Fire & Emergency Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                             SizedBox(height: 10),
                             LabeledCheckbox(
                                 label:
@@ -904,7 +1019,13 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     auditChecklist['workplaceSafetyAndHealth']
                                         [13],
                                 onChanged: null),
-                            Text("Electrical Safety"),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Visibility(
+                                  child: Text("Electrical Safety",
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black))),
+                            ),
                             SizedBox(height: 10),
                             LabeledCheckbox(
                                 label:
@@ -941,14 +1062,27 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     auditChecklist['workplaceSafetyAndHealth']
                                         [17],
                                 onChanged: null),
-                            Text(
-                                "Score: ${auditChecklist['workplaceSafetyAndHealthScore']}"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Visibility(
+                                  child: Text(
+                                      "Score: ${auditChecklist['workplaceSafetyAndHealthScore']}",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.blue))),
+                            ),
                           ],
                         ),
 
                         //TODO: Add total score
-                        Text("Total Score: %${auditChecklist['totalScore']}",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20.0),
+                          child: Text(
+                              "Total Score: ${auditChecklist['totalScore']}%",
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold)),
+                        ),
+
                         SizedBox(height: 10),
 
                         //display warning if totalscore<95
@@ -960,12 +1094,15 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 40,
                                     color: Colors.red))),
-                        ElevatedButton(
-                            onPressed: () {
-                              sendEmail(staff['email'],
-                                  '${auditChecklist['date']} audit checklist for $tenantName');
-                            },
-                            child: Text("send email")),
+                        Padding(
+                          padding: const EdgeInsets.all(40.0),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                sendEmail(staff['email'],
+                                    '${auditChecklist['date']} audit checklist for $tenantName');
+                              },
+                              child: Text("send email")),
+                        ),
                       ]),
                     ),
                   ],
