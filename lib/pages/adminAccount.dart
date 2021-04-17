@@ -106,7 +106,14 @@ class _AdminAccountState extends State<AdminAccount> {
                                     child: Text(
                                         "Click Icon Here to Edit Profile Details: ",
                                         textScaleFactor: 1.5,
-                                        style: TextStyle(color: Colors.white)),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 24,
+                                            fontFamily: 'Open Sans',
+                                            fontWeight: FontWeight.w500,
+                                            letterSpacing: 2.40
+                                        ),
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 10),
@@ -168,7 +175,13 @@ class _AdminAccountState extends State<AdminAccount> {
                                             controller: institutionController,
                                             enabled: false,
                                             style:
-                                                TextStyle(color: Colors.black),
+                                                TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 24,
+                                                    fontFamily: 'Open Sans',
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: 2.40
+                                                ),
                                           ),
                                         ),
                                       ]),
