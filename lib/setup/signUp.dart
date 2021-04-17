@@ -85,296 +85,463 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Sign Up'),
-        ),
-        body: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      child: SizedBox(
-                        width: 1024,
-                        height: 700,
-                        child: Material(
-                          color: Colors.white,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 450,
-                                top: 1,
-                                child: Image(
-                                  width: 100,
-                                  height: 100,
-                                  image: AssetImage('images/SingHealth_Logo.png'),
-                                ),
-                              ),
-                              Center(
-                                child: Positioned(
-                                  left: 0,
-                                  top: 200,
-                                  child: SizedBox(
-                                    width: 1111,
-                                    height: 500,
-                                    child: Material(
-                                      color: Color(0xaff19f54),
-                                      borderRadius: BorderRadius.circular(8),
+      appBar: AppBar(
+        title: Text('Sign Up'),
+      ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth > 700) {
+            return _buildWideContainer();
+          } else {
+            return _buildNarrowContainer();
+          }
+        },
+      ),
+    );
+  }
 
-                                    ),
-
-                                  ),
-                                ),
+  Widget _buildWideContainer() {
+    return Center(
+      child: Column(
+        children: [
+          Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                //padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 300.0),
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: <Widget>[
+                      //TODO: Implement fields
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("name"),
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Please enter a name';
+                            }
+                          },
+                          onSaved: (input) => _name = input,
+                          decoration: InputDecoration(labelText: 'Name'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("email"),
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Please type an email';
+                            }
+                          },
+                          onSaved: (input) => _email = input,
+                          decoration: InputDecoration(labelText: 'Email'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("password"),
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return 'Your password needs to be at least 6 characters';
+                            }
+                          },
+                          onSaved: (input) => _password = input,
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: DropdownButton(
+                          key: ValueKey("institution"),
+                          hint: Text('Please choose an institution'),
+                          value: _institution,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _shopName =
+                                  null; //set to null when changed so no contention
+                              _institution = newValue;
+                              getTenantList(); //getTenantList() does not finish fast enough to assign FullTenantList to _shopNameList
+                            });
+                          },
+                          items: _institutions.map((institution) {
+                            return DropdownMenuItem(
+                              child: new Text(institution),
+                              value: institution,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Text(
+                        'I am signing up as a: ',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Radio(
+                              key: ValueKey("admin"),
+                              value: 0,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  //Admin login
+                                  id = 0;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Admin',
+                              style: new TextStyle(fontSize: 17.0),
+                            ),
+                            Radio(
+                              key: ValueKey("staff"),
+                              value: 1,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  //Staff login
+                                  id = 1;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Staff',
+                              style: new TextStyle(fontSize: 17.0),
+                            ),
+                            Radio(
+                              key: ValueKey("tenant"),
+                              value: 2,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  id = 2;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Tenant',
+                              style: new TextStyle(
+                                fontSize: 17.0,
                               ),
-                              Center(
-                                    child: Positioned(
-                                      child: Align(
-                                        alignment: Alignment(0.0,-0.4),
-                                      //TODO: Implement fields
-                                      child: TextFormField(
-
-                                        key:ValueKey("name"),
-                                        validator:(input){
-                                          if (input.isEmpty){
-                                            return 'Please enter a name';
-                                          }
-                                        },
-                                        onSaved: (input) => _name = input,
-                                        decoration: InputDecoration(
-                                            labelText: 'Name'
-                                        ),
-                                      ),
-                                    ),
-                                    ),
-                              ),
-                              Center(
-                                child: Positioned(
-                                  child: Align(
-                                    alignment: Alignment(0.0,-0.2),
-                                  child:TextFormField(
-                                    key:ValueKey("email"),
-                                    validator:(input){
-                                      if (input.isEmpty){
-                                        return 'Please type an email';
-                                      }
-                                    },
-                                    onSaved: (input) => _email = input,
-                                    decoration: InputDecoration(
-                                        labelText: 'Email'
-                                    ),
-                                  ),
-                                ),
-                                ),
-                              ),
-                              Center(
-                                child: Positioned(
-
-                                  child:TextFormField(
-                                    key:ValueKey("password"),
-                                    validator:(input){
-                                      if (input.length < 6){
-                                        return 'Your password needs to be at least 6 characters';
-                                      }
-                                    },
-                                    onSaved: (input) => _password = input,
-                                    decoration: InputDecoration(
-                                        labelText: 'Password'
-                                    ),
-                                    obscureText: true,
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child:Positioned(
-                                  child: Align(
-                                    alignment: Alignment(0.0,0.2),
-                                  child:DropdownButton(
-                                    key:ValueKey("institution"),
-                                    hint: Text('Please choose an institution'),
-                                    value: _institution,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        _shopName = null; //set to null when changed so no contention
-                                        _institution = newValue;
-                                        getTenantList(); //getTenantList() does not finish fast enough to assign FullTenantList to _shopNameList
-                                      });
-                                    },
-                                    items: _institutions.map((institution) {
-                                      return DropdownMenuItem(
-                                        child: new Text(institution),
-                                        value: institution,
-                                      );
-                                    }).toList(),
-                                  ),
-                                ) ,
-                                ),
-                              ),
-                              Center(
-                                child: Align(
-                                  alignment: Alignment(0.0,0.4),
-                                child: Positioned(
-                                  child:Text(
-                                    'I am signing up as a: ',
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                ),
-                              ),
-                              Center(
-                                child: Positioned(
-                                  child: Align(
-                                    alignment: Alignment(0.0,0.6),
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Radio(
-                                          key: ValueKey("admin"),
-                                          value: 0,
-                                          groupValue: id,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              //Admin login
-                                              id = 0;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          'Admin',
-                                          style: new TextStyle(fontSize: 17.0),
-                                        ),
-                                        Radio(
-                                          key: ValueKey("staff"),
-                                          value: 1,
-                                          groupValue: id,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              //Staff login
-                                              id = 1;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          'Staff',
-                                          style: new TextStyle(fontSize: 17.0),
-                                        ),
-                                        Radio(
-                                          key: ValueKey("tenant"),
-                                          value: 2,
-                                          groupValue: id,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              id = 2;
-                                            });
-                                          },
-                                        ),
-                                        Text(
-                                          'Tenant',
-                                          style: new TextStyle(
-                                            fontSize: 17.0,
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ),
-                                ),
-                              ),
-                            ],
+                            ),
+                          ]),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Visibility(
+                          visible: checkAdmin(),
+                          child: TextFormField(
+                            key: ValueKey("secret"),
+                            validator: (input) {
+                              if (input != "admin") {
+                                return 'The secret password does not match';
+                              }
+                            },
+                            onSaved: (input) => _position = input,
+                            decoration: InputDecoration(
+                                labelText:
+                                    'SUPER duper whooper Secret "admin" password only'),
                           ),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Visibility(
+                          visible: checkTenant(),
+                          child: TextFormField(
+                            key: ValueKey("position"),
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return 'Please enter your position';
+                              }
+                            },
+                            onSaved: (input) => _position = input,
+                            decoration: InputDecoration(labelText: 'Position'),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: checkTenant(),
+                        child: DropdownButton(
+                          key: ValueKey("shopName"),
+                          hint: Text('Please select your shop'),
+                          value: _shopName,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _shopName = newValue;
+                            });
+                          },
+                          items: _shopNameList.map((shopName) {
+                            return DropdownMenuItem(
+                              child: new Text(shopName),
+                              value: shopName,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      //TODO: ADD CONTRACT EXPIRY DATE when the time comes
+
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: RaisedButton.icon(
+                            icon: Icon(CustomIcons.clipboard_user),
+                            label: Text("Sign Up"),
+                            textColor: Colors.white,
+                            color: Colors.blue[300],
+                            onPressed: signUp,
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: RaisedButton.icon(
+                            icon: Icon(CustomIcons.backward),
+                            label: Text("Go Back"),
+                            textColor: Colors.white,
+                            color: Colors.blue[300],
+                            onPressed: back,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ))
+        ],
+      ),
+    );
+  }
 
+  Widget _buildNarrowContainer() {
+    return Center(
+      child: Column(
+        children: [
+          Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: <Widget>[
+                      //TODO: Implement fields
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("name"),
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Please enter a name';
+                            }
+                          },
+                          onSaved: (input) => _name = input,
+                          decoration: InputDecoration(labelText: 'Name'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("email"),
+                          validator: (input) {
+                            if (input.isEmpty) {
+                              return 'Please type an email';
+                            }
+                          },
+                          onSaved: (input) => _email = input,
+                          decoration: InputDecoration(labelText: 'Email'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFormField(
+                          key: ValueKey("password"),
+                          validator: (input) {
+                            if (input.length < 6) {
+                              return 'Your password needs to be at least 6 characters';
+                            }
+                          },
+                          onSaved: (input) => _password = input,
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: DropdownButton(
+                          key: ValueKey("institution"),
+                          hint: Text('Please choose an institution'),
+                          value: _institution,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _shopName =
+                                  null; //set to null when changed so no contention
+                              _institution = newValue;
+                              getTenantList(); //getTenantList() does not finish fast enough to assign FullTenantList to _shopNameList
+                            });
+                          },
+                          items: _institutions.map((institution) {
+                            return DropdownMenuItem(
+                              child: new Text(institution),
+                              value: institution,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Text(
+                        'I am signing up as a: ',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Radio(
+                              key: ValueKey("admin"),
+                              value: 0,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  //Admin login
+                                  id = 0;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Admin',
+                              style: new TextStyle(fontSize: 17.0),
+                            ),
+                            Radio(
+                              key: ValueKey("staff"),
+                              value: 1,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  //Staff login
+                                  id = 1;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Staff',
+                              style: new TextStyle(fontSize: 17.0),
+                            ),
+                            Radio(
+                              key: ValueKey("tenant"),
+                              value: 2,
+                              groupValue: id,
+                              onChanged: (val) {
+                                setState(() {
+                                  id = 2;
+                                });
+                              },
+                            ),
+                            Text(
+                              'Tenant',
+                              style: new TextStyle(
+                                fontSize: 17.0,
+                              ),
+                            ),
+                          ]),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Visibility(
+                          visible: checkAdmin(),
+                          child: TextFormField(
+                            key: ValueKey("secret"),
+                            validator: (input) {
+                              if (input != "admin") {
+                                return 'The secret password does not match';
+                              }
+                            },
+                            onSaved: (input) => _position = input,
+                            decoration: InputDecoration(
+                                labelText:
+                                    'SUPER duper whooper Secret "admin" password only'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Visibility(
+                          visible: checkTenant(),
+                          child: TextFormField(
+                            key: ValueKey("position"),
+                            validator: (input) {
+                              if (input.isEmpty) {
+                                return 'Please enter your position';
+                              }
+                            },
+                            onSaved: (input) => _position = input,
+                            decoration: InputDecoration(labelText: 'Position'),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: checkTenant(),
+                        child: DropdownButton(
+                          key: ValueKey("shopName"),
+                          hint: Text('Please select your shop'),
+                          value: _shopName,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _shopName = newValue;
+                            });
+                          },
+                          items: _shopNameList.map((shopName) {
+                            return DropdownMenuItem(
+                              child: new Text(shopName),
+                              value: shopName,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      //TODO: ADD CONTRACT EXPIRY DATE when the time comes
 
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: RaisedButton.icon(
+                            icon: Icon(CustomIcons.clipboard_user),
+                            label: Text("Sign Up"),
+                            textColor: Colors.white,
+                            color: Colors.blue[300],
+                            onPressed: signUp,
+                          ),
+                        ),
+                      ),
 
-
-
-
-                Visibility(
-                  visible: checkAdmin(),
-                  child:
-                  TextFormField(
-                    key: ValueKey("secret"),
-                    validator:(input){
-                      if (input != "admin"){
-                        return 'The secret password does not match';
-                      }
-                    },
-                    onSaved: (input) => _position = input,
-                    decoration: InputDecoration(
-                        labelText: 'SUPER duper whooper Secret "admin" password only'
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: RaisedButton.icon(
+                            icon: Icon(CustomIcons.backward),
+                            label: Text("Go Back"),
+                            textColor: Colors.white,
+                            color: Colors.blue[300],
+                            onPressed: back,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Visibility(
-                  visible: checkTenant(),
-                  child:
-                  TextFormField(
-                    key: ValueKey("position"),
-                    validator:(input){
-                      if (input.isEmpty){
-                        return 'Please enter your position';
-                      }
-                    },
-                    onSaved: (input) => _position = input,
-                    decoration: InputDecoration(
-                        labelText: 'Position'
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: checkTenant(),
-                  child:
-                  DropdownButton(
-                    key: ValueKey("shopName"),
-                    hint: Text('Please select your shop'),
-                    value: _shopName,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _shopName = newValue;
-                      });
-                    },
-                    items: _shopNameList.map((shopName) {
-                      return DropdownMenuItem(
-                        child: new Text(shopName),
-                        value: shopName,
-                      );
-                    }).toList(),
-                  ),
-                ),
-                //TODO: ADD CONTRACT EXPIRY DATE when the time comes
-
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: RaisedButton.icon(
-                    icon: Icon(CustomIcons.clipboard_user),
-                    label: Text("Sign Up"),
-                    textColor: Colors.white,
-                    color: Colors.blue[300],
-                    onPressed: signUp,
-                  ),
-                ),
-
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: RaisedButton.icon(
-                    icon: Icon(CustomIcons.backward),
-                    label: Text("Go Back"),
-                    textColor: Colors.white,
-                    color: Colors.blue[300],
-                    onPressed: back,
-                  ),
-                ),
-              ],
-            )
-        )
+              ))
+        ],
+      ),
     );
   }
 
