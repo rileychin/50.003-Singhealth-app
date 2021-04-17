@@ -25,61 +25,54 @@ class _SignUpState extends State<SignUp> {
   String _email, _password, _name;
   String _institution = 'CGH';
   //FOR TENANT ONLY
-  String _position, _shopName;
+  String _position,_shopName;
   //bool _isFnB = true;
   DateTime contractExpiryDate;
 
-  List<dynamic> NonFnBTenantList, FnBTenantList;
+  List<dynamic> NonFnBTenantList,FnBTenantList;
   List<String> FullTenantList;
   //1 == staff, 2 == tenant
   int id = 1;
 
+
   //Institution and corresponding tenants
-  List<String> _institutions = [
-    'CGH',
-    'KKH',
-    'SGH',
-    'SKH',
-    'NCCS',
-    'NHCS',
-    'BVH',
-    'OCH',
-    'Academia'
-  ];
+  List<String> _institutions = ['CGH','KKH','SGH','SKH','NCCS','NHCS','BVH','OCH','Academia'];
   List<String> _shopNameList = [];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  getTenantList() async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('institution')
-          .doc(_institution)
-          .get()
-          .then<dynamic>((DocumentSnapshot snapshot) async {
-        setState(() {
-          if (snapshot.exists) {
-            if (snapshot.data().containsKey('NonFnBTenantList')) {
-              NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
-            } else {
-              NonFnBTenantList = [];
-            }
-            if (snapshot.data().containsKey('FnBTenantList')) {
-              FnBTenantList = snapshot.data()['FnBTenantList'];
-            } else {
-              FnBTenantList = [];
-            }
-            FullTenantList = Institution.convertToStringList(
-                NonFnBTenantList + FnBTenantList);
-            _shopNameList = FullTenantList;
-            _shopName = _shopNameList[0];
-          } else {
-            FullTenantList = [];
-            _shopNameList = FullTenantList;
-            _shopName = null;
+  getTenantList()async{
+    try{
+    await FirebaseFirestore.instance.collection('institution').doc(_institution).get().then<dynamic>(( DocumentSnapshot snapshot) async{
+      setState(() {
+        if (snapshot.exists){
+          if (snapshot.data().containsKey('NonFnBTenantList')){
+            NonFnBTenantList = snapshot.data()['NonFnBTenantList'];
           }
-        });
+          else{
+            NonFnBTenantList = [];
+          }
+          if (snapshot.data().containsKey('FnBTenantList')){
+            FnBTenantList = snapshot.data()['FnBTenantList'];
+          }
+          else{
+            FnBTenantList = [];
+          }
+          FullTenantList = Institution.convertToStringList(NonFnBTenantList + FnBTenantList);
+          _shopNameList = FullTenantList;
+          _shopName = _shopNameList[0];
+        }
+        else{
+          FullTenantList = [];
+          _shopNameList = FullTenantList;
+          _shopName = null;
+        }
+
       });
-    } catch (e) {}
+
+    });
+
+    }catch(e){
+  }
   }
 
   @override
@@ -90,7 +83,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
@@ -553,58 +546,52 @@ class _SignUpState extends State<SignUp> {
   }
 
   bool checkTenant() {
-    if (id == 2) {
+    if (id == 2){
       return true;
-    } else
-      return false;
+    }
+    else return false;
   }
 
-  bool checkAdmin() {
-    if (id == 0) {
+  bool checkAdmin(){
+    if (id == 0){
       return true;
-    } else
-      return false;
+    }
+    else return false;
   }
 
-  void signUp() async {
+  void signUp() async{
     final formState = _formKey.currentState;
-    if (formState.validate()) {
+    if (formState.validate()){
       formState.save();
       try {
-        User user = await FirebaseFunctions.createUser(_email, _password);
+        User user = await FirebaseFunctions.createUser(_email,_password);
 
         //staff signup
-        if (id == 1) {
-          Staff newStaff = new Staff(_name, _email, user.uid, _institution);
-          FirebaseFunctions.createStaffWithEmailPassword(
-              _name, _email, newStaff);
+        if (id == 1){
+          Staff newStaff = new Staff(_name,_email,user.uid,_institution);
+          FirebaseFunctions.createStaffWithEmailPassword(_name,_email,newStaff);
         }
 
         //tenant signup
-        else if (id == 2) {
-          Tenant newTenant = new Tenant(
-              _name, _email, user.uid, _position, _institution, _shopName);
-          FirebaseFunctions.createTenantWithEmailPassword(
-              _email, _password, newTenant);
+        else if(id == 2){
+          Tenant newTenant = new Tenant(_name,_email,user.uid,_position,_institution,_shopName);
+          FirebaseFunctions.createTenantWithEmailPassword(_email, _password, newTenant);
         }
 
         //admin signup
-        else if (id == 0) {
-          Admin newAdmin = new Admin(_name, _email, user.uid, _institution);
-          FirebaseFunctions.createAdminWithEmailPassword(
-              _email, _password, newAdmin);
+        else if (id == 0){
+          Admin newAdmin = new Admin(_name,_email,user.uid,_institution);
+          FirebaseFunctions.createAdminWithEmailPassword(_email, _password, newAdmin);
         }
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginPage()));
-      } catch (e) {
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => LoginPage()));
+      } catch(e) {
         print(e.toString());
       }
     }
   }
 
   void back() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomePage()));
   }
 }

@@ -39,9 +39,9 @@ class _StaffNonComplianceDashboardState
 
   Future<List<dynamic>> updateNonCompliance() async {
     DocumentReference docRef =
-        firestoreInstance.collection('staff').doc(user.uid);
+    firestoreInstance.collection('staff').doc(user.uid);
     await docRef.get().then<dynamic>((DocumentSnapshot snapshot) =>
-        {institution = snapshot.data()['institution']});
+    {institution = snapshot.data()['institution']});
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
         .doc(institution)
@@ -194,7 +194,7 @@ class _StaffNonComplianceDashboardState
         .doc(incidentName);
     DocumentSnapshot docSnap = await docRef.get();
     details =
-        "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}";
+    "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}";
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
         .doc(institution)

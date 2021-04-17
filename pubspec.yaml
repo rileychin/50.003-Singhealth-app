@@ -45,6 +45,7 @@ dependencies:
   webdriver:
   cloud_firestore_mocks:
   firebase_auth_mocks:
+  ffi:
 
 
 dev_dependencies:

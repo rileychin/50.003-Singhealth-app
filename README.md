@@ -20,3 +20,10 @@ samples, guidance on mobile development, and a full API reference.
 
 all functionalities
 
+## TODO 
+
+Touch up UI
+
+Add delete button for non compliance incidents(completely delete)
+
+Add comment section for non compliance incidents for 
