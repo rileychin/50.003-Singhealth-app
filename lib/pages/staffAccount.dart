@@ -63,6 +63,15 @@ class _StaffAccountState extends State<StaffAccount> {
             children: <Widget>[
               Expanded(
                 child: Column(children: [
+                  Positioned(
+                    left: 150,
+                    top: 1,
+                    child: Image(
+                      width: 200,
+                      height: 200,
+                      image: AssetImage('images/SingHealth_Logo.png'),
+                    ),
+                  ),
                   Padding(
                     padding:
                         const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 30.0),

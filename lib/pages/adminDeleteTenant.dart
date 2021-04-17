@@ -85,25 +85,57 @@ class _AdminDeleteTenantState extends State<AdminDeleteTenant> {
           alignment: Alignment.center,
           child: Column(
             children: <Widget>[
-              //TODO: add button here to remove tenant from Cloud firestore
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: DropdownButton(
-                  hint: Text('Remove a tenant from your institition'),
-                  value: _shopName,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _shopName = newValue;
-                    });
-                  },
-                  items: _shopNameList.map((shopName) {
-                    return DropdownMenuItem(
-                      child: new Text(shopName),
-                      value: shopName,
-                    );
-                  }).toList(),
+              Positioned(
+                left: 150,
+                top: 1,
+                child: Image(
+                  width: 200,
+                  height: 200,
+                  image: AssetImage('images/SingHealth_Logo.png'),
                 ),
               ),
+              Center(
+                child: Positioned(
+                  left: 0,
+                  top: 200,
+                  child: SizedBox(
+                    width: 1111,
+                    height: 100,
+                    child: Material(
+                      color: Color(0xaff19f54),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child:Align(
+                          alignment: Alignment.center,
+                          child: DropdownButton(
+                            hint: Text('Remove a tenant from your institition'),
+                            value: _shopName,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _shopName = newValue;
+                              });
+                            },
+                            items: _shopNameList.map((shopName) {
+                              return DropdownMenuItem(
+                                child: new Text(shopName),
+                                value: shopName,
+                              );
+                            }).toList(),
+                          ),
+
+                        ),
+
+                      ),
+
+                    ),
+
+                  ),
+                ),
+              ),
+
+              //TODO: add button here to remove tenant from Cloud firestore
+
               ElevatedButton(
                   onPressed: deleteTenant, child: Text("Confirm Delete"))
             ],

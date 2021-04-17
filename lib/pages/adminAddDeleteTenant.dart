@@ -41,25 +41,48 @@ class _AdminAddDeleteTenantState extends State<AdminAddDeleteTenant> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: navigateToAdminAddTenant,
-                    child: Text("Add a new tenant"),
+                Positioned(
+                  left: 150,
+                  top: 1,
+                  child: Image(
+                    width: 200,
+                    height: 200,
+                    image: AssetImage('images/SingHealth_Logo.png'),
                   ),
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: navigateToAdminDeleteTenant,
-                    child: Text("Delete an existing tenant"),
-                  ),
+                Positioned(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: navigateToAdminAddTenant,
+                            child: Text("Add a new tenant"),
+                          ),
+                        ),
+                      ),
                 ),
+                Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child:Align(
+                        alignment: Alignment.center,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          onPressed: navigateToAdminDeleteTenant,
+                          child: Text("Delete an existing tenant"),
+                        ),
+                      ),
+
+                    ),
+
+
+                ),
+
+
               ],
             ),
           ),
