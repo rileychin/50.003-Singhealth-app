@@ -82,7 +82,7 @@ class _StaffSubmitNonFnBAuditChecklistState
                           padding: const EdgeInsets.fromLTRB(
                               200.0, 10.0, 200.0, 10.0),
                           child: TextFormField(
-                            onSaved: (input) => comment = input,
+                            onChanged: (input) => comment = input,
                             decoration:
                                 InputDecoration(labelText: 'Add Comments Here'),
                           ),

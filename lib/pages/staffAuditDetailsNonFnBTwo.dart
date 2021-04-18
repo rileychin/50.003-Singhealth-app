@@ -66,7 +66,7 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
                           SizedBox(height: 10),
                           Text("Auditee: $tenantName"),
                           SizedBox(height: 10),
-                          Text("Auditor: ${auditChecklist['date']}"),
+                          Text("Auditor: ${staff["name"]}"),
                           SizedBox(height: 10),
                           Text("Comments: ${auditChecklist['comments']}"),
                           SizedBox(height: 10),
@@ -557,6 +557,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
     //add checklist AUTOMATICALLY to body
     String body = "";
 
+    body += "The following are what the tenant has FAILED to comply to \n\n Please acknowledge and rectify immediately \n\n\n";
+
     //professionalism part
     body += "Professionalism and Staff Hygiene Score:  " +
         auditChecklist['professionalismAndStaffHygieneScore'].toString() +
@@ -564,9 +566,9 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
     for (int i = 0;
         i < auditChecklist['professionalismAndStaffHygiene'].length;
         i++) {
-      if (auditChecklist['professionalismAndStaffHygiene'][i]) {
+      if (!auditChecklist['professionalismAndStaffHygiene'][i]) {
         body +=
-            NonFnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\n";
+            NonFnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\t X\n";
       }
     }
     body += "\n";
@@ -578,9 +580,9 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
     for (int i = 0;
         i < auditChecklist['houseKeepingAndGeneralCleanliness'].length;
         i++) {
-      if (auditChecklist['houseKeepingAndGeneralCleanliness'][i]) {
+      if (!auditChecklist['houseKeepingAndGeneralCleanliness'][i]) {
         body += NonFnBChecklistQuestions.houseKeepingAndGeneralCleanliness[i] +
-            "\n";
+            "\t X\n";
       }
     }
     body += "\n";
@@ -592,8 +594,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsNonFnBTwo> {
     for (int i = 0;
         i < auditChecklist['workplaceSafetyAndHealth'].length;
         i++) {
-      if (auditChecklist['workplaceSafetyAndHealth'][i]) {
-        body += NonFnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\n";
+      if (!auditChecklist['workplaceSafetyAndHealth'][i]) {
+        body += NonFnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\t X\n";
       }
     }
     body += "\n";

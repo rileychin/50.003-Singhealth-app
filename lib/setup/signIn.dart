@@ -10,6 +10,7 @@ import 'package:singhealth_app/Pages/tenantHome.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/setup/welcome.dart';
+import 'package:toast/toast.dart';
 
 import '../custom_icons.dart';
 
@@ -192,7 +193,8 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
       } catch (e) {
-        print(e);
+        Toast.show("Incorrect Email / Password", context,
+            duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       }
     }
   }
