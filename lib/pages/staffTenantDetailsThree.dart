@@ -75,7 +75,7 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
         body: Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 500.0),
+            padding: const EdgeInsets.fromLTRB(500.0, 30.0, 500.0, 400.0),
             child: Card(
               child: Column(
                 children: <Widget>[
@@ -216,21 +216,23 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
                   SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Number of employees registered: "),
-                          Container(
-                            alignment: Alignment.center,
-                            width: 350,
-                            child: Text(
-                              "$numEmployees",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.black),
+                    child: Expanded(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Number of employees registered: "),
+                            Container(
+                              alignment: Alignment.center,
+                              width: 350,
+                              child: Text(
+                                "$numEmployees",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
-                          ),
-                        ]),
+                          ]),
+                    ),
                   ),
                 ],
               ),
