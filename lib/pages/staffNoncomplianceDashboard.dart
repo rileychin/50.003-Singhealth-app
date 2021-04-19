@@ -199,7 +199,6 @@ class _StaffNonComplianceDashboardState
         "Summary: ${docSnap.data()['summary']}\n"
         "Status: ${docSnap.data()['status']}\n"
         "Comments:${docSnap.data()['comments']}";
-    status = docSnap.data()['status'];
 
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
