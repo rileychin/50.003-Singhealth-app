@@ -85,8 +85,6 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
         }
       }
     }
-    print(emailList);
-
   }
 
   @override

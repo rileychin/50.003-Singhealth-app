@@ -219,7 +219,6 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
           .doc(dropdownValue);
 
       path.update({"status": "pending"});
-
       path.collection('images').doc('resolution_image').set({
         "data": resImageData,
       });

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:singhealth_app/pages/staffNoncomplianceDashboard.dart';
 
 
 class StaffDashboardIncidentDetails extends StatefulWidget {
@@ -46,28 +46,36 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
     }
     this.firestoreInstance = firestoreInstance;
     this.docRef = docRef;
-
-
   }
+
   void initState(){
     super.initState();
   }
 
   void approve() {
     docRef.update({'status' : 'resolved'});
-    Navigator.pop(context);
+    back();
   }
 
   void reject() {
     docRef.update({'status' : 'unresolved'});
     docRef.collection("images").doc("resolution_image").delete();
-    Navigator.pop(context);
+    back();
   }
 
+  void deleteIncident() {
+    docRef.collection("images").doc("incident_image").delete();
+    docRef.delete();
+    back();
+  }
+
+  void back() {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => StaffNonComplianceDashboard(user: user)));
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.amber,
@@ -96,12 +104,30 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
             Container(
                 child: details.substring(details.length - 7) == 'pending' ? Row(
                   children: [
-                    RawMaterialButton(
-                        child: Text("Approve"),
-                        onPressed: approve),
-                    RawMaterialButton(
-                        child: Text("Reject"),
-                        onPressed: reject)
+                    Container(
+                        margin: EdgeInsets.all(10),
+                        child: ElevatedButton(
+                          onPressed: approve,
+                          child: Text("Approve Resolution"),
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(10),
+                        child: ElevatedButton(
+                          onPressed: reject,
+                          child: Text("Reject Resolution"),
+                        )),
+                  ],
+                ) : null
+            ),
+            Container(
+                child: details.substring(details.length - 10) == 'unresolved' ? Row(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.all(10),
+                        child: ElevatedButton(
+                          onPressed: deleteIncident,
+                          child: Text("Delete Incident"),
+                        )),
                   ],
                 ) : null
             )
@@ -109,7 +135,4 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
         )
     );
   }
-
-
-
 }

@@ -190,7 +190,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                                 : Text('No photo uploaded')),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                             margin: EdgeInsets.all(10),
                             child: ElevatedButton(
@@ -201,7 +201,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          margin: EdgeInsets.all(10),
+                          margin: EdgeInsets.all(5),
                           child: RaisedButton.icon(
                             icon: Icon(CustomIcons.check),
                             label: Text("Confirm"),
@@ -212,7 +212,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(50),
+                        margin: EdgeInsets.all(30),
                         child: RaisedButton.icon(
                           icon: Icon(CustomIcons.backward),
                           label: Text("Go Back"),
@@ -228,7 +228,6 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
         ));
   }
 
-  //TODO: add upload photo function
   Future<void> uploadPhoto() async {
     FilePickerResult picked = await FilePicker.platform.pickFiles();
     this.data = picked.files.single.bytes;
