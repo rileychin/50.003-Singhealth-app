@@ -36,6 +36,8 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   String summary;
   String status;
 
+  TextEditingController commentController = new TextEditingController();
+
   _TenantViewNoncomplianceState(user, firestoreInstance) {
     this.user = user;
     this.firestoreInstance = firestoreInstance;
@@ -173,7 +175,17 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                               child: Text("Upload Resolution Photo"),
                             )),
                         Container(
-                            margin: EdgeInsets.all(10),
+                          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 300),
+                          child: TextField(
+                            controller: commentController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Your comments on resolution'
+                            ),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(5),
                             child: ElevatedButton(
                               onPressed: resolveIncident,
                               child: Text("Resolve Incident"),
@@ -218,10 +230,8 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
           .collection('nonComplianceReport')
           .doc(dropdownValue);
 
-      path.update({"status": "pending"});
-      path.collection('images').doc('resolution_image').set({
-        "data": resImageData,
-      });
+      path.update({"status": "pending", "comments": commentController.text});
+      path.collection('images').doc('resolution_image').set({"data": resImageData});
 
       back();
     }

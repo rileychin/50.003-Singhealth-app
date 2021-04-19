@@ -33,6 +33,9 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
   String location;
   String summary;
   String status;
+  String comments;
+
+  TextEditingController commentController = new TextEditingController();
 
   _TenantViewPendingReportsState(user, firestoreInstance) {
     this.user = user;
@@ -85,6 +88,7 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
     location = docSnap.data()['location'];
     summary = docSnap.data()['summary'];
     status = docSnap.data()['status'];
+    comments = docSnap.data()['comments'];
 
     imageData =
         new Uint8List.fromList(imageSnapshot.data()['data'].cast<int>());
@@ -150,6 +154,7 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
                         Text("Summary: $summary"),
                         Text("Location: $location"),
                         Text("Status: $status"),
+                        Text("Comments: $comments"),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -172,7 +177,17 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
                               child: Text("Re-select Resolution Photo"),
                             )),
                         Container(
-                            margin: EdgeInsets.all(10),
+                          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 300),
+                          child: TextField(
+                            controller: commentController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Your comments on resolution'
+                            ),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(5),
                             child: ElevatedButton(
                               onPressed: updateResolution,
                               child: Text("Confirm Upload of Updated Image"),
@@ -207,9 +222,8 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
           .collection('nonComplianceReport')
           .doc(dropdownValue);
 
-      path.collection('images').doc('resolution_image').set({
-        "data": resImageData,
-      });
+      path.update({"comments": commentController.text});
+      path.collection('images').doc('resolution_image').set({"data": resImageData});
 
       back();
     }
