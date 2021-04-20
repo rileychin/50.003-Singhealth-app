@@ -32,6 +32,7 @@ class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
   String location;
   String summary;
   String status;
+  String comments;
 
   _TenantViewReportHistoryState(user, firestoreInstance) {
     this.user = user;
@@ -84,6 +85,7 @@ class _TenantViewReportHistoryState extends State<TenantViewReportHistory> {
     location = docSnap.data()['location'];
     summary = docSnap.data()['summary'];
     status = docSnap.data()['status'];
+    comments = docSnap.data()['comments'];
 
     imageData =
         new Uint8List.fromList(imageSnapshot.data()['data'].cast<int>());
