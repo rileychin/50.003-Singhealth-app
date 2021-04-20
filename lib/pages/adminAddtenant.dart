@@ -59,7 +59,7 @@ class _AdminAddTenantState extends State<AdminAddTenant> {
             child: Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(600.0, 30.0, 600.0, 350.0),
+                  padding: const EdgeInsets.fromLTRB(600.0, 30.0, 600.0, 200.0),
                   child: Card(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
