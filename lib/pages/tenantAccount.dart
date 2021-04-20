@@ -82,15 +82,6 @@ class _TenantAccountState extends State<TenantAccount> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  // child: ListView.builder(
-                  //     // scrollDirection: Axis.horizontal,
-                  //     itemCount: 2,
-                  //     itemBuilder: (context, i) {
-                  //       return Container(
-                  //         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  //         height: 220,
-                  //         width: double.maxFinite,
-
                   child: Column(
                     children: [
                       Padding(
