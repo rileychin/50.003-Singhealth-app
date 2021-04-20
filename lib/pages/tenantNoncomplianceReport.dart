@@ -35,6 +35,8 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
   String location;
   String summary;
   String status;
+  String resoComments;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   _TenantViewNoncomplianceState(user, firestoreInstance) {
     this.user = user;
@@ -166,6 +168,23 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                                     : Text('No resolution image')),
                           ],
                         ),
+                        Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Form(
+                                key: _formKey,
+                                child: image != null
+                                    ? TextFormField(
+                                  validator: (input) {
+                                    if(input.isEmpty){
+                                      return 'Please enter rectification comments';
+                                    }
+                                  },
+                                  onSaved: (input) => resoComments = input ,
+                                  decoration: InputDecoration(labelText: "Resolution Comments"),
+                                )
+                                    : Text("No incident selected")
+                            )
+                        ),
                         Container(
                             margin: EdgeInsets.all(10),
                             child: ElevatedButton(
@@ -210,6 +229,10 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
       Toast.show("No resolution image selected.", context,
           duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
     } else {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+      }
+
       var path = firestoreInstance
           .collection('institution')
           .doc(institution)
@@ -222,6 +245,7 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
       path.collection('images').doc('resolution_image').set({
         "data": resImageData,
       });
+      path.update({"Resolution Comments" : resoComments});
 
       back();
     }

@@ -195,7 +195,7 @@ class _StaffNonComplianceDashboardState
         .doc(incidentName);
     DocumentSnapshot docSnap = await docRef.get();
     details =
-    "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}";
+    "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}\nResolution Comments: ${docSnap.data()['Resolution Comments']}";
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
         .doc(institution)
