@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:typed_data';
+import 'package:singhealth_app/pages/tenantHome.dart';
 import 'package:toast/toast.dart';
 
 class TenantViewPendingReports extends StatefulWidget {
@@ -32,6 +33,9 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
   String location;
   String summary;
   String status;
+  String comments;
+
+  TextEditingController commentController = new TextEditingController();
 
   _TenantViewPendingReportsState(user, firestoreInstance) {
     this.user = user;
@@ -84,6 +88,7 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
     location = docSnap.data()['location'];
     summary = docSnap.data()['summary'];
     status = docSnap.data()['status'];
+    comments = docSnap.data()['comments'];
 
     imageData =
         new Uint8List.fromList(imageSnapshot.data()['data'].cast<int>());
@@ -149,6 +154,7 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
                         Text("Summary: $summary"),
                         Text("Location: $location"),
                         Text("Status: $status"),
+                        Text("Comments: $comments"),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -163,7 +169,29 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
                                     ? resImage
                                     : Text('No resolution image')),
                           ],
-                        )
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(10),
+                            child: ElevatedButton(
+                              onPressed: uploadResolution,
+                              child: Text("Re-select Resolution Photo"),
+                            )),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 300),
+                          child: TextField(
+                            controller: commentController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Your comments on resolution'
+                            ),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(5),
+                            child: ElevatedButton(
+                              onPressed: updateResolution,
+                              child: Text("Confirm Upload of Updated Image"),
+                            )),
                       ],
                     ),
                   ),
@@ -171,4 +199,38 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
               ));
         }
       });
+
+  Future<void> uploadResolution() async {
+    FilePickerResult picked = await FilePicker.platform.pickFiles();
+    this.resImageData = picked.files.single.bytes;
+
+    setState(() {
+      this.resImage = Image.memory(this.resImageData, width: 400, height: 400);
+    });
+  }
+
+  Future<void> updateResolution() async {
+    if (this.resImageData == null) {
+      Toast.show("No resolution image selected.", context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    } else {
+      var path = firestoreInstance
+          .collection('institution')
+          .doc(institution)
+          .collection('tenant')
+          .doc(shopName)
+          .collection('nonComplianceReport')
+          .doc(dropdownValue);
+
+      path.update({"comments": commentController.text});
+      path.collection('images').doc('resolution_image').set({"data": resImageData});
+
+      back();
+    }
+  }
+
+  void back() {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => TenantHome(user: user)));
+  }
 }

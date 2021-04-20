@@ -184,6 +184,7 @@ class _StaffNonComplianceDashboardState
           }
         }
       });
+
   void navigateToIncidentDetails(String incidentName) async {
     DocumentReference docRef = firestoreInstance
         .collection('institution')
@@ -194,7 +195,11 @@ class _StaffNonComplianceDashboardState
         .doc(incidentName);
     DocumentSnapshot docSnap = await docRef.get();
     details =
-    "Location: ${docSnap.data()['location']}\nSummary: ${docSnap.data()['summary']}\nStatus: ${docSnap.data()['status']}";
+        "Location: ${docSnap.data()['location']}\n"
+        "Summary: ${docSnap.data()['summary']}\n"
+        "Status: ${docSnap.data()['status']}\n"
+        "Comments:${docSnap.data()['comments']}";
+
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
         .doc(institution)
@@ -206,9 +211,7 @@ class _StaffNonComplianceDashboardState
         .get();
     querySnapshot.docs.forEach((element) {
       if (element.id == "incident_image") {
-        //print(element.data()['data']);
         incidentBytes = Uint8List.fromList(element.data()['data'].cast<int>());
-        //print(incidentImage);
       } else if (element.id == "resolution_image") {
         if (element.data()['data'] != null) {
           resolutionBytes =
@@ -216,7 +219,7 @@ class _StaffNonComplianceDashboardState
         }
       }
     });
-    print(docSnap.id);
+
     await Navigator.push(
         context,
         MaterialPageRoute(

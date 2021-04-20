@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:singhealth_app/classes/institution.dart';
 import 'package:singhealth_app/custom_icons.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StaffTenantDetailsThree extends StatefulWidget {
   final User user;
@@ -31,6 +33,18 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
   String tenantName;
   int numEmployees = 0;
   dynamic tenantInfo;
+  dynamic employeeInfo;
+
+  //if the tenant contract is expiring, send email to different positions.
+  List<dynamic> allData;
+  List<String> allDataString;
+  dynamic selectedEmployee;
+  String selectedEmployeeID;
+  String selectedEmployeePosition;
+  List<String> allEmployeeID = [];
+  List<String> allEmployeePosition = [];
+  List<String> emailList = [];
+
 
   _StaffTenantDetailsThreeState(user, staff, tenantReference, tenantName) {
     this.user = user;
@@ -45,13 +59,32 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
         tenantInfo = snapshot.data();
       });
     });
-
-    QuerySnapshot snapshot =
+  QuerySnapshot snapshot =
         await tenantReference.collection('employees').get();
     List<DocumentSnapshot> snapshotCount = snapshot.docs;
     setState(() {
       numEmployees = snapshotCount.length;
+
     });
+
+    // Get data from docs and convert map to List
+    allData = snapshot.docs.map((doc) => doc.data()).toList();
+    for (int i = 0 ; i < allData.length; i++){
+      allEmployeeID.add(allData[i]['id']);
+      allEmployeePosition.add(allData[i]['position']);
+    }
+
+    //search through tenant database and get all the same email documents
+    QuerySnapshot snapshot2 = await FirebaseFirestore.instance.collection("tenant").get();
+
+    List<dynamic> tenantList = snapshot2.docs.map((doc) => doc.data()).toList();
+    for (int i = 0 ; i< allEmployeeID.length;i++){
+      for (int j = 0; j < tenantList.length; j++){
+        if (allEmployeeID[i]==tenantList[j]['id']){
+          emailList.add(tenantList[j]['email']);
+        }
+      }
+    }
   }
 
   @override
@@ -234,10 +267,87 @@ class _StaffTenantDetailsThreeState extends State<StaffTenantDetailsThree> {
                           ]),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.center,
+                            width: 350,
+                            child: Visibility(
+                                visible: checkDate(),
+                                child: Text(
+                                    "WARNING: This contract is about to expiry, please renew it before ${tenantInfo['contractExpiry']}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: Colors.red))),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            width: 350,
+                            child: Visibility(
+                                visible: checkDate(),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    sendEmail();
+                                  },
+                                  child: Text("send email")),
+                            ),
+                          ),
+
+                        ]),
+                  ),
                 ],
               ),
             ),
           ),
         ));
+  }
+  bool checkDate() {
+    //split currentDate and expiryDate
+    String currentDate = DateTime.now().toLocal().toString().split(' ')[0];
+    List<String> currentDateSplit = currentDate.split('-');
+    String expiryDate = tenantInfo['contractExpiry'];
+    List<String> expiryDateSplit = expiryDate.split('-');
+
+    //get values for each time construct
+    int year = int.parse(expiryDateSplit[0]) - int.parse(currentDateSplit[0]);
+    int month = int.parse(expiryDateSplit[1]) - int.parse(currentDateSplit[1]);
+    int day = int.parse(expiryDateSplit[2]) - int.parse(currentDateSplit[2]);
+
+    //calculate total days < 3 months (3*30 days)
+    //3 months period for contract expiry notice
+    int totalDays = year * 365 + month * 30 + day;
+
+    return totalDays < 90;
+  }
+
+  void sendEmail() async {
+    //add checklist AUTOMATICALLY to body
+    String body = "THIS IS AN AUTO GENERATED MESSAGE \n please renew your contract before ${tenantInfo['contractExpiry']}";
+    String subject = "Contract expiry notice for ${tenantInfo['shopName']}";
+    String recipient = "";
+    for (int i = 0; i < emailList.length; i++){
+      recipient += emailList[i];
+      recipient += ';';
+    }
+
+    final Uri params = Uri(
+        scheme: 'mailto',
+        path: recipient,
+        query: 'subject=$subject&body=$body');
+
+    String url = params.toString();
+
+    //String url = 'mailto: $recipient?subject=$subject&body=$body';
+
+    try {
+      await launch(url);
+    } catch (e) {
+      print(e);
+    }
   }
 }

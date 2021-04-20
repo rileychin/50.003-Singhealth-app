@@ -74,7 +74,7 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
                           SizedBox(height: 10),
                           Text("Auditee: $tenantName"),
                           SizedBox(height: 10),
-                          Text("Auditor: ${auditChecklist['date']}"),
+                          Text("Auditor: ${staff["name"]}"),
                           SizedBox(height: 10),
                           Text("Comments: ${auditChecklist['comments']}"),
                           SizedBox(height: 10),
@@ -1121,6 +1121,9 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
     //add checklist AUTOMATICALLY to body
     String body = "";
 
+    body += "The following are what the tenant has FAILED to comply to \n\n Please acknowledge and rectify immediately \n\n\n";
+
+
     //professionalism part
     body += "Professionalism and Staff Hygiene Score:  " +
         auditChecklist['professionalismAndStaffHygieneScore'].toString() +
@@ -1128,8 +1131,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
     for (int i = 0;
         i < auditChecklist['professionalismAndStaffHygiene'].length;
         i++) {
-      if (auditChecklist['professionalismAndStaffHygiene'][i]) {
-        body += FnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\n";
+      if (!auditChecklist['professionalismAndStaffHygiene'][i]) {
+        body += FnBChecklistQuestions.professionalismAndStaffHygiene[i] + "\t X\n";
       }
     }
     body += "\n";
@@ -1141,9 +1144,9 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
     for (int i = 0;
         i < auditChecklist['houseKeepingAndGeneralCleanliness'].length;
         i++) {
-      if (auditChecklist['houseKeepingAndGeneralCleanliness'][i]) {
+      if (!auditChecklist['houseKeepingAndGeneralCleanliness'][i]) {
         body +=
-            FnBChecklistQuestions.houseKeepingAndGeneralCleanliness[i] + "\n";
+            FnBChecklistQuestions.houseKeepingAndGeneralCleanliness[i] + "\t X\n";
       }
     }
     body += "\n";
@@ -1153,8 +1156,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
         auditChecklist['foodHygieneScore'].toString() +
         " \n\n";
     for (int i = 0; i < auditChecklist['foodHygiene'].length; i++) {
-      if (auditChecklist['foodHygiene'][i]) {
-        body += FnBChecklistQuestions.foodHygiene[i] + "\n";
+      if (!auditChecklist['foodHygiene'][i]) {
+        body += FnBChecklistQuestions.foodHygiene[i] + "\t X\n";
       }
     }
     body += "\n";
@@ -1164,8 +1167,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
         auditChecklist['healthierChoiceScore'].toString() +
         " \n\n";
     for (int i = 0; i < auditChecklist['healthierChoice'].length; i++) {
-      if (auditChecklist['healthierChoice'][i]) {
-        body += FnBChecklistQuestions.healthierChoice[i] + "\n";
+      if (!auditChecklist['healthierChoice'][i]) {
+        body += FnBChecklistQuestions.healthierChoice[i] + "\t X\n";
       }
     }
     body += "\n";
@@ -1177,8 +1180,8 @@ class _StaffAuditDetailsFnBTwoState extends State<StaffAuditDetailsFnBTwo> {
     for (int i = 0;
         i < auditChecklist['workplaceSafetyAndHealth'].length;
         i++) {
-      if (auditChecklist['workplaceSafetyAndHealth'][i]) {
-        body += FnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\n";
+      if (!auditChecklist['workplaceSafetyAndHealth'][i]) {
+        body += FnBChecklistQuestions.workplaceSafetyAndHealth[i] + "\t X\n";
       }
     }
     body += "\n";

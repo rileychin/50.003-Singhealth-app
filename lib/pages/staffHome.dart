@@ -234,10 +234,8 @@ class _StaffHomeState extends State<StaffHome> {
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> WelcomePage()));
   }
 
-
   void navigateToStaffUploadPhoto() async{
     Navigator.push(context,MaterialPageRoute(builder:(context) => StaffUploadPhoto(user:user,staff:data)));
-
   }
 
   void navigateToStaffTenantDetails() {
@@ -255,7 +253,4 @@ class _StaffHomeState extends State<StaffHome> {
   void navigateToStaffNonComplianceDashboard() {
     Navigator.push(context,MaterialPageRoute(builder:(context)=> StaffNonComplianceDashboard(user:user)));
   }
-
-
 }
-
