@@ -53,7 +53,7 @@ class _StaffDashboardIncidentDetailsState
 
   void initState() {
     super.initState();
-    print(status);
+
   }
 
   void approve() {
