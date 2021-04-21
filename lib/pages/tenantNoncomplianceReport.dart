@@ -117,105 +117,101 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
               appBar: AppBar(
                 title: Text('Viewing non-compliance reports for ${shopName}'),
               ),
-              body: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(35.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        DropdownButton<String>(
-                          hint: new Text('Incident Name'),
-                          value: dropdownValue,
-                          icon: Icon(Icons.arrow_downward),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: TextStyle(color: Colors.deepPurple),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.deepPurpleAccent,
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              dropdownValue = newValue;
-                            });
-                            displayImage();
-                          },
-                          items: incidents
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                        Text("Incident Name: $incidentName"),
-                        Text("Summary: $summary"),
-                        Text("Location: $location"),
-                        Text("Status: $status"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                                margin: EdgeInsets.all(50),
-                                child: image != null
-                                    ? image
-                                    : Text('No incident image')),
-                            Container(
-                                margin: EdgeInsets.all(50),
-                                child: resImage != null
-                                    ? resImage
-                                    : Text('No resolution image')),
-                          ],
-                        ),
-                        Container(
-                            margin: EdgeInsets.all(10),
-                            child: ElevatedButton(
-                              onPressed: uploadResolution,
-                              child: Text("Upload Resolution Photo"),
-                            )),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 300),
-                          child: TextField(
-                            controller: commentController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Your comments on resolution'
+              body:
+                  SingleChildScrollView(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child:               Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(35.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                DropdownButton<String>(
+                                  hint: new Text('Incident Name'),
+                                  value: dropdownValue,
+                                  icon: Icon(Icons.arrow_downward),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  style: TextStyle(color: Colors.deepPurple),
+                                  underline: Container(
+                                    height: 2,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue;
+                                    });
+                                    displayImage();
+                                  },
+                                  items: incidents
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                Text("Incident Name: $incidentName"),
+                                Text("Summary: $summary"),
+                                Text("Location: $location"),
+                                Text("Status: $status"),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.all(50),
+                                        child: image != null
+                                            ? image
+                                            : Text('No incident image')),
+                                    Container(
+                                        margin: EdgeInsets.all(50),
+                                        child: resImage != null
+                                            ? resImage
+                                            : Text('No resolution image')),
+                                  ],
+                                ),
+                                Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: ElevatedButton(
+                                      onPressed: uploadResolution,
+                                      child: Text("Upload Resolution Photo"),
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.all(5),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 25, horizontal: 300),
+                                  child: TextField(
+                                    controller: commentController,
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Your comments on resolution'),
+                                  ),
+                                ),
+                                Container(
+                                    margin: EdgeInsets.all(5),
+                                    child: ElevatedButton(
+                                      onPressed: resolveIncident,
+                                      child: Text("Resolve Incident"),
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.all(50),
+                                  child: RaisedButton.icon(
+                                    icon: Icon(CustomIcons.backward),
+                                    label: Text("Go Back"),
+                                    textColor: Colors.white,
+                                    color: Colors.blue[300],
+                                    onPressed: back,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.all(5),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 25, horizontal: 300),
-                          child: TextField(
-                            controller: commentController,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Your comments on resolution'),
-                          ),
-                        ),
-                        Container(
-                            margin: EdgeInsets.all(5),
-                            child: ElevatedButton(
-                              onPressed: resolveIncident,
-                              child: Text("Resolve Incident"),
-                            )),
-                        Container(
-                          margin: EdgeInsets.all(50),
-                          child: RaisedButton.icon(
-                            icon: Icon(CustomIcons.backward),
-                            label: Text("Go Back"),
-                            textColor: Colors.white,
-                            color: Colors.blue[300],
-                            onPressed: back,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ));
+                        ],
+                      )),
+                    )
+                  );
         }
       });
 

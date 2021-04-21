@@ -222,7 +222,10 @@ class _TenantViewPendingReportsState extends State<TenantViewPendingReports> {
           .collection('nonComplianceReport')
           .doc(dropdownValue);
 
-      path.update({"comments": commentController.text});
+      if(commentController.text != ""){
+        path.update({"comments": commentController.text});
+      }
+
       path.collection('images').doc('resolution_image').set({"data": resImageData});
 
       back();

@@ -79,6 +79,7 @@ class _StaffNonComplianceDashboardState
     String pending = '';
     String resolved = '';
 
+
     querySnapshot.docs.forEach((doc) {
       if (doc['status'] == 'unresolved') {
         unresolved += doc['incidentName'] + ':';
@@ -224,7 +225,7 @@ class _StaffNonComplianceDashboardState
         }
       }
     });
-
+    status = docSnap.data()['status'];
     await Navigator.push(
         context,
         MaterialPageRoute(
