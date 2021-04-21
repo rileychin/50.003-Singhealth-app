@@ -54,19 +54,16 @@ class _LoginPageState extends State<LoginPage> {
                               image: AssetImage('images/SingHealth_Logo.png'),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30.0),
-                            child: Center(
-                              child: Positioned(
-                                left: 0,
-                                top: 100,
-                                child: SizedBox(
-                                  width: 1111,
-                                  height: 200,
-                                  child: Material(
-                                    color: Color(0xaff19f54),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
+                          Center(
+                            child: Positioned(
+                              left: 0,
+                              top: 100,
+                              child: SizedBox(
+                                width: 1111,
+                                height: 200,
+                                child: Material(
+                                  color: Color(0xaff19f54),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
                             ),

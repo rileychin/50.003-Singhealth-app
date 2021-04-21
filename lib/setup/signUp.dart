@@ -107,8 +107,9 @@ class _SignUpState extends State<SignUp> {
                     child: Container(
                       child: SizedBox(
                         width: 1024,
-                        height: 700,
+                        height: 850,
                         child: Material(
+                          borderRadius: BorderRadius.circular(8),
                           color: Colors.white,
                           child: Stack(
                             children: [
@@ -122,17 +123,15 @@ class _SignUpState extends State<SignUp> {
                                       AssetImage('images/SingHealth_Logo.png'),
                                 ),
                               ),
-                              Center(
-                                child: Positioned(
-                                  left: 0,
-                                  top: 200,
-                                  child: SizedBox(
-                                    width: 1111,
-                                    height: 500,
-                                    child: Material(
-                                      color: Color(0xaff19f54),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
+                              Positioned(
+                                left: 0,
+                                bottom: 35,
+                                child: SizedBox(
+                                  width: 1024,
+                                  height: 700,
+                                  child: Material(
+                                    color: Color(0xaff19f54),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
                               ),
@@ -302,10 +301,90 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 ),
                               ),
+
                               Center(
                                 child: Positioned(
                                   child: Align(
-                                    alignment: Alignment(0.2, 0.6),
+                                    alignment: Alignment(0.0, 0.6),
+                                    child: Visibility(
+                                      visible: checkAdmin(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: TextFormField(
+                                          key: ValueKey("secret"),
+                                          validator: (input) {
+                                            if (input != "admin") {
+                                              return 'The secret password does not match';
+                                            }
+                                          },
+                                          onSaved: (input) => _position = input,
+                                          decoration: InputDecoration(
+                                              labelText:
+                                                  'SUPER duper whooper Secret "admin" password only'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Center(
+                                child: Positioned(
+                                  child: Align(
+                                    alignment: Alignment(0.0, 0.5),
+                                    child: Visibility(
+                                      visible: checkTenant(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: TextFormField(
+                                          key: ValueKey("position"),
+                                          validator: (input) {
+                                            if (input.isEmpty) {
+                                              return 'Please enter your position';
+                                            }
+                                          },
+                                          onSaved: (input) => _position = input,
+                                          decoration: InputDecoration(
+                                              labelText: 'Position'),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              Center(
+                                child: Positioned(
+                                  child: Align(
+                                    alignment: Alignment(0.0, 0.65),
+                                    child: Visibility(
+                                      visible: checkTenant(),
+                                      child: DropdownButton(
+                                        key: ValueKey("shopName"),
+                                        hint: Text('Please select your shop'),
+                                        value: _shopName,
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            _shopName = newValue;
+                                          });
+                                        },
+                                        items: _shopNameList.map((shopName) {
+                                          return DropdownMenuItem(
+                                            child: new Text(shopName),
+                                            value: shopName,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              //TODO: ADD CONTRACT EXPIRY DATE when the time comes
+
+                              Center(
+                                child: Positioned(
+                                  child: Align(
+                                    alignment: Alignment(0.2, 0.8),
                                     child: Container(
                                       margin: EdgeInsets.all(5),
                                       child: RaisedButton.icon(
@@ -322,7 +401,7 @@ class _SignUpState extends State<SignUp> {
                               Center(
                                 child: Positioned(
                                   child: Align(
-                                    alignment: Alignment(-0.2, 0.6),
+                                    alignment: Alignment(-0.2, 0.8),
                                     child: Container(
                                       margin: EdgeInsets.all(5),
                                       child: RaisedButton.icon(
@@ -343,64 +422,6 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
-
-                Padding(
-                  padding: const EdgeInsets.all(60.0),
-                  child: Visibility(
-                    visible: checkAdmin(),
-                    child: TextFormField(
-                      key: ValueKey("secret"),
-                      validator: (input) {
-                        if (input != "admin") {
-                          return 'The secret password does not match';
-                        }
-                      },
-                      onSaved: (input) => _position = input,
-                      decoration: InputDecoration(
-                          labelText:
-                              'SUPER duper whooper Secret "admin" password only'),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Visibility(
-                    visible: checkTenant(),
-                    child: TextFormField(
-                      key: ValueKey("position"),
-                      validator: (input) {
-                        if (input.isEmpty) {
-                          return 'Please enter your position';
-                        }
-                      },
-                      onSaved: (input) => _position = input,
-                      decoration: InputDecoration(labelText: 'Position'),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Visibility(
-                    visible: checkTenant(),
-                    child: DropdownButton(
-                      key: ValueKey("shopName"),
-                      hint: Text('Please select your shop'),
-                      value: _shopName,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _shopName = newValue;
-                        });
-                      },
-                      items: _shopNameList.map((shopName) {
-                        return DropdownMenuItem(
-                          child: new Text(shopName),
-                          value: shopName,
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                //TODO: ADD CONTRACT EXPIRY DATE when the time comes
-
                 Container(
                   margin: EdgeInsets.all(5),
                 ),
