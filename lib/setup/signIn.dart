@@ -174,7 +174,6 @@ class _LoginPageState extends State<LoginPage> {
         UserCredential result = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
         User user = result.user;
-        //authentication works but Home not implemented
 
         final firestoreInstance = FirebaseFirestore.instance;
         DocumentSnapshot snapshot =

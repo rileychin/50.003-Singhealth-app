@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/classes/institution.dart';
 import 'staffDashboardIncidentDetails.dart';
 
 class StaffNonComplianceDashboard extends StatefulWidget {
@@ -24,6 +25,10 @@ class _StaffNonComplianceDashboardState
   List<String> tenantList, incidentList;
   String institution, shopName, details;
   bool shopSelected = false;
+
+  List<dynamic> NonFnBTenantList, FnBTenantList;
+  List<String> FullTenantList = [];
+  List<String> _shopNameList = [];
 
   Uint8List incidentBytes, resolutionBytes;
 
@@ -52,6 +57,7 @@ class _StaffNonComplianceDashboardState
     querySnapshot.docs.forEach((doc) {
       inc += doc['shopName'] + ':';
     });
+
 
     inc = inc.substring(0, inc.length - 1);
     tenantList = inc.split(":");
