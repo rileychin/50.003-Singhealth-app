@@ -84,6 +84,14 @@ class _StaffDashboardIncidentDetailsState
             builder: (context) => StaffNonComplianceDashboard(user: user)));
   }
 
+  // child: LayoutBuilder(
+  // builder: (BuildContext context, BoxConstraints viewportConstraints) {
+  // return SingleChildScrollView(
+  // child: ConstrainedBox(
+  // constraints: BoxConstraints(
+  // minHeight: viewportConstraints.maxHeight,
+  // ),
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,64 +99,80 @@ class _StaffDashboardIncidentDetailsState
           backgroundColor: Colors.amber,
           title: Text('Noncompliance Incident Details'),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(35.0),
-              child: Container(child: Text("Incident Name: $incidentName")),
+        body: LayoutBuilder(builder:
+            (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(35.0),
+                    child: Container(
+                        child: Text("Incident Name: $incidentName",
+                            textScaleFactor: 1.5,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ))),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(child: Text(details)),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.all(50),
+                          child: incidentImage != null
+                              ? incidentImage
+                              : Text("No image")),
+                      Container(
+                          margin: EdgeInsets.all(50),
+                          child: resolutionImage != null
+                              ? resolutionImage
+                              : Text("No image"))
+                    ],
+                  ),
+                  Container(
+                      child: details.substring(details.length - 7) == 'pending'
+                          ? Row(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: ElevatedButton(
+                                      onPressed: approve,
+                                      child: Text("Approve Resolution"),
+                                    )),
+                                Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: ElevatedButton(
+                                      onPressed: reject,
+                                      child: Text("Reject Resolution"),
+                                    )),
+                              ],
+                            )
+                          : null),
+                  Container(
+                      child:
+                          details.substring(details.length - 10) == 'unresolved'
+                              ? Row(
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.all(10),
+                                        child: ElevatedButton(
+                                          onPressed: deleteIncident,
+                                          child: Text("Delete Incident"),
+                                        )),
+                                  ],
+                                )
+                              : null)
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(child: Text(details)),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    margin: EdgeInsets.all(50),
-                    child: incidentImage != null
-                        ? incidentImage
-                        : Text("No image")),
-                Container(
-                    margin: EdgeInsets.all(50),
-                    child: resolutionImage != null
-                        ? resolutionImage
-                        : Text("No image"))
-              ],
-            ),
-            Container(
-                child: details.substring(details.length - 7) == 'pending'
-                    ? Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.all(10),
-                              child: ElevatedButton(
-                                onPressed: approve,
-                                child: Text("Approve Resolution"),
-                              )),
-                          Container(
-                              margin: EdgeInsets.all(10),
-                              child: ElevatedButton(
-                                onPressed: reject,
-                                child: Text("Reject Resolution"),
-                              )),
-                        ],
-                      )
-                    : null),
-            Container(
-                child: details.substring(details.length - 10) == 'unresolved'
-                    ? Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.all(10),
-                              child: ElevatedButton(
-                                onPressed: deleteIncident,
-                                child: Text("Delete Incident"),
-                              )),
-                        ],
-                      )
-                    : null)
-          ],
-        ));
+          );
+        }));
   }
 }

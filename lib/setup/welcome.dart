@@ -30,12 +30,12 @@ class _WelcomePageState extends State<WelcomePage> {
 
   Widget _buildWideContainers() {
     return Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-          Expanded(
-            child: Align(
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Align(
                 alignment: Alignment.center,
                 child: Container(
                   child: SizedBox(
@@ -43,19 +43,19 @@ class _WelcomePageState extends State<WelcomePage> {
                     height: 700,
                     child: Material(
                       color: Colors.white,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 410,
-                            top: 1,
-                            child: Image(
-                              width: 200,
-                              height: 200,
-                              image: AssetImage('images/SingHealth_Logo.png'),
-                            ),
+                      child: Stack(children: [
+                        Positioned(
+                          left: 410,
+                          top: 1,
+                          child: Image(
+                            width: 200,
+                            height: 200,
+                            image: AssetImage('images/SingHealth_Logo.png'),
                           ),
-                          Center(
-                            child: Positioned(
+                        ),
+                        Center(
+                          child: Stack(children: [
+                            Positioned(
                               left: 0,
                               top: 200,
                               child: SizedBox(
@@ -111,14 +111,16 @@ class _WelcomePageState extends State<WelcomePage> {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ]),
+                        ),
+                      ]),
                     ),
                   ),
-                )),
-          )
-        ]));
+                ),
+              ),
+            ),
+          ]),
+    );
   }
 
   Widget _buildNarrowContainer() {
