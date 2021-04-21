@@ -54,7 +54,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   //getting staff information from snapshot
   Future<dynamic> staffInformation() async {
     final DocumentReference document =
-        firestoreInstance.collection("staff").doc(user.uid);
+    firestoreInstance.collection("staff").doc(user.uid);
     await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
       setState(() {
         staffData = snapshot.data();
@@ -268,7 +268,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
             .collection("nonComplianceReport");
         while (true) {
           DocumentSnapshot docSnap =
-              await incidentCollectionRef.doc(incidentName).get();
+          await incidentCollectionRef.doc(incidentName).get();
           if (docSnap.exists) {
             incidentName += ' 2';
           } else {
