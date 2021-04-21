@@ -22,7 +22,7 @@ class _StaffNonComplianceDashboardState
   User user;
   FirebaseFirestore firestoreInstance;
   List<String> tenantList, incidentList;
-  String institution, shopName, details;
+  String institution, shopName, details, status;
   bool shopSelected = false;
 
   Uint8List incidentBytes, resolutionBytes;
@@ -199,6 +199,7 @@ class _StaffNonComplianceDashboardState
         "Summary: ${docSnap.data()['summary']}\n"
         "Status: ${docSnap.data()['status']}\n"
         "Comments:${docSnap.data()['comments']}";
+    status = docSnap.data()['status'];
 
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
@@ -230,6 +231,7 @@ class _StaffNonComplianceDashboardState
                 incidentBytes: incidentBytes,
                 resolutionBytes: resolutionBytes,
                 firestoreInstance: firestoreInstance,
+                status: status,
                 docRef: docRef)));
     setState(() {
       shopSelected = false;

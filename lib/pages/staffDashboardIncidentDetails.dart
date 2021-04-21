@@ -17,26 +17,27 @@ class StaffDashboardIncidentDetails extends StatefulWidget {
     this.incidentBytes,
     this.resolutionBytes,
     this.firestoreInstance,
+    this.status,
     this.docRef}) : super(key: key);
 
   final User user;
-  final String incidentName,details;
+  final String incidentName,details,status;
   final Uint8List incidentBytes,resolutionBytes;
   final firestoreInstance,docRef;
 
 
-  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes, firestoreInstance, docRef);
+  _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes, firestoreInstance, status, docRef);
 }
 
 class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDetails>{
   User user;
-  String details,incidentName;
+  String details,incidentName,status;
   Image incidentImage,resolutionImage;
   FirebaseFirestore firestoreInstance;
   DocumentReference docRef;
 
 
-  _StaffDashboardIncidentDetailsState(User user,String details, String incidentName, Uint8List incidentBytes, Uint8List resolutionBytes, FirebaseFirestore firestoreInstance, DocumentReference docRef) {
+  _StaffDashboardIncidentDetailsState(User user,String details, String incidentName, Uint8List incidentBytes, Uint8List resolutionBytes, FirebaseFirestore firestoreInstance, String status, DocumentReference docRef) {
     this.user = user;
     this.details = details;
     this.incidentName = incidentName;
@@ -45,11 +46,13 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
       this.resolutionImage = Image.memory(resolutionBytes);
     }
     this.firestoreInstance = firestoreInstance;
+    this.status = status;
     this.docRef = docRef;
   }
 
   void initState(){
     super.initState();
+    print(status);
   }
 
   void approve() {
@@ -102,7 +105,7 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
               ],
             ),
             Container(
-                child: details.substring(details.length - 7) == 'pending' ? Row(
+                child: status == 'pending' ? Row(
                   children: [
                     Container(
                         margin: EdgeInsets.all(10),
@@ -120,7 +123,7 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
                 ) : null
             ),
             Container(
-                child: details.substring(details.length - 10) == 'unresolved' ? Row(
+                child: status == 'unresolved' ? Row(
                   children: [
                     Container(
                         margin: EdgeInsets.all(10),
