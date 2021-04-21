@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:singhealth_app/classes/institution.dart';
 import 'staffDashboardIncidentDetails.dart';
 
 class StaffNonComplianceDashboard extends StatefulWidget {
@@ -25,6 +26,10 @@ class _StaffNonComplianceDashboardState
   String institution, shopName, details, status;
   bool shopSelected = false;
 
+  List<dynamic> NonFnBTenantList, FnBTenantList;
+  List<String> FullTenantList = [];
+  List<String> _shopNameList = [];
+
   Uint8List incidentBytes, resolutionBytes;
 
   _StaffNonComplianceDashboardState(user, firestoreinstance) {
@@ -39,9 +44,9 @@ class _StaffNonComplianceDashboardState
 
   Future<List<dynamic>> updateNonCompliance() async {
     DocumentReference docRef =
-    firestoreInstance.collection('staff').doc(user.uid);
+        firestoreInstance.collection('staff').doc(user.uid);
     await docRef.get().then<dynamic>((DocumentSnapshot snapshot) =>
-    {institution = snapshot.data()['institution']});
+        {institution = snapshot.data()['institution']});
     QuerySnapshot querySnapshot = await firestoreInstance
         .collection('institution')
         .doc(institution)
@@ -52,6 +57,7 @@ class _StaffNonComplianceDashboardState
     querySnapshot.docs.forEach((doc) {
       inc += doc['shopName'] + ':';
     });
+
 
     inc = inc.substring(0, inc.length - 1);
     tenantList = inc.split(":");
@@ -194,8 +200,7 @@ class _StaffNonComplianceDashboardState
         .collection('nonComplianceReport')
         .doc(incidentName);
     DocumentSnapshot docSnap = await docRef.get();
-    details =
-        "Location: ${docSnap.data()['location']}\n"
+    details = "Location: ${docSnap.data()['location']}\n"
         "Summary: ${docSnap.data()['summary']}\n"
         "Status: ${docSnap.data()['status']}\n"
         "Comments:${docSnap.data()['comments']}";

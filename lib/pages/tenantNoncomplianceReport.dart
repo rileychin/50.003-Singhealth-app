@@ -175,13 +175,13 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
                               child: Text("Upload Resolution Photo"),
                             )),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 25, horizontal: 300),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 25, horizontal: 300),
                           child: TextField(
                             controller: commentController,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                hintText: 'Your comments on resolution'
-                            ),
+                                hintText: 'Your comments on resolution'),
                           ),
                         ),
                         Container(
@@ -231,7 +231,10 @@ class _TenantViewNoncomplianceState extends State<TenantViewNoncompliance> {
           .doc(dropdownValue);
 
       path.update({"status": "pending", "comments": commentController.text});
-      path.collection('images').doc('resolution_image').set({"data": resImageData});
+      path
+          .collection('images')
+          .doc('resolution_image')
+          .set({"data": resImageData});
 
       back();
     }

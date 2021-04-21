@@ -54,7 +54,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
   //getting staff information from snapshot
   Future<dynamic> staffInformation() async {
     final DocumentReference document =
-        firestoreInstance.collection("staff").doc(user.uid);
+    firestoreInstance.collection("staff").doc(user.uid);
     await document.get().then<dynamic>((DocumentSnapshot snapshot) async {
       setState(() {
         staffData = snapshot.data();
@@ -113,119 +113,133 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
           title: Text('Upload non-compliance incident photo'),
         ),
         body: Form(
-          key: _formKey,
-          child: Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(400.0, 30.0, 400.0, 200.0),
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          "${staffData['institution']}",
-                        ),
-                      ),
-                      DropdownButton(
-                        hint: Text('Select tenant'),
-                        value: tenantName,
-                        onChanged: (newValue) {
-                          setState(() {
-                            tenantName = newValue;
-                          });
-                        },
-                        //todo: add validator for dropdown button
-                        items: _shopNameList.map((shopName) {
-                          return DropdownMenuItem(
-                            child: new Text(shopName),
-                            value: shopName,
-                          );
-                        }).toList(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Please enter the location';
-                            }
-                          },
-                          onSaved: (input) => location = input,
-                          decoration: InputDecoration(
-                              labelText: 'Location of incident'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Please enter the incident title';
-                            }
-                          },
-                          onSaved: (input) => incidentName = input,
-                          decoration:
-                              InputDecoration(labelText: 'Incident Title'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: TextFormField(
-                          validator: (input) {
-                            if (input.isEmpty) {
-                              return 'Please enter a short summary of the incident';
-                            }
-                          },
-                          onSaved: (input) => summary = input,
-                          decoration: InputDecoration(labelText: 'Summary'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                            child: image != null
-                                ? image
-                                : Text('No photo uploaded')),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                            margin: EdgeInsets.all(10),
-                            child: ElevatedButton(
-                              onPressed: uploadPhoto,
-                              child: Text('Upload Photo'),
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          margin: EdgeInsets.all(5),
-                          child: RaisedButton.icon(
-                            icon: Icon(CustomIcons.check),
-                            label: Text("Confirm"),
-                            textColor: Colors.white,
-                            color: Colors.blue[300],
-                            onPressed: addIncident,
+            key: _formKey,
+            child: LayoutBuilder(
+              builder:
+                  (BuildContext context, BoxConstraints viewportConstraints) {
+                return Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.fromLTRB(400.0, 30.0, 400.0, 200.0),
+                    child: Card(
+                      elevation: 5,
+                      child: SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: viewportConstraints.maxHeight,
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "${staffData['institution']}",
+                                ),
+                              ),
+                              DropdownButton(
+                                hint: Text('Select tenant'),
+                                value: tenantName,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    tenantName = newValue;
+                                  });
+                                },
+                                //todo: add validator for dropdown button
+                                items: _shopNameList.map((shopName) {
+                                  return DropdownMenuItem(
+                                    child: new Text(shopName),
+                                    value: shopName,
+                                  );
+                                }).toList(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: TextFormField(
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Please enter the location';
+                                    }
+                                  },
+                                  onSaved: (input) => location = input,
+                                  decoration: InputDecoration(
+                                      labelText: 'Location of incident'),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: TextFormField(
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Please enter the incident title';
+                                    }
+                                  },
+                                  onSaved: (input) => incidentName = input,
+                                  decoration: InputDecoration(
+                                      labelText: 'Incident Title'),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: TextFormField(
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Please enter a short summary of the incident';
+                                    }
+                                  },
+                                  onSaved: (input) => summary = input,
+                                  decoration:
+                                      InputDecoration(labelText: 'Summary'),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Container(
+                                    child: image != null
+                                        ? image
+                                        : Text('No photo uploaded')),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                    margin: EdgeInsets.all(10),
+                                    child: ElevatedButton(
+                                      onPressed: uploadPhoto,
+                                      child: Text('Upload Photo'),
+                                    )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: RaisedButton.icon(
+                                    icon: Icon(CustomIcons.check),
+                                    label: Text("Confirm"),
+                                    textColor: Colors.white,
+                                    color: Colors.blue[300],
+                                    onPressed: addIncident,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(30),
+                                child: RaisedButton.icon(
+                                  icon: Icon(CustomIcons.backward),
+                                  label: Text("Go Back"),
+                                  textColor: Colors.white,
+                                  color: Colors.blue[300],
+                                  onPressed: back,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.all(30),
-                        child: RaisedButton.icon(
-                          icon: Icon(CustomIcons.backward),
-                          label: Text("Go Back"),
-                          textColor: Colors.white,
-                          color: Colors.blue[300],
-                          onPressed: back,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              )),
-        ));
+                );
+              },
+            )));
   }
 
   Future<void> uploadPhoto() async {
@@ -254,7 +268,7 @@ class _StaffUploadPhotoState extends State<StaffUploadPhoto> {
             .collection("nonComplianceReport");
         while (true) {
           DocumentSnapshot docSnap =
-              await incidentCollectionRef.doc(incidentName).get();
+          await incidentCollectionRef.doc(incidentName).get();
           if (docSnap.exists) {
             incidentName += ' 2';
           } else {

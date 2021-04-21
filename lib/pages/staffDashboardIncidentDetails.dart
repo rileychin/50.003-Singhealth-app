@@ -29,7 +29,8 @@ class StaffDashboardIncidentDetails extends StatefulWidget {
   _StaffDashboardIncidentDetailsState createState() => _StaffDashboardIncidentDetailsState(user, details, incidentName, incidentBytes, resolutionBytes, firestoreInstance, status, docRef);
 }
 
-class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDetails>{
+class _StaffDashboardIncidentDetailsState
+    extends State<StaffDashboardIncidentDetails> {
   User user;
   String details,incidentName,status;
   Image incidentImage,resolutionImage;
@@ -42,7 +43,7 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
     this.details = details;
     this.incidentName = incidentName;
     this.incidentImage = Image.memory(incidentBytes);
-    if(resolutionBytes != null) {
+    if (resolutionBytes != null) {
       this.resolutionImage = Image.memory(resolutionBytes);
     }
     this.firestoreInstance = firestoreInstance;
@@ -50,18 +51,18 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
     this.docRef = docRef;
   }
 
-  void initState(){
+  void initState() {
     super.initState();
     print(status);
   }
 
   void approve() {
-    docRef.update({'status' : 'resolved'});
+    docRef.update({'status': 'resolved'});
     back();
   }
 
   void reject() {
-    docRef.update({'status' : 'unresolved'});
+    docRef.update({'status': 'unresolved'});
     docRef.collection("images").doc("resolution_image").delete();
     back();
   }
@@ -73,9 +74,19 @@ class _StaffDashboardIncidentDetailsState extends State<StaffDashboardIncidentDe
   }
 
   void back() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => StaffNonComplianceDashboard(user: user)));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StaffNonComplianceDashboard(user: user)));
   }
+
+  // child: LayoutBuilder(
+  // builder: (BuildContext context, BoxConstraints viewportConstraints) {
+  // return SingleChildScrollView(
+  // child: ConstrainedBox(
+  // constraints: BoxConstraints(
+  // minHeight: viewportConstraints.maxHeight,
+  // ),
 
   @override
   Widget build(BuildContext context) {

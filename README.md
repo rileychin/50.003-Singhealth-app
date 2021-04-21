@@ -22,8 +22,6 @@ all functionalities
 
 ## TODO 
 
-Touch up UI
+touch up ui
 
-Add delete button for non compliance incidents(completely delete)
-
-Add comment section for non compliance incidents for 
+button fix
